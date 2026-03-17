@@ -333,15 +333,15 @@ body {
 
 /* ── Sidebar Footer ── */
 .sidebar-footer {
-  margin-top: auto;
   padding: 16px 20px;
   border-top: 1px solid var(--border);
+  margin-top: 16px;
 }
 .sidebar-footer-label {
   font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--text-tertiary); font-weight: 700; margin-bottom: 8px;
 }
-.memo-io-btns { display: flex; gap: 6px; }
+.memo-io-btns { display: flex; gap: 6px; margin-bottom: 8px; }
 .memo-io-btn {
   flex: 1; font-size: 11px; font-weight: 600;
   padding: 7px 0; border-radius: var(--radius-sm);
@@ -349,18 +349,45 @@ body {
   cursor: pointer; font-family: inherit;
   text-align: center; transition: background 0.15s, color 0.15s;
 }
-.memo-io-btn.export {
-  background: var(--surface); color: var(--text-secondary);
-}
+.memo-io-btn.export { background: var(--surface); color: var(--text-secondary); }
 .memo-io-btn.export:hover { background: #f0eeea; color: var(--text-primary); }
-.memo-io-btn.import {
-  background: var(--bg); color: var(--text-tertiary);
-}
+.memo-io-btn.import { background: var(--bg); color: var(--text-tertiary); }
 .memo-io-btn.import:hover { background: #edecea; color: var(--text-secondary); }
-.memo-sync-note {
-  font-size: 10px; color: var(--text-tertiary);
-  margin-top: 8px; line-height: 1.6;
+
+/* GitHub Sync */
+.gh-sync-btn {
+  width: 100%; font-size: 11px; font-weight: 600;
+  padding: 8px 0; border-radius: var(--radius-sm);
+  border: 1px solid #B5D4F4; background: #E6F1FB; color: #185FA5;
+  cursor: pointer; font-family: inherit;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: background 0.15s;
 }
+.gh-sync-btn:hover { background: #cce3f7; }
+.gh-sync-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.gh-token-row {
+  display: flex; gap: 6px; margin-bottom: 6px;
+}
+.gh-token-input {
+  flex: 1; font-size: 11px; padding: 6px 10px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  font-family: inherit; outline: none; color: var(--text-primary);
+  background: var(--surface);
+}
+.gh-token-input:focus { border-color: #378ADD; }
+.gh-token-save {
+  font-size: 11px; font-weight: 600; padding: 6px 10px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--text-secondary);
+  cursor: pointer; font-family: inherit; white-space: nowrap;
+}
+.gh-token-save:hover { background: #f0eeea; }
+.gh-status {
+  font-size: 10px; color: var(--text-tertiary);
+  margin-top: 6px; line-height: 1.6; min-height: 14px;
+}
+.gh-status.ok { color: #0F6E56; }
+.gh-status.err { color: #D85A30; }
 
 /* Scrollbar */
 .sidebar::-webkit-scrollbar { width: 4px; }
@@ -386,15 +413,19 @@ body {
     <div class="sidebar-header">학위논문 주제 후보 6선</div>
     <div id="topic-nav"></div>
     <div class="sidebar-footer">
-      <div class="sidebar-footer-label">메모 동기화</div>
-      <div class="memo-io-btns">
-        <button class="memo-io-btn export" onclick="exportMemos()">⬇ 내보내기</button>
-        <label class="memo-io-btn import">
-          ⬆ 가져오기
-          <input type="file" accept=".json" onchange="importMemos(event)" style="display:none">
-        </label>
+      <div class="sidebar-footer-label">GitHub 메모 동기화</div>
+      <div class="gh-token-row">
+        <input type="password" class="gh-token-input" id="gh-token-input"
+               placeholder="GitHub PAT 입력" autocomplete="off">
+        <button class="gh-token-save" onclick="saveToken()">저장</button>
       </div>
-      <div class="memo-sync-note">내보내기 → memos.json → GitHub 커밋 → 어디서든 동일한 메모</div>
+      <button class="gh-sync-btn" onclick="loadFromGitHub()" id="gh-load-btn">
+        ⬇ GitHub에서 불러오기
+      </button>
+      <button class="gh-sync-btn" style="margin-top:6px; background:#E7F5EE; color:#0F6E56; border-color:#9FE1CB;" onclick="saveToGitHub()" id="gh-save-btn">
+        ⬆ GitHub에 저장하기
+      </button>
+      <div class="gh-status" id="gh-status"></div>
     </div>
   </aside>
   <main class="content" id="content">
@@ -942,6 +973,113 @@ async function loadMemosFromFile() {
   }
 }
 
+// ── GitHub API 설정 ──
+const GH_OWNER = 'DanielHan-Code';
+const GH_REPO  = 'hrstudy';
+const GH_FILE  = 'memos.json';
+const GH_API   = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
+
+function saveToken() {
+  const input = document.getElementById('gh-token-input');
+  if (!input.value.trim()) return;
+  localStorage.setItem('gh-pat', input.value.trim());
+  input.value = '';
+  setGhStatus('ok', 'PAT 저장됨 ✓');
+}
+
+function getToken() {
+  return localStorage.getItem('gh-pat') || '';
+}
+
+function setGhStatus(type, msg) {
+  const el = document.getElementById('gh-status');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'gh-status ' + (type || '');
+  if (type === 'ok') setTimeout(() => { if (el.textContent === msg) el.textContent = ''; }, 3000);
+}
+
+function setGhBusy(busy) {
+  ['gh-load-btn','gh-save-btn'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.disabled = busy;
+  });
+}
+
+// ── GitHub에서 메모 불러오기 ──
+async function loadFromGitHub() {
+  const token = getToken();
+  if (!token) { setGhStatus('err', '먼저 PAT를 입력·저장하세요'); return; }
+  setGhBusy(true);
+  setGhStatus('', '불러오는 중…');
+  try {
+    const res = await fetch(GH_API, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' }
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    const data = JSON.parse(atob(json.content.replace(/\n/g,'')));
+    topics.forEach(t => {
+      if (data[t.num] !== undefined) localStorage.setItem(`hr-memo-${t.num}`, data[t.num]);
+    });
+    const activeNav = document.querySelector('.topic-nav-item.active');
+    if (activeNav) {
+      const idx = [...document.querySelectorAll('.topic-nav-item')].indexOf(activeNav);
+      if (idx >= 0) showTopic(idx);
+    }
+    renderNav();
+    setGhStatus('ok', '불러오기 완료 ✓');
+  } catch(e) {
+    setGhStatus('err', '오류: ' + e.message);
+  } finally {
+    setGhBusy(false);
+  }
+}
+
+// ── GitHub에 메모 저장하기 ──
+async function saveToGitHub() {
+  const token = getToken();
+  if (!token) { setGhStatus('err', '먼저 PAT를 입력·저장하세요'); return; }
+  setGhBusy(true);
+  setGhStatus('', '저장 중…');
+  try {
+    // 현재 SHA 가져오기
+    const getRes = await fetch(GH_API, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' }
+    });
+    let sha = null;
+    if (getRes.ok) {
+      const getJson = await getRes.json();
+      sha = getJson.sha;
+    }
+    // 데이터 빌드
+    const data = { _exported: new Date().toISOString() };
+    topics.forEach(t => { data[t.num] = localStorage.getItem(`hr-memo-${t.num}`) || ''; });
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    // PUT 요청
+    const body = { message: 'Update memos via HR Study app', content };
+    if (sha) body.sha = sha;
+    const putRes = await fetch(GH_API, {
+      method: 'PUT',
+      headers: {
+        Authorization: `token ${token}`,
+        Accept: 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    if (!putRes.ok) {
+      const err = await putRes.json();
+      throw new Error(err.message || `HTTP ${putRes.status}`);
+    }
+    setGhStatus('ok', 'GitHub 저장 완료 ✓');
+  } catch(e) {
+    setGhStatus('err', '오류: ' + e.message);
+  } finally {
+    setGhBusy(false);
+  }
+}
+
 // ── 내보내기: memos.json 다운로드 ──
 function exportMemos() {
   const data = { _exported: new Date().toISOString() };
@@ -1024,6 +1162,15 @@ document.addEventListener('keydown', function(e) {
     }
   }
 });
+
+// PAT 저장 여부 표시
+(function() {
+  const token = localStorage.getItem('gh-pat');
+  const input = document.getElementById('gh-token-input');
+  if (token && input) {
+    input.placeholder = 'PAT 저장됨 (변경하려면 입력)';
+  }
+})();
 
 loadMemosFromFile().then(() => renderNav());
 </script>

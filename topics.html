@@ -1311,6 +1311,8 @@ function saveMemo(topicNum, idx) {
 }
 
 // ── AI Chat ──
+const chatHistories = {};   // 주제별 대화 기록 (세션 동안 유지)
+const chatRendered = {};    // 주제별 렌더링된 HTML (세션 동안 유지)
 let chatHistory = [];
 let chatTopicIdx = 0;
 
@@ -1339,14 +1341,26 @@ function resetApiKey() {
 
 function openChat(idx) {
   chatTopicIdx = idx;
-  chatHistory = [];
   const t = topics[idx];
   const memo = localStorage.getItem(`hr-memo-${t.num}`) || '';
+  const isNew = !chatHistories[idx];
+
+  // 주제별 기록 초기화 또는 복원
+  if (isNew) chatHistories[idx] = [];
+  chatHistory = chatHistories[idx];
 
   // 모달 열기
   document.getElementById('chat-overlay').classList.add('open');
   document.getElementById('chat-topic-subtitle').textContent = `${t.num}. ${t.title}`;
-  document.getElementById('chat-messages').innerHTML = '';
+
+  // 이전 대화 복원
+  const container = document.getElementById('chat-messages');
+  if (chatRendered[idx]) {
+    container.innerHTML = chatRendered[idx];
+    container.scrollTop = container.scrollHeight;
+  } else {
+    container.innerHTML = '';
+  }
 
   // API key 설정 영역
   const setup = document.getElementById('chat-api-setup');
@@ -1354,8 +1368,7 @@ function openChat(idx) {
     setup.style.display = 'none';
   } else {
     setup.style.display = 'block';
-    const input = document.getElementById('chat-api-input');
-    input.placeholder = 'sk-ant-... (한 번만 입력하면 저장됩니다)';
+    document.getElementById('chat-api-input').placeholder = 'sk-ant-... (한 번만 입력하면 저장됩니다)';
   }
 
   // 컨텍스트 바
@@ -1363,18 +1376,19 @@ function openChat(idx) {
   if (memo.trim()) {
     const preview = memo.length > 60 ? memo.slice(0, 60) + '…' : memo;
     contextBar.innerHTML = `<span>📝</span><span><strong>메모 기반 피드백 모드</strong> — "${preview}"</span>`;
-    contextBar.style.display = 'flex';
   } else {
     contextBar.innerHTML = `<span>💡</span><span>메모가 없습니다. 자유롭게 질문하세요.</span>`;
-    contextBar.style.display = 'flex';
   }
+  contextBar.style.display = 'flex';
 
-  // 첫 메시지 (메모 있을 때 자동 요청)
-  if (memo.trim() && getApiKey()) {
-    const firstMsg = `아래는 제가 이 주제를 공부하면서 적은 메모입니다. 내용을 검토하고 연구 방향이나 논리 구성에 대한 피드백을 주세요.\n\n---\n${memo}\n---`;
-    sendToApi(firstMsg, idx);
-  } else if (getApiKey()) {
-    appendChatMsg('ai', `안녕하세요! **${t.title}** 주제에 대해 무엇이든 질문해 주세요.\n연구 방향, 이론 적용, 변수 설계 등 도움이 필요한 부분을 알려주세요.`);
+  // 첫 방문 시에만 자동 요청
+  if (isNew && getApiKey()) {
+    if (memo.trim()) {
+      const firstMsg = `아래는 제가 이 주제를 공부하면서 적은 메모입니다. 내용을 검토하고 연구 방향이나 논리 구성에 대한 피드백을 주세요.\n\n---\n${memo}\n---`;
+      sendToApi(firstMsg, idx);
+    } else {
+      appendChatMsg('ai', `안녕하세요! **${t.title}** 주제에 대해 무엇이든 질문해 주세요.\n연구 방향, 이론 적용, 변수 설계 등 도움이 필요한 부분을 알려주세요.`);
+    }
   }
 
   document.getElementById('chat-input').focus();
@@ -1399,6 +1413,8 @@ function appendChatMsg(role, content) {
   }
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
+  // 렌더링 상태 저장
+  chatRendered[chatTopicIdx] = container.innerHTML;
   return div;
 }
 

@@ -503,6 +503,25 @@ body {
 .chat-send-btn:hover { background: #4A31BB; }
 .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* Floating chat button */
+.chat-float-btn {
+  display: none;
+  position: fixed; bottom: 28px; right: 28px; z-index: 150;
+  background: #5B3FD9; color: #fff;
+  border: none; border-radius: 50px;
+  padding: 12px 20px; font-size: 13px; font-weight: 700;
+  font-family: inherit; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(91,63,217,0.4);
+  transition: background 0.15s, transform 0.1s;
+  align-items: center; gap: 8px;
+}
+.chat-float-btn:hover { background: #4A31BB; transform: translateY(-2px); }
+.chat-float-badge {
+  background: #fff; color: #5B3FD9;
+  font-size: 11px; font-weight: 700;
+  padding: 1px 7px; border-radius: 20px;
+}
+
 /* Markdown in AI messages */
 .chat-msg.ai p { margin-bottom: 8px; }
 .chat-msg.ai p:last-child { margin-bottom: 0; }
@@ -564,6 +583,11 @@ body {
     </div>
   </main>
 </div>
+
+<!-- Floating chat reopen button -->
+<button class="chat-float-btn" id="chat-float-btn" onclick="reopenChat()">
+  ✦ 대화 이어하기 <span class="chat-float-badge" id="chat-float-badge"></span>
+</button>
 
 <!-- AI Chat Modal -->
 <div class="chat-overlay" id="chat-overlay" onclick="closeChatOnOverlay(event)">
@@ -1107,6 +1131,9 @@ function showTopic(idx) {
   if (window.innerWidth <= 768) {
     document.getElementById('content').scrollIntoView({ behavior: 'smooth' });
   }
+
+  // 해당 주제의 대화 기록이 있으면 플로팅 버튼 표시
+  updateFloatBtn(idx);
 }
 
 // ── 페이지 로드 시 memos.json 자동 로드 ──
@@ -1396,10 +1423,31 @@ function openChat(idx) {
 
 function closeChat() {
   document.getElementById('chat-overlay').classList.remove('open');
+  // 대화 기록이 있으면 플로팅 버튼 표시
+  updateFloatBtn(chatTopicIdx);
 }
 
 function closeChatOnOverlay(e) {
   if (e.target === document.getElementById('chat-overlay')) closeChat();
+}
+
+function updateFloatBtn(idx) {
+  const btn = document.getElementById('chat-float-btn');
+  const badge = document.getElementById('chat-float-badge');
+  const history = chatHistories[idx];
+  if (history && history.length > 0) {
+    const turns = Math.floor(history.length / 2);
+    badge.textContent = `${turns}턴`;
+    btn.style.display = 'flex';
+    btn.onclick = () => reopenChat(idx);
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+function reopenChat(idx) {
+  const target = idx !== undefined ? idx : chatTopicIdx;
+  openChat(target);
 }
 
 function appendChatMsg(role, content) {
@@ -1491,6 +1539,8 @@ async function sendToApi(userText, idx) {
 
     thinkingDiv.innerHTML = marked.parse(reply);
     thinkingDiv.classList.remove('thinking');
+    chatRendered[chatTopicIdx] = document.getElementById('chat-messages').innerHTML;
+    updateFloatBtn(chatTopicIdx);
   } catch(e) {
     thinkingDiv.textContent = '오류: ' + e.message;
     thinkingDiv.classList.remove('thinking');

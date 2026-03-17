@@ -947,6 +947,60 @@ const topics = [
       { title: 'Álvarez-García et al. (2024)', content: '프로젝트 성과와 혁신: 흡수 역량과 학습 문화의 역할 (자동차 기업 128개)', source: 'International Journal of PM', url: 'https://www.sciencedirect.com/science/article/abs/pii/S092347482400002X' },
       { title: 'Stettler et al. (2025)', content: '흡수 역량 메타분석: 맥락적 조절 효과 종합', source: 'Journal of Product Innovation Mgmt', url: 'https://onlinelibrary.wiley.com/doi/10.1111/jpim.12758' }
     ]
+  },
+  {
+    num: '07',
+    title: '디지털 전환 저항이 직무 웰빙과 업무 성과에 미치는 영향',
+    field: '변화관리 / 조직행동론',
+    color: '#7C3AED',
+    colorLight: '#F3F0FF',
+    colorBorder: '#C4B5FD',
+    colorText: '#5B21B6',
+    theories: ['자원보존이론 (COR)', '변화 저항 성향 이론 (RTC)'],
+    status: '검토중',
+    background: [
+      '디지털 전환(Digital Transformation)은 전 세계 기업의 핵심 경영 의제로 자리 잡았으나, McKinsey(2023) 보고서에 따르면 성공률은 여전히 30% 수준에 머문다. 반복적으로 지목되는 실패 원인은 기술·인프라가 아닌 구성원의 심리적 저항이다.',
+      '기존 연구는 저항의 선행 요인(리더십, 참여, 소통)에 집중하는 경향이 있으나, 저항이 발생한 이후 그것이 어떤 경로를 거쳐 웰빙과 성과에 영향을 미치는지에 대한 통합적 인과 모형은 부재하다. 특히 조직 수준 조절 변수를 다룬 연구와 달리, 동일한 변화 자극에 대한 개인 간 반응 차이를 설명하는 성향 변수 연구는 드물다.',
+      'Oreg et al.(2008)의 17개국 비교 연구는 변화 저항 성향(RTC)이 문화권을 초월하여 안정적으로 측정 가능한 개인 특성임을 확인하였다. 국내에서도 이동섭·최용득(2010)에 의해 한국어 번안 척도의 타당성이 검증되어 실증 적용 가능성이 높다.',
+      '한국 기업의 위계적 조직 문화에서는 구성원이 저항을 공식적으로 표출하지 못하고 내면화하는 경향이 강하여, 저항이 웰빙 손상과 성과 저하로 직결되는 경로가 서구보다 뚜렷하게 나타날 가능성이 있다. Fugate et al.(2012)은 조직 변화 스트레스가 리더십의 개입 없이도 웰빙을 직접 손상시킴을 실증하였다.'
+    ],
+    problems: [
+      { title: '저항 이후 인과 경로의 미규명', body: '기존 디지털 전환 저항 연구는 저항의 발생 원인에 집중하며, 저항이 직무 웰빙과 성과에 어떤 순서와 강도로 영향을 미치는지에 대한 직선적 인과 검증이 부족하다. COR 이론에 기반한 저항 → 웰빙 → 성과의 연쇄 매개 모형 검증이 필요하다.' },
+      { title: '개인 성향 조절 변수의 부재', body: '리더십, 조직 지원 등 조직 수준 조절 변수를 다룬 연구는 다수이나, 동일한 변화 자극에 대한 개인 간 반응 차이를 설명하는 성향 변수 연구는 드물다. Oreg(2003)의 RTC 척도는 타당성이 검증되었음에도 디지털 전환 맥락에서의 실증 적용이 부족하다.' },
+      { title: '비서구 맥락 실증의 부재', body: '국내 기업은 높은 디지털 전환 속도와 위계적 조직 문화가 공존하는 독특한 맥락을 형성한다. 저항이 내면화되어 웰빙 손상으로 직결되는 경로가 서구보다 강할 수 있으나, 이를 검증한 한국 실증 연구가 없다.' },
+      { title: '웰빙의 다차원성 미반영', body: '웰빙을 직무 만족 단일 척도로 측정하는 연구가 다수다. 심리적 웰빙(psychological well-being)과 직무 소진(burnout)을 동시에 포함하는 다차원 측정이 저항의 결과를 보다 완전하게 포착할 수 있다.' }
+    ],
+    purposes: [
+      '디지털 전환 요구 강도가 구성원 저항 행동을 거쳐 직무 웰빙 저하로 이어지는 직선적 인과 경로를 COR 이론에 기반하여 실증 검증',
+      '직무 웰빙이 저항과 업무 성과 사이를 매개하는지 검증하여 경로의 완결성 확인',
+      '변화 저항 성향(RTC)이 디지털 전환 요구와 저항 행동 간의 관계를 조절하는지 검증하여 취약 집단 식별'
+    ],
+    model: {
+      iv: '디지털 전환\n요구 강도',
+      med: '구성원 저항 행동\n→ 직무 웰빙',
+      dv: '업무 성과\n(몰입·이직의도)',
+      mod: '변화 저항 성향 (RTC)'
+    },
+    contribAcademic: [
+      '저항의 선행 요인이 아닌 하류 결과(downstream outcomes)에 초점을 맞춘 인과 모형으로 기존 문헌의 공백을 메움',
+      'COR 이론과 RTC 성향 이론을 통합한 개인 수준 조절 모형 제시로 이론 확장에 기여'
+    ],
+    contribPractical: [
+      'RTC 수준이 높은 구성원을 사전 식별하여 선별적 변화 지원 프로그램 설계 근거 제공',
+      '저항이 웰빙 손상으로 내면화되기 전 조기 개입하는 HR 실천 지침 도출'
+    ],
+    variables: [
+      { role: '독립변수', var: '디지털 전환 요구 강도' },
+      { role: '매개변수', var: '구성원 저항 행동 → 직무 웰빙' },
+      { role: '조절변수', var: '변화 저항 성향 (RTC, Oreg 2003)' },
+      { role: '종속변수', var: '업무 성과 (직무 몰입, 이직 의도)' },
+      { role: '이론', var: '자원보존이론(COR), 변화 저항 성향 이론(RTC)' }
+    ],
+    references: [
+      { title: 'Oreg (2003)', content: '변화 저항 성향(RTC) 척도 개발 및 타당화', source: 'Journal of Applied Psychology', url: 'https://psycnet.apa.org/doi/10.1037/0021-9010.88.4.680' },
+      { title: 'Oreg et al. (2008)', content: 'RTC 17개국 비교 연구: 문화 초월적 안정성 확인', source: 'Journal of Cross-Cultural Psychology', url: 'https://journals.sagepub.com/doi/10.1177/0022022108318621' },
+      { title: 'Fugate et al. (2012)', content: '조직 변화 스트레스 → 웰빙 직접 경로 실증', source: 'Journal of Vocational Behavior', url: 'https://www.sciencedirect.com/science/article/abs/pii/S0001879112000085' }
+    ]
   }
 ];
 

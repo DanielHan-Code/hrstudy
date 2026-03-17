@@ -124,7 +124,7 @@ header p {
 
 /* Color accents per badge */
 .card[data-badge="SET"]::before, .card[data-badge="TLT"]::before { background: #1D9E75; }
-.card[data-badge="SDT"]::before, .card[data-badge="KBV"]::before { background: #378ADD; }
+.card[data-badge="SDT"]::before, .card[data-badge="SCT"]::before { background: #378ADD; }
 .card[data-badge="CAT"]::before, .card[data-badge="PCT"]::before { background: #D85A30; }
 .card[data-badge="SIT"]::before, .card[data-badge="COR"]::before { background: #7F77DD; }
 .card[data-badge="DCT"]::before, .card[data-badge="AMO"]::before { background: #BA7517; }
@@ -201,7 +201,7 @@ header p {
 .card[data-badge="SET"] .influence-fill { background: #1D9E75; }
 .card[data-badge="TLT"] .influence-fill { background: #1D9E75; }
 .card[data-badge="SDT"] .influence-fill { background: #378ADD; }
-.card[data-badge="KBV"] .influence-fill { background: #378ADD; }
+.card[data-badge="SCT"] .influence-fill { background: #378ADD; }
 .card[data-badge="CAT"] .influence-fill { background: #D85A30; }
 .card[data-badge="PCT"] .influence-fill { background: #D85A30; }
 .card[data-badge="SIT"] .influence-fill { background: #7F77DD; }
@@ -424,14 +424,62 @@ footer {
   text-align: center;
   line-height: 1.7;
 }
+
+/* Nav */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-strong);
+  padding: 0 24px;
+  margin: -48px -24px 48px;
+}
+.nav-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+.nav-brand {
+  font-family: Georgia, 'Apple SD Gothic Neo', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.nav-links { display: flex; gap: 4px; }
+.nav-link {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s, color 0.15s;
+}
+.nav-link:hover { background: #f0eeea; color: var(--text-primary); }
+.nav-link.active { background: #f0eeea; color: var(--text-primary); font-weight: 600; }
 </style>
 </head>
 <body>
 
+<nav class="site-nav">
+  <div class="nav-inner">
+    <span class="nav-brand">HR Study</span>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">핵심 이론 10선</a>
+      <a href="leadership.html" class="nav-link">리더십 유형</a>
+      <a href="topics.html" class="nav-link">주제 후보</a>
+    </div>
+  </div>
+</nav>
+
 <header>
-  <div class="header-label">학위논문 핵심 이론 학습자료</div>
+  <div class="header-label">개인 스터디용 학습자료</div>
   <h1>핵심 이론 10선</h1>
   <p>조직행동론·전략경영 분야 학위논문 주제 후보에서 활용되는 overarching theory를 학계 파급력 순으로 정리했습니다.</p>
+  <p style="margin-top:10px;font-size:13px;color:var(--text-tertiary);">※ 이 페이지는 학위논문 준비를 위한 개인 스터디 목적으로 제작되었습니다.</p>
   <div class="meta-row">
     <span class="meta-item"><span class="meta-dot"></span> 총 10개 이론</span>
     <span class="meta-item"><span class="meta-dot"></span> 피인용 수·학계 영향력 기준 정렬</span>
@@ -473,7 +521,7 @@ const theories = [
     rank: 2, badge: 'SDT', badgeClass: 'badge-blue',
     title: '자기결정성이론', en: 'Self-Determination Theory',
     author: 'Deci & Ryan (1985)',
-    influence: 95,
+    influence: 93,
     influenceNote: 'Google Scholar 피인용 ~40만+ 회 · 교육·조직·임상 전 분야에서 동기 이론의 표준',
     desc: '자율성·역량감·관계성 충족이 내재적 동기를 활성화해 창의성과 웰빙을 높임',
     tags: ['자율성', '역량감', '관계성', '내재적 동기'],
@@ -484,10 +532,24 @@ const theories = [
     url: 'https://scholar.google.com/scholar?q=Deci+Ryan+1985+Intrinsic+Motivation+Self+Determination'
   },
   {
-    rank: 3, badge: 'CAT', badgeClass: 'badge-coral',
+    rank: 3, badge: 'SCT', badgeClass: 'badge-blue',
+    title: '사회인지론', en: 'Social Cognitive Theory',
+    author: 'Bandura (1986)',
+    influence: 85,
+    influenceNote: 'Google Scholar 피인용 ~30만+ 회 · 자기효능감·관찰 학습 연구의 이론적 토대; 교육·조직·임상 전 분야에 걸쳐 광범위하게 적용',
+    desc: '자기효능감과 관찰 학습을 통해 개인의 행동·인지·환경이 상호 결정하며 성과를 형성함',
+    tags: ['자기효능감', '관찰 학습', '상호결정론', '자기조절'],
+    quote: '"인간의 행동은 개인 요인(인지·감정), 행동, 환경이 서로 영향을 주고받는 상호결정론적 과정에 의해 형성된다."',
+    concepts: ['자기효능감(Self-efficacy) — 특정 과제를 성공적으로 수행할 수 있다는 믿음', '관찰 학습(Observational Learning) — 타인의 행동과 결과를 관찰하며 학습', '상호결정론(Reciprocal Determinism) — 개인·행동·환경이 서로 영향을 주고받음', '자기조절(Self-regulation) — 목표 설정·자기 모니터링·자기 강화의 순환', '결과 기대(Outcome Expectancy) — 특정 행동이 특정 결과를 낳을 것이라는 믿음'],
+    flow: '변혁적 리더십 (IV)\n→ 구성원 자기효능감 강화 (Mediator: 관찰 학습·언어적 설득)\n→ 혁신 행동·학습 행동 증가 (DV)\n   ↑ 심리적 안전감 (Moderator)',
+    critique: ['자기효능감 측정이 과제 특수적이어서 일반화 어려움', '상호결정론의 인과 방향성을 실증적으로 분리하기 어려움', '개인 내 과정에 초점 → 집단·조직 수준 적용에 이론 확장 필요'],
+    url: 'https://scholar.google.com/scholar?q=Bandura+1986+Social+Foundations+Thought+Action+Social+Cognitive+Theory'
+  },
+  {
+    rank: 4, badge: 'CAT', badgeClass: 'badge-coral',
     title: '인지적 평가이론', en: 'Cognitive Appraisal Theory',
     author: 'Lazarus & Folkman (1984)',
-    influence: 88,
+    influence: 75,
     influenceNote: 'Google Scholar 피인용 ~10만+ 회 · 심리학·조직행동론 스트레스 연구의 표준 준거틀',
     desc: '동일 사건도 개인의 평가 방식에 따라 위협 또는 도전으로 달리 인식됨',
     tags: ['1차 평가', '2차 평가', '위협/도전 평가'],
@@ -498,10 +560,10 @@ const theories = [
     url: 'https://scholar.google.com/scholar?q=Lazarus+Folkman+1984+Stress+Appraisal+Coping'
   },
   {
-    rank: 4, badge: 'SIT', badgeClass: 'badge-purple',
+    rank: 5, badge: 'SIT', badgeClass: 'badge-purple',
     title: '사회적 정체성 이론', en: 'Social Identity Theory',
     author: 'Tajfel & Turner (1979)',
-    influence: 85,
+    influence: 71,
     influenceNote: 'Google Scholar 피인용 ~10만+ 회 · 사회심리학·조직심리학 필수 이론',
     desc: '집단 소속감이 강할수록 집단 목표에 부합하는 창의적 기여 행동이 증가함',
     tags: ['범주화', '동일시', '내집단', '조직 동일시'],
@@ -512,10 +574,10 @@ const theories = [
     url: 'https://scholar.google.com/scholar?q=Tajfel+Turner+1979+Social+Identity+Theory+intergroup+conflict'
   },
   {
-    rank: 5, badge: 'COR', badgeClass: 'badge-purple',
+    rank: 6, badge: 'COR', badgeClass: 'badge-purple',
     title: '자원보존이론', en: 'Conservation of Resources Theory',
     author: 'Hobfoll (1989)',
-    influence: 80,
+    influence: 60,
     influenceNote: 'Google Scholar 피인용 ~3만+ 회 · 조직 스트레스·번아웃 연구의 지배적 이론',
     desc: '자원 손실 위협이 스트레스와 저항 행동을 유발하는 메커니즘',
     tags: ['손실 우선성', '자원 나선', '번아웃'],
@@ -526,38 +588,10 @@ const theories = [
     url: 'https://scholar.google.com/scholar?q=Hobfoll+1989+Conservation+of+Resources+Theory+stress'
   },
   {
-    rank: 6, badge: 'PCT', badgeClass: 'badge-coral',
-    title: '심리적 계약 이론', en: 'Psychological Contract Theory',
-    author: 'Rousseau (1989)',
-    influence: 74,
-    influenceNote: 'Google Scholar 피인용 ~2만+ 회 · HRM·고용관계 연구의 핵심 분석 틀',
-    desc: '개인이 인식하는 암묵적 의무·기대의 집합; 위반 시 이직 의도 급증',
-    tags: ['거래적 계약', '관계적 계약', 'Breach', 'Violation'],
-    quote: '"심리적 계약이란 개인이 고용 관계에서 상호 의무에 대해 갖는 주관적 믿음의 집합이다."',
-    concepts: ['거래적 계약 — 경제적 조건 중심, 단기적, 유연성 낮음', '관계적 계약 — 충성·헌신 중심, 장기적, 유연성 높음', 'Breach(계약 불이행) — 인지적 판단 (객관적 사실)', 'Violation(위반감) — 배신감·분노의 정서적 반응', '알고리즘 관리 → 알고리즘 자체와의 심리적 계약 형성 가능'],
-    flow: '심리적 계약 이행 (IV)\n→ 직무 만족 (Mediator)\n→ 이직 의도 감소 (DV)\n   ↑ 알고리즘 관리 강도 (Moderator): 계약 이행 인식을 약화',
-    critique: ['계약 내용이 개인마다 달라 표준화 측정 어려움', '위반 결과 연구에 편중, 형성 과정 연구 부족', '전통 고용 관계 전제 → 긱·플랫폼 노동 적용에 이론 확장 필요'],
-    url: 'https://scholar.google.com/scholar?q=Rousseau+1989+Psychological+Contract+Organizations'
-  },
-  {
-    rank: 7, badge: 'TLT', badgeClass: 'badge-teal',
-    title: '팀 학습 이론', en: 'Team Learning Theory',
-    author: 'Edmondson (1999)',
-    influence: 68,
-    influenceNote: 'Google Scholar 피인용 ~1만+ 회 · Google Project Aristotle(2016)로 실무 파급력 폭발적 확대',
-    desc: '심리적 안전감이 팀 학습 행동을 활성화해 혁신 성과로 이어짐',
-    tags: ['심리적 안전감', '오류 공유', '발언', '팀 학습'],
-    quote: '"팀은 개인의 합이 아닌 집합적 학습 단위이며, 심리적 안전감이 보장될 때 오류 공유·실험·피드백이 활성화되고 이것이 혁신으로 이어진다."',
-    concepts: ['발언(Speaking up) — 문제·우려·아이디어를 자유롭게 표현', '실험(Experimenting) — 새로운 방법을 시도하고 결과를 관찰', '성찰(Reflecting) — 과거 행동과 결과를 되돌아보는 논의', '경계 확장(Boundary spanning) — 팀 외부 정보·자원 탐색', '오류 토론(Error discussion) — 실수를 숨기지 않고 공유하며 학습'],
-    flow: '팀 심리적 안전감 (IV)\n→ 지식 공유 행동 (Mediator)\n→ 팀 혁신 성과 (DV)\n   ↑ 팀 다양성 (Moderator)',
-    critique: ['과잉 적용 시 방종으로 이어질 수 있음', '팀 학습과 성과 간 Time Lag를 횡단 연구로 측정 어려움', '팀 수준 심리적 안전감을 개인 응답 평균으로 집계하는 방법론적 한계'],
-    url: 'https://scholar.google.com/scholar?q=Edmondson+1999+Psychological+Safety+Learning+Behavior+Work+Teams'
-  },
-  {
-    rank: 8, badge: 'DCT', badgeClass: 'badge-amber',
+    rank: 7, badge: 'DCT', badgeClass: 'badge-amber',
     title: '동적역량이론', en: 'Dynamic Capability Theory',
     author: 'Teece et al. (1997)',
-    influence: 62,
+    influence: 55,
     influenceNote: 'Google Scholar 피인용 ~3만+ 회 · 전략경영 분야 핵심; 조직행동론 적용은 비교적 제한적',
     desc: '외부 환경 변화에 맞춰 내부 역량을 감지·포착·재구성하는 조직 능력',
     tags: ['감지', '포착', '재구성', 'VRIN'],
@@ -568,10 +602,38 @@ const theories = [
     url: 'https://scholar.google.com/scholar?q=Teece+Pisano+Shuen+1997+Dynamic+Capabilities+Strategic+Management'
   },
   {
-    rank: 9, badge: 'AMO', badgeClass: 'badge-amber',
+    rank: 8, badge: 'PCT', badgeClass: 'badge-coral',
+    title: '심리적 계약 이론', en: 'Psychological Contract Theory',
+    author: 'Rousseau (1989)',
+    influence: 47,
+    influenceNote: 'Google Scholar 피인용 ~2만+ 회 · HRM·고용관계 연구의 핵심 분석 틀',
+    desc: '개인이 인식하는 암묵적 의무·기대의 집합; 위반 시 이직 의도 급증',
+    tags: ['거래적 계약', '관계적 계약', 'Breach', 'Violation'],
+    quote: '"심리적 계약이란 개인이 고용 관계에서 상호 의무에 대해 갖는 주관적 믿음의 집합이다."',
+    concepts: ['거래적 계약 — 경제적 조건 중심, 단기적, 유연성 낮음', '관계적 계약 — 충성·헌신 중심, 장기적, 유연성 높음', 'Breach(계약 불이행) — 인지적 판단 (객관적 사실)', 'Violation(위반감) — 배신감·분노의 정서적 반응', '알고리즘 관리 → 알고리즘 자체와의 심리적 계약 형성 가능'],
+    flow: '심리적 계약 이행 (IV)\n→ 직무 만족 (Mediator)\n→ 이직 의도 감소 (DV)\n   ↑ 알고리즘 관리 강도 (Moderator): 계약 이행 인식을 약화',
+    critique: ['계약 내용이 개인마다 달라 표준화 측정 어려움', '위반 결과 연구에 편중, 형성 과정 연구 부족', '전통 고용 관계 전제 → 긱·플랫폼 노동 적용에 이론 확장 필요'],
+    url: 'https://scholar.google.com/scholar?q=Rousseau+1989+Psychological+Contract+Organizations'
+  },
+  {
+    rank: 9, badge: 'TLT', badgeClass: 'badge-teal',
+    title: '팀 학습 이론', en: 'Team Learning Theory',
+    author: 'Edmondson (1999)',
+    influence: 38,
+    influenceNote: 'Google Scholar 피인용 ~1만+ 회 · Google Project Aristotle(2016)로 실무 파급력 폭발적 확대',
+    desc: '심리적 안전감이 팀 학습 행동을 활성화해 혁신 성과로 이어짐',
+    tags: ['심리적 안전감', '오류 공유', '발언', '팀 학습'],
+    quote: '"팀은 개인의 합이 아닌 집합적 학습 단위이며, 심리적 안전감이 보장될 때 오류 공유·실험·피드백이 활성화되고 이것이 혁신으로 이어진다."',
+    concepts: ['발언(Speaking up) — 문제·우려·아이디어를 자유롭게 표현', '실험(Experimenting) — 새로운 방법을 시도하고 결과를 관찰', '성찰(Reflecting) — 과거 행동과 결과를 되돌아보는 논의', '경계 확장(Boundary spanning) — 팀 외부 정보·자원 탐색', '오류 토론(Error discussion) — 실수를 숨기지 않고 공유하며 학습'],
+    flow: '팀 심리적 안전감 (IV)\n→ 지식 공유 행동 (Mediator)\n→ 팀 혁신 성과 (DV)\n   ↑ 팀 다양성 (Moderator)',
+    critique: ['과잉 적용 시 방종으로 이어질 수 있음', '팀 학습과 성과 간 Time Lag를 횡단 연구로 측정 어려움', '팀 수준 심리적 안전감을 개인 응답 평균으로 집계하는 방법론적 한계'],
+    url: 'https://scholar.google.com/scholar?q=Edmondson+1999+Psychological+Safety+Learning+Behavior+Work+Teams'
+  },
+  {
+    rank: 10, badge: 'AMO', badgeClass: 'badge-amber',
     title: 'AMO 이론', en: 'Ability-Motivation-Opportunity Theory',
     author: 'Appelbaum et al. (2000)',
-    influence: 55,
+    influence: 28,
     influenceNote: 'Google Scholar 피인용 ~5천+ 회 · 전략적 HRM 연구의 표준 분석 틀',
     desc: '역량·동기·참여 기회가 동시에 갖춰질 때 구성원 성과가 극대화됨',
     tags: ['Ability', 'Motivation', 'Opportunity', 'HPWS'],
@@ -580,20 +642,6 @@ const theories = [
     flow: 'HR 시스템 설계\n→ A(역량 개발) + M(동기 부여) + O(참여 기회) 동시 제공\n→ 구성원 성과 행동 극대화\n→ 조직양면성(탐색+활용) 달성',
     critique: ['세 요소의 상호작용 방식(덧셈? 곱셈?)에 대한 논의 부족', '개인 차이(성격, 자기효능감)가 AMO 효과에 미치는 영향 간과', '시간에 따른 변화나 조직 수준 동학을 설명하지 못함'],
     url: 'https://scholar.google.com/scholar?q=Appelbaum+2000+Manufacturing+Advantage+AMO+Theory'
-  },
-  {
-    rank: 10, badge: 'KBV', badgeClass: 'badge-blue',
-    title: '지식기반이론', en: 'Knowledge-Based View',
-    author: 'Grant (1996)',
-    influence: 48,
-    influenceNote: 'Google Scholar 피인용 ~1만+ 회 · 전략경영 영역 주류; 조직행동론 내 흡수역량 연구에 집중',
-    desc: '조직의 지속 가능한 경쟁 우위는 지식 자산의 축적·통합 역량에서 비롯됨',
-    tags: ['명시적 지식', '암묵적 지식', '지식 통합', 'VRIN'],
-    quote: '"기업의 지속 가능한 경쟁 우위는 조직이 축적하고 통합하는 지식 자산에 달려 있으며, 조직 학습은 외부 지식을 내부 역량으로 전환하는 핵심 메커니즘이다."',
-    concepts: ['명시적 지식(Explicit) — 언어·문서화 가능, 전이 용이', '암묵적 지식(Tacit) — 경험 기반, 모방 어려워 경쟁 우위 원천', '규칙과 지침 — 표준화된 절차로 암묵지를 명시화', '순서화·루틴 — 반복적 패턴으로 지식 조율', '집단 문제 해결 — 복잡한 문제에서 직접 상호작용으로 지식 통합'],
-    flow: '흡수 역량 (IV)\n→ 외부 지식을 내부로 전환하는 지식 통합 역량 강화\n→ 조직 학습 (Mediator): 지식 저장·변환·활용\n→ 혁신 성과 (DV)\n   ↑ 학습 지향 리더십 (Moderator)',
-    critique: ['어떤 지식이 경쟁 우위를 만드는지 사후에만 알 수 있음', '개인 수준 지식과 조직 수준 역량 연결 경로 불분명', '암묵지 측정의 실증적 한계'],
-    url: 'https://scholar.google.com/scholar?q=Grant+1996+Knowledge+Based+Theory+Firm+Strategic+Management'
   }
 ];
 

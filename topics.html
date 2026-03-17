@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>주제 후보 — HR Study</title>
+<style>
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --border: rgba(0,0,0,0.09);
+  --border-strong: rgba(0,0,0,0.18);
+  --text-primary: #1a1a18;
+  --text-secondary: #5c5c56;
+  --text-tertiary: #9c9a90;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --nav-h: 52px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* ── Nav ── */
+.site-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-strong);
+  padding: 0 24px;
+  height: var(--nav-h);
+}
+.nav-inner {
+  max-width: 1140px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 100%;
+}
+.nav-brand {
+  font-family: Georgia, serif; font-size: 15px; font-weight: 600;
+  color: var(--text-primary);
+}
+.nav-links { display: flex; gap: 4px; }
+.nav-link {
+  font-size: 13px; color: var(--text-secondary); text-decoration: none;
+  padding: 6px 14px; border-radius: var(--radius-sm);
+  transition: background 0.15s, color 0.15s;
+}
+.nav-link:hover { background: #f0eeea; color: var(--text-primary); }
+.nav-link.active { background: #f0eeea; color: var(--text-primary); font-weight: 600; }
+
+/* ── Page Layout ── */
+.page-wrapper {
+  max-width: 1140px; margin: 0 auto;
+  display: flex; gap: 0;
+  min-height: calc(100vh - var(--nav-h));
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 272px; flex-shrink: 0;
+  border-right: 1px solid var(--border-strong);
+  position: sticky;
+  top: var(--nav-h);
+  height: calc(100vh - var(--nav-h));
+  overflow-y: auto;
+  background: var(--surface);
+  padding: 24px 0 40px;
+}
+.sidebar-header {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-tertiary); font-weight: 700;
+  padding: 0 20px 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.topic-nav-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  text-decoration: none;
+}
+.topic-nav-item:hover { background: #f7f5f0; }
+.topic-nav-item.active { border-left-color: var(--active-color, #1D9E75); background: #f7f5f0; }
+.topic-num {
+  font-family: Georgia, serif; font-size: 18px; font-weight: 600;
+  color: var(--text-tertiary); line-height: 1.2; min-width: 24px;
+  flex-shrink: 0;
+}
+.topic-nav-item.active .topic-num { color: var(--active-color, #1D9E75); }
+.topic-nav-title {
+  font-size: 13px; font-weight: 600; color: var(--text-primary);
+  line-height: 1.45; margin-bottom: 3px;
+}
+.topic-nav-field {
+  font-size: 11px; color: var(--text-tertiary); line-height: 1.4;
+}
+
+/* ── Main Content ── */
+.content {
+  flex: 1; min-width: 0;
+  padding: 40px 48px 80px;
+  overflow-y: auto;
+}
+
+/* ── Topic Detail ── */
+.topic-header { margin-bottom: 32px; }
+.topic-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.topic-badge {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  padding: 3px 10px; border-radius: 20px; border: 1px solid transparent;
+}
+.field-badge {
+  font-size: 11px; color: var(--text-tertiary);
+  background: #f0eeea; padding: 3px 10px; border-radius: 20px;
+}
+.status-badge {
+  font-size: 11px; color: #854F0B; background: #FAEEDA;
+  border: 1px solid #FAC775; padding: 3px 10px; border-radius: 20px; font-weight: 600;
+}
+.topic-title {
+  font-family: Georgia, 'Apple SD Gothic Neo', serif;
+  font-size: clamp(20px, 3vw, 28px); font-weight: 600; line-height: 1.3;
+  margin-bottom: 14px;
+}
+.theory-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.theory-tag {
+  font-size: 12px; background: #f0eeea; color: var(--text-secondary);
+  padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border-strong);
+}
+
+/* ── Model Block ── */
+.model-section {
+  background: var(--surface); border: 1px solid var(--border-strong);
+  border-radius: var(--radius); padding: 20px 24px;
+  margin-bottom: 36px;
+}
+.model-label {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-tertiary); font-weight: 700; margin-bottom: 12px;
+}
+.model-visual {
+  display: flex; align-items: center; gap: 0; flex-wrap: wrap;
+}
+.model-box {
+  background: var(--bg); border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm); padding: 10px 16px;
+  text-align: center; min-width: 120px;
+}
+.model-box-label {
+  font-size: 10px; color: var(--text-tertiary); text-transform: uppercase;
+  letter-spacing: 0.08em; margin-bottom: 4px;
+}
+.model-box-var {
+  font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.4;
+}
+.model-arrow {
+  font-size: 18px; color: var(--text-tertiary); padding: 0 8px; flex-shrink: 0;
+}
+.model-mod-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.model-mod-arrow { font-size: 13px; color: var(--text-tertiary); }
+.model-mod-box {
+  background: #fff9f0; border: 1px dashed #FAC775;
+  border-radius: var(--radius-sm); padding: 6px 12px;
+  font-size: 11px; color: #854F0B; text-align: center;
+}
+.model-mod-box .mod-label { font-size: 10px; color: var(--text-tertiary); margin-bottom: 2px; }
+
+/* ── Sections ── */
+.section { margin-bottom: 32px; }
+.section-heading {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-tertiary); font-weight: 700;
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.section p {
+  font-size: 14px; color: var(--text-secondary); line-height: 1.8;
+  margin-bottom: 12px;
+}
+.section p:last-child { margin-bottom: 0; }
+
+/* Problems */
+.problem-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.problem-item {
+  padding: 14px 16px 14px 20px;
+  border-left: 3px solid var(--border-strong);
+  background: var(--surface);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.problem-item:hover { border-left-color: var(--topic-color, #9c9a90); }
+.problem-num { font-size: 11px; color: var(--text-tertiary); margin-bottom: 4px; }
+.problem-title { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+.problem-body { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+
+/* Purposes */
+.purpose-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.purpose-item {
+  font-size: 13px; color: var(--text-secondary); line-height: 1.7;
+  padding: 8px 12px 8px 16px; border-left: 2px solid var(--border-strong);
+}
+
+/* Contributions */
+.contrib-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 720px) { .contrib-grid { grid-template-columns: 1fr; } }
+.contrib-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 16px;
+}
+.contrib-card-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 10px;
+}
+.contrib-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.contrib-card li {
+  font-size: 13px; color: var(--text-secondary); line-height: 1.6;
+  padding-left: 12px; position: relative;
+}
+.contrib-card li::before {
+  content: ''; position: absolute; left: 0; top: 8px;
+  width: 4px; height: 4px; border-radius: 50%; background: #ccc;
+}
+
+/* Variables Table */
+.var-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.var-table th {
+  text-align: left; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-tertiary); font-weight: 700;
+  padding: 8px 12px; border-bottom: 2px solid var(--border-strong);
+}
+.var-table td {
+  padding: 10px 12px; border-bottom: 1px solid var(--border);
+  color: var(--text-secondary); line-height: 1.55;
+}
+.var-table tr:last-child td { border-bottom: none; }
+.var-table td:first-child { font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+.var-role-chip {
+  display: inline-block; font-size: 11px; padding: 1px 8px;
+  border-radius: 20px; border: 1px solid transparent; font-weight: 600;
+}
+
+/* References */
+.ref-list { display: flex; flex-direction: column; gap: 10px; }
+.ref-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 16px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.ref-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.ref-content { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+.ref-source { font-size: 11px; color: var(--text-tertiary); }
+.ref-link {
+  font-size: 12px; color: #185FA5; text-decoration: none; margin-top: 2px;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.ref-link:hover { text-decoration: underline; }
+
+/* Empty state */
+.empty-state {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 60vh; color: var(--text-tertiary); text-align: center; gap: 12px;
+}
+.empty-state-num {
+  font-family: Georgia, serif; font-size: 72px; font-weight: 600; opacity: 0.15;
+}
+.empty-state-text { font-size: 15px; }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .page-wrapper { flex-direction: column; }
+  .sidebar { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid var(--border-strong); padding: 16px 0 8px; }
+  .content { padding: 24px 20px 60px; }
+}
+
+/* ── Memo ── */
+.memo-section {
+  margin-top: 40px;
+  border-top: 1px solid var(--border-strong);
+  padding-top: 32px;
+}
+.memo-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.memo-label {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-tertiary); font-weight: 700;
+}
+.memo-saved-indicator {
+  font-size: 11px; color: var(--text-tertiary);
+  opacity: 0; transition: opacity 0.4s;
+}
+.memo-saved-indicator.show { opacity: 1; }
+.memo-textarea {
+  width: 100%; min-height: 140px;
+  background: var(--surface); border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  font-family: -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  font-size: 13px; color: var(--text-primary); line-height: 1.75;
+  resize: vertical; outline: none;
+  transition: border-color 0.15s;
+}
+.memo-textarea:focus { border-color: var(--memo-color, #9c9a90); }
+.memo-textarea::placeholder { color: var(--text-tertiary); }
+.memo-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 8px;
+}
+.memo-hint { font-size: 11px; color: var(--text-tertiary); }
+.memo-btn {
+  font-size: 12px; font-weight: 600;
+  background: var(--surface); color: var(--text-secondary);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 6px 16px; cursor: pointer;
+  font-family: inherit; transition: background 0.15s, color 0.15s;
+}
+.memo-btn:hover { background: #f0eeea; color: var(--text-primary); }
+
+/* Sidebar memo dot */
+.memo-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--dot-color, #ccc);
+  flex-shrink: 0; margin-top: 5px;
+}
+
+/* ── Sidebar Footer ── */
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+}
+.sidebar-footer-label {
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-tertiary); font-weight: 700; margin-bottom: 8px;
+}
+.memo-io-btns { display: flex; gap: 6px; }
+.memo-io-btn {
+  flex: 1; font-size: 11px; font-weight: 600;
+  padding: 7px 0; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  cursor: pointer; font-family: inherit;
+  text-align: center; transition: background 0.15s, color 0.15s;
+}
+.memo-io-btn.export {
+  background: var(--surface); color: var(--text-secondary);
+}
+.memo-io-btn.export:hover { background: #f0eeea; color: var(--text-primary); }
+.memo-io-btn.import {
+  background: var(--bg); color: var(--text-tertiary);
+}
+.memo-io-btn.import:hover { background: #edecea; color: var(--text-secondary); }
+.memo-sync-note {
+  font-size: 10px; color: var(--text-tertiary);
+  margin-top: 8px; line-height: 1.6;
+}
+
+/* Scrollbar */
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <span class="nav-brand">HR Study</span>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">핵심 이론 10선</a>
+      <a href="leadership.html" class="nav-link">리더십 유형</a>
+      <a href="topics.html" class="nav-link active">주제 후보</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-header">학위논문 주제 후보 6선</div>
+    <div id="topic-nav"></div>
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-label">메모 동기화</div>
+      <div class="memo-io-btns">
+        <button class="memo-io-btn export" onclick="exportMemos()">⬇ 내보내기</button>
+        <label class="memo-io-btn import">
+          ⬆ 가져오기
+          <input type="file" accept=".json" onchange="importMemos(event)" style="display:none">
+        </label>
+      </div>
+      <div class="memo-sync-note">내보내기 → memos.json → GitHub 커밋 → 어디서든 동일한 메모</div>
+    </div>
+  </aside>
+  <main class="content" id="content">
+    <div class="empty-state">
+      <div class="empty-state-num">—</div>
+      <div class="empty-state-text">좌측에서 주제를 선택하세요</div>
+    </div>
+  </main>
+</div>
+
+<script>
+const topics = [
+  {
+    num: '01',
+    title: '디지털 전환에 대한 구성원 저항과 웰빙',
+    field: '변화관리 / 조직행동론',
+    color: '#D85A30',
+    colorLight: '#FAECE7',
+    colorBorder: '#F5C4B3',
+    colorText: '#993C1D',
+    theories: ['자원보존이론 (COR)', '인지적 평가이론'],
+    status: '탐색중',
+    background: [
+      '디지털 전환(Digital Transformation)은 조직의 프로세스, 문화, 비즈니스 모델 전반을 재편하는 경영 의제로 자리 잡았다. McKinsey·WEF 보고서에 따르면 전 세계 기업의 70% 이상이 디지털 전환을 추진 중이나, 성공률은 30% 수준에 불과하다. 실패의 핵심 원인으로 기술 문제보다 구성원의 저항(Employee Resistance)이 반복적으로 지목된다.',
+      'Oluwafemi et al.(2024)의 통합적 문헌 리뷰는 구성원 저항을 인지적 저항(위협 평가·불신), 정서적 저항(불안·좌절·분노), 행동적 저항(비협조·지식 은닉·사보타주) 세 가지로 분류하며, 저항의 심리적·사회적 다차원성에 대한 통합적 이해가 부재함을 비판하였다.',
+      'Van der Schaft et al.(2024)은 구성원이 디지털 전환을 경험하는 과정이 다층적 의미 형성(Sensemaking) 과정임을 보여주었으며, 자율성·역량·관계성의 세 가지 기본 심리 욕구가 위협받을 때 저항 행동이 촉발됨을 보고하였다.',
+      'Frontiers(2025) 연구는 변혁적 리더십과 조직 문화 지원이 디지털 전환에 대한 도전적 평가를 높여 혁신 행동을 유발한다는 점을 밝혀, 동일한 전환 자극이 리더십에 따라 상반된 반응을 유발할 수 있음을 시사한다.'
+    ],
+    problems: [
+      { title: '심리적 매개 기제의 미규명', body: '저항의 존재를 확인한 연구는 다수이나, 저항이 어떤 심리적 경로(예: 심리적 안전감 저하)를 거쳐 직무 웰빙이나 성과에 영향을 미치는지에 대한 매개 기제 검증이 부족하다. 특히 자원보존이론(COR)을 적용하여 저항을 자원 손실 인식으로 해석하는 실증 모형이 드물다.' },
+      { title: '조직 맥락의 과소 반영', body: '현존 연구의 대부분이 유럽·북미 맥락에서 수행되었다. 위계적 조직 문화와 높은 권력 거리(Power Distance)가 특징인 한국 기업에서 저항 양상이 서구와 상이하게 나타날 가능성이 높으나, 이를 검증한 실증 연구가 전무하다.' },
+      { title: '리더십 유형별 조절 효과 불분명', body: 'Frontiers(2025)는 변혁적 리더십이 구성원 반응을 조절함을 보였으나, 변혁적·거래적·서번트·포용적 리더십 간의 비교가 이루어지지 않았다. 어떤 리더십 유형이 저항 완화에 가장 효과적인지에 대한 비교 실증이 필요하다.' },
+      { title: '결과 변수의 단일성', body: '저항과 직무 번아웃, 심리적 소진, 이직 의도 등 부정적 결과 변수를 동시에 포함하는 통합 모형 연구는 제한적이다. 저항의 다양한 하류 효과(Downstream Effects)를 단일 연구에서 포괄적으로 검증할 필요가 있다.' }
+    ],
+    purposes: [
+      '디지털 전환 위협 인식이 구성원의 저항 행동에 미치는 영향을 실증적으로 검증',
+      '심리적 안전감을 매개 변수로, 변혁적 리더십을 조절 변수로 설정하여 저항의 심리적 경로 규명',
+      '저항이 직무 웰빙(직무 만족, 번아웃)에 미치는 결과를 확인하여 실무적 함의 제공'
+    ],
+    model: {
+      iv: '디지털 전환\n위협 인식',
+      med: '심리적 안전감',
+      dv: '저항 행동\n직무 웰빙',
+      mod: '변혁적 리더십'
+    },
+    contribAcademic: [
+      '변화관리 문헌에서 미규명 상태인 저항의 심리적 매개 기제를 실증적으로 밝힘',
+      '한국 기업 맥락의 비서구 데이터를 제공하여 이론의 일반화 가능성 검토'
+    ],
+    contribPractical: [
+      '디지털 전환 추진 기업이 구성원 저항을 최소화하기 위한 리더십 실천 지침 제공',
+      '심리적 안전감 강화 프로그램 설계를 위한 근거 자료 제시'
+    ],
+    variables: [
+      { role: '독립변수', var: '디지털 전환 위협 인식' },
+      { role: '매개변수', var: '심리적 안전감' },
+      { role: '조절변수', var: '변혁적 리더십' },
+      { role: '종속변수', var: '저항 행동, 직무 웰빙(만족/번아웃)' },
+      { role: '이론', var: '자원보존이론(COR), 인지적 평가이론' }
+    ],
+    references: [
+      { title: 'Van der Schaft et al. (2024)', content: '구성원의 디지털 전환 경험: 다층적 의미 형성 과정', source: 'SAGE Journals', url: 'https://www.tandfonline.com/doi/full/10.1080/23311975.2024.2442550' },
+      { title: 'Abubakar et al. (2024)', content: '저항 완화 및 웰빙 달성 전략: 학습 기회·참여·소통의 역할', source: 'Information Technology & People', url: 'https://www.emerald.com/insight/content/doi/10.1108/itp-05-2024-0701/full/html' },
+      { title: 'Frontiers (2025)', content: '디지털 전환이 혁신 행동에 미치는 영향: 변혁적 리더십 조절', source: 'Frontiers in Psychology', url: 'https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1532977/full' }
+    ]
+  },
+  {
+    num: '02',
+    title: '심리적 안전감이 팀 혁신 성과에 미치는 영향',
+    field: '팀 행동 / 혁신관리',
+    color: '#1D9E75',
+    colorLight: '#E1F5EE',
+    colorBorder: '#9FE1CB',
+    colorText: '#0F6E56',
+    theories: ['사회교환이론 (SET)', '팀 학습 이론 (TLT)'],
+    status: '탐색중',
+    background: [
+      '심리적 안전감(Psychological Safety)은 Edmondson(1999)이 팀 학습 연구에서 처음 체계화한 개념으로, 팀 내에서 의견 제시·실수 인정·도전적 질문을 하더라도 대인 관계적 처벌을 받지 않는다는 공유된 신념을 의미한다. Google의 Project Aristotle(2016)에서 팀 성과를 결정하는 가장 중요한 단일 요인으로 도출된 이후 학계와 실무계 모두에서 급속히 주목받았다.',
+      'Frazier et al.(2017)의 메타분석은 136개 독립 표본을 종합하여 심리적 안전감이 직무 성과·학습 행동·창의성·정보 공유에 유의미한 정(+)의 영향을 미침을 확인하였다. ScienceDirect(2024)의 계량서지학적 분석은 2018년 이후 "팀 창의성·다양성·지식 공유·혁신 행동" 키워드의 공동 출현이 급격히 증가하여 심리적 안전감 연구가 팀 혁신 분야로 확장되고 있음을 확인하였다.',
+      'Jin & Peng(2024, PLoS ONE)은 중국 하이테크 기업 580명을 대상으로 팀 심리적 안전감의 세 차원이 커뮤니케이션 행동을 매개로 혁신 성과에 미치는 영향을 실증하였다. Frontiers(2024) 연구는 사회교환이론 기반으로 심리적 안전감이 지식 공유를 유의미하게 촉진함을 보였다.'
+    ],
+    problems: [
+      { title: '행동적 매개 기제 규명 부족', body: 'Jin & Peng(2024)은 커뮤니케이션 행동을 매개 변수로 제안하였으나 단일 국가·업종에 한정된다. 지식 공유를 독립적 매개 변수로 설정하고 한국 기업 맥락에서 검증한 연구는 존재하지 않는다.' },
+      { title: '팀 다양성 조절 효과의 실증 부재', body: 'Sharma & Mehta(2025)는 팀 다양성이 심리적 안전감-창의성 경로를 조절할 가능성을 제안하였으나, 이는 이론적 제안 수준에 머문다. 기능적·인구통계적 다양성 각각의 조절 방향 차이를 구분하여 검증한 연구가 드물다.' },
+      { title: '리더십 선행 변수 연구의 혼재', body: '심리적 안전감과 리더십의 인과 방향이 연구마다 다르게 설정되어 이론적 일관성이 부족하다. 심리적 안전감을 독립 변수로 두고 리더십을 조절 변수로 검증한 모형이 필요하다.' },
+      { title: '측정 수준의 혼재(개인 vs. 팀)', body: 'Frazier et al.(2017) 메타분석에서 지적된 바와 같이, 심리적 안전감을 개인 수준으로 측정한 연구와 팀 수준으로 집계한 연구가 혼재하며, 다층 분석(MLM)을 통해 수준 간 효과를 분리한 연구는 제한적이다.' }
+    ],
+    purposes: [
+      '팀 수준의 심리적 안전감이 팀 혁신 성과에 미치는 영향을 실증 검증',
+      '지식 공유 행동(Knowledge Sharing)을 매개 변수로 설정하여 행동적 경로 규명',
+      '팀 다양성(Team Diversity)을 조절 변수로 설정하여 다양한 팀 구성의 조절 효과 검증'
+    ],
+    model: {
+      iv: '심리적 안전감\n(팀 수준)',
+      med: '지식 공유 행동',
+      dv: '팀 혁신 성과',
+      mod: '팀 다양성'
+    },
+    contribAcademic: [
+      '심리적 안전감과 혁신 성과 사이의 행동 경로(지식 공유)를 명시적으로 규명',
+      '다층 분석을 통한 개인/팀 수준 효과 분리',
+      '다양성-안전감-혁신의 3방향 관계에 대한 실증적 근거 제공'
+    ],
+    contribPractical: [
+      '혁신 지향 조직이 팀 구성 및 심리적 환경 설계 시 활용 가능한 가이드라인 제시',
+      '다양성이 높은 팀에서의 심리적 안전감 관리 방안 제안'
+    ],
+    variables: [
+      { role: '독립변수', var: '심리적 안전감 (팀 수준)' },
+      { role: '매개변수', var: '지식 공유 행동' },
+      { role: '조절변수', var: '팀 다양성 (기능적/인구통계적)' },
+      { role: '종속변수', var: '팀 혁신 성과' },
+      { role: '이론', var: '사회교환이론, 팀 학습 이론' }
+    ],
+    references: [
+      { title: 'Jin & Peng (2024)', content: '팀 심리적 안전감 → 커뮤니케이션 행동 매개 → 혁신 성과', source: 'PLoS ONE', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC11524454/' },
+      { title: 'Sharma & Mehta (2025)', content: '심리적 안전감 × 공유 리더십 × 팀 다양성 → 창의성', source: 'SAGE Journals', url: 'https://journals.sagepub.com/doi/10.1177/22779752231163356' },
+      { title: 'Frontiers (2022)', content: '포용적 리더십 → 심리적 안전감 매개 → 혁신 성과 (다층 분석)', source: 'Frontiers in Psychology', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC9261735/' }
+    ]
+  },
+  {
+    num: '03',
+    title: '고성과 HR 시스템이 조직 양면성을 통해 혁신 성과에 미치는 영향',
+    field: '전략적 HRM / 혁신관리',
+    color: '#BA7517',
+    colorLight: '#FAEEDA',
+    colorBorder: '#FAC775',
+    colorText: '#854F0B',
+    theories: ['AMO 이론', '동적역량이론 (DCT)'],
+    status: '탐색중',
+    background: [
+      '조직 양면성(Organizational Ambidexterity)이란 기존 사업의 효율적 운영(Exploitation)과 새로운 기회의 탐색(Exploration)을 동시에 추구하는 조직 역량을 의미한다(March, 1991). 탐색은 실험·변형·혁신을 지향하며, 활용은 정교화·효율·실행을 지향한다. 이 두 전략은 서로 상충하는 자원 배분 논리를 전제로 하지만, 장기 성과를 위해 양자를 균형 있게 추구해야 한다.',
+      '전략적 HRM 문헌에서는 AMO 이론에 근거하여, 고성과 HR 시스템(HPWS)이 구성원의 역량(A)·동기(M)·참여 기회(O)를 강화함으로써 조직 양면성을 촉진한다는 논리가 제안되어 왔다.',
+      'Hassan et al.(2023, Journal of Intellectual Capital)은 이집트 통신 기업 데이터를 활용하여 HPWS → 지적 자본 → 조직 양면성 → 혁신 성과의 직렬 매개 모형을 실증하였다. Frontiers(2023) 연구 또한 HPWS가 조직 양면성을 부분 매개하여 조직 성과에 기여함을 확인하였다.'
+    ],
+    problems: [
+      { title: '직렬 매개 경로의 검증 한계', body: 'Hassan et al.(2023)은 이집트 통신 부문이라는 단일 맥락에 한정된다. 한국 제조·기술 기업에서 HPWS가 조직 양면성을 직접 매개하는지, 혹은 다른 변수(심리적 임파워먼트, 지식 공유)를 경유하는지에 대한 검증이 부재하다.' },
+      { title: '탐색-활용 균형의 최적점 미규명', body: '기존 연구는 탐색과 활용의 균형이 중요함을 인정하나, 어느 비율의 균형이 혁신 성과를 극대화하는지를 정량적으로 분석한 연구가 거의 없다. 업종·규모별 최적 균형점에 관한 실증이 부족하다.' },
+      { title: '환경 불확실성의 조절 효과 부재', body: 'HPWS-양면성-성과 간의 관계가 환경 불확실성 수준에 따라 달라질 수 있음에도 불구하고, 이를 조절 변수로 포함한 실증 연구가 드물다. 동적역량이론에서 예측하는 "불확실성 환경에서의 양면성 효과 증폭" 가설이 충분히 검증되지 않았다.' },
+      { title: '한국 맥락 연구의 공백', body: '기존 HPWS-양면성 연구의 대다수가 이집트·중국·유럽 기업을 표본으로 한다. 위계적 의사결정 구조와 장기 고용 관행이 혼재하는 한국 기업에서 동일한 작동 기제가 재현되는지는 불분명하다.' }
+    ],
+    purposes: [
+      'HPWS가 혁신 성과에 미치는 영향에서 조직 양면성(탐색/활용 균형)의 매개 효과를 실증적으로 검증',
+      '환경 불확실성을 조절 변수로 설정하여 불확실한 환경에서 양면성의 역할이 강화되는지 확인',
+      '한국 제조 또는 기술 기업을 대상으로 비서구권 맥락의 데이터 제공'
+    ],
+    model: {
+      iv: '고성과\nHR 시스템(HPWS)',
+      med: '조직 양면성\n(탐색·활용 균형)',
+      dv: '혁신 성과',
+      mod: '환경 불확실성'
+    },
+    contribAcademic: [
+      '전략적 HRM과 혁신관리 문헌을 연결하는 통합 모형 제시',
+      '조직 양면성의 매개 역할을 실증함으로써 HPWS의 작동 기제 해명',
+      '불확실성 환경에서 양면성 전략의 조절 효과에 대한 새로운 증거 제공'
+    ],
+    contribPractical: [
+      '혁신 지향 기업이 HR 시스템을 양면성 역량 구축에 연계하는 방안 제시',
+      '환경 불확실성 수준에 따라 탐색/활용 투자 비율을 조정하기 위한 가이드라인 제공'
+    ],
+    variables: [
+      { role: '독립변수', var: '고성과 HR 시스템(HPWS)' },
+      { role: '매개변수', var: '조직 양면성 (탐색·활용 균형)' },
+      { role: '조절변수', var: '환경 불확실성' },
+      { role: '종속변수', var: '혁신 성과 (제품·공정 혁신)' },
+      { role: '이론', var: 'AMO 이론, 동적역량이론' }
+    ],
+    references: [
+      { title: 'Frontiers (2023)', content: 'HPWS → 조직 양면성 매개 → 조직 성과', source: 'Frontiers in Psychology', url: 'https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1283637/full' },
+      { title: 'Nature (2025)', content: '탐색-활용 균형과 불확실성의 상호작용', source: 'Humanities & Social Sciences Comm.', url: 'https://www.nature.com/articles/s41599-025-04476-w' },
+      { title: 'T&SM (2025)', content: '양면성과 혁신의 메타분석: 매개 효과 종합', source: 'Technology Analysis & Strategic Mgmt', url: 'https://www.tandfonline.com/doi/full/10.1080/09537325.2025.2464885' }
+    ]
+  },
+  {
+    num: '04',
+    title: '긱 이코노미 플랫폼 노동자의 심리적 계약과 이직 의도',
+    field: '고용관계 / 동기부여',
+    color: '#378ADD',
+    colorLight: '#E6F1FB',
+    colorBorder: '#B5D4F4',
+    colorText: '#185FA5',
+    theories: ['심리적 계약 이론 (PCT)', '자기결정성이론 (SDT)'],
+    status: '탐색중',
+    background: [
+      '긱 이코노미(Gig Economy)는 단기 계약 또는 프리랜서 형태로 플랫폼 기업이 중개하는 노동 시장을 지칭한다. 2025년 기준 한국에서도 플랫폼 종사자가 전체 취업자의 약 8%를 상회하며, 이들은 플랫폼 알고리즘이 노동 배분·평가·통제를 수행하는 완전히 새로운 고용 구조에 놓여 있다.',
+      'Liu et al.(2024, Acta Psychologica)는 배달·차량 호출 플랫폼 종사자를 대상으로 거래적·관계적 심리적 계약 이행이 조직 동일시 및 직무 만족을 통해 이직 의도를 감소시킴을 실증하였다.',
+      'Zhang et al.(2024)은 알고리즘 행동 통제와 알고리즘 추적 평가가 상대적 박탈감을 매개로 이직 의도를 높인다는 결과를 도출하여, 알고리즘이 심리적 계약의 이행 인식을 훼손하는 새로운 경로를 제안하였다.',
+      'ScienceDaily(2025)의 개념 연구는 앱 기반 노동자가 알고리즘 자체를 조직적 행위자로 인식하며 알고리즘과의 심리적 계약을 형성할 수 있다는 이론적 틀을 제안하여 심리적 계약 이론의 확장 가능성을 열었다.'
+    ],
+    problems: [
+      { title: '이론 적용 경계의 불명확', body: '기존 심리적 계약 이론은 조직을 계약 상대방으로 전제하나, 플랫폼 경제에서 계약 상대는 플랫폼 기업인지, 알고리즘인지, 고객인지 불분명하다. 긱 노동자가 "플랫폼"을 조직으로 동일시하는 조건과 수준을 검증하는 연구가 필요하다.' },
+      { title: '알고리즘 관리의 심리적 계약 위반 메커니즘 미규명', body: 'Zhang et al.(2024)은 알고리즘 통제와 이직 의도의 관계에서 상대적 박탈감의 매개를 보였으나, 이 경로가 심리적 계약 위반(Perceived Contract Breach) 개념과 어떻게 연결되는지 이론적으로 통합되지 않았다.' },
+      { title: '이직 의도 편향과 결과 변수 단일성', body: '대부분의 선행연구가 이직 의도를 주된 종속 변수로 설정하고 있어, 심리적 계약이 직무 성과·서비스 품질·조직 시민 행동 등 긍정적 결과에 미치는 영향은 상대적으로 미개척 상태다.' },
+      { title: 'MZ세대 긱 노동자의 동기 구조 규명 부족', body: 'MZ세대가 주류를 이루는 한국 플랫폼 노동 시장에서 세대별 심리적 계약의 내용(거래적 vs. 관계적 비중)이 어떻게 다르며, 이직 의도 예측에서 어떤 차이를 만들어내는지를 비교 실증한 연구가 없다.' }
+    ],
+    purposes: [
+      '긱 이코노미 플랫폼 노동자가 형성하는 심리적 계약(거래적·관계적)이 이직 의도에 미치는 영향을 실증 검증',
+      '직무 만족을 매개 변수로 설정하여 계약 이행-만족-이직 의도의 경로 규명',
+      '알고리즘 관리 수준(Algorithm Management Intensity)을 조절 변수로 설정하여 플랫폼 통제가 계약 이행 인식을 약화시키는지 검증'
+    ],
+    model: {
+      iv: '심리적 계약 이행\n(거래적/관계적)',
+      med: '직무 만족',
+      dv: '이직 의도(−)',
+      mod: '알고리즘 관리 강도'
+    },
+    contribAcademic: [
+      '심리적 계약 이론을 플랫폼 노동 맥락으로 확장하여 이론적 적용 범위 제고',
+      '알고리즘 관리라는 신흥 변수를 조절 변수로 포함한 최초 수준의 실증 연구',
+      '새로운 고용 형태에 대한 조직행동론 문헌의 공백 보완'
+    ],
+    contribPractical: [
+      '플랫폼 기업이 노동자 이탈을 줄이기 위한 계약적 관계 설계 방향 제시',
+      '알고리즘 공정성 인식 제고를 위한 플랫폼 정책 설계에 기여'
+    ],
+    variables: [
+      { role: '독립변수', var: '심리적 계약 이행 (거래적 / 관계적)' },
+      { role: '매개변수', var: '직무 만족' },
+      { role: '조절변수', var: '알고리즘 관리 강도' },
+      { role: '종속변수', var: '이직 의도' },
+      { role: '이론', var: '심리적 계약 이론(Rousseau), 자기결정성이론(SDT)' }
+    ],
+    references: [
+      { title: 'Liu et al. (2024)', content: '긱 노동자의 심리적 계약과 이직 의도: 조직 동일시 및 직무 만족 매개', source: 'Acta Psychologica', url: 'https://www.sciencedirect.com/science/article/pii/S0001691824004657' },
+      { title: 'PMC (2024)', content: '알고리즘 관리가 긱 노동자의 직무 조각화(Job Crafting)에 미치는 영향', source: 'PMC', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC11504671/' },
+      { title: 'Tandfonline (2024)', content: 'MZ세대 긱 노동자의 웰빙과 동기: 자율성의 역할', source: 'Journal of Positive Psychology', url: 'https://www.tandfonline.com/doi/full/10.1080/23311908.2024.2357458' }
+    ]
+  },
+  {
+    num: '05',
+    title: '포용적 리더십이 구성원 창의성에 미치는 영향',
+    field: '리더십 / DEI / 혁신',
+    color: '#7F77DD',
+    colorLight: '#EEEDFE',
+    colorBorder: '#CECBF6',
+    colorText: '#534AB7',
+    theories: ['사회적 정체성 이론 (SIT)', '자기결정성이론 (SDT)'],
+    status: '탐색중',
+    background: [
+      '포용적 리더십(Inclusive Leadership)은 Carmeli et al.(2010)이 처음 체계화한 개념으로, 리더가 개방성(Openness)·가용성(Availability)·접근성(Accessibility)을 통해 구성원의 고유성(Uniqueness)과 소속감(Belongingness)을 동시에 인정하는 행동 스타일을 의미한다.',
+      'Ye et al.(2024, Asia Pacific Journal of Management)의 메타분석은 105개 독립 표본(N=39,948)을 종합하여 포용적 리더십이 직무 성과·조직 시민 행동·혁신 행동·창의성 전반에 걸쳐 유의미한 정(+)의 효과를 가짐을 확인하였다. 심리적 안전감, 심리적 임파워먼트, 포용 인식, LMX가 주요 병렬 매개 변수로 기능함을 밝혔다.',
+      'McKinsey(2025) 보고서에 따르면 포용적 문화를 보유한 기업은 혁신 성과가 19% 높고 재무 목표 달성 가능성이 2.6배 높아, 포용적 리더십이 실질적 비즈니스 성과와 연결됨이 실무적으로도 입증되고 있다.'
+    ],
+    problems: [
+      { title: '소속감 매개 경로의 실증 공백', body: 'Ye et al.(2024) 메타분석의 주요 매개 변수들 중 심리적 소속감(Sense of Belonging)은 포용적 리더십 연구에서 개념적으로 핵심이나, 이를 독립 매개 변수로 설정하고 창의성과의 경로를 직접 검증한 실증 연구는 거의 없다.' },
+      { title: '창의성을 종속 변수로 한 연구의 제한', body: 'Ye et al.(2024) 메타분석에서 창의성은 포함되었으나, 전체 표본의 상당 부분이 혁신 행동·직무 성과·OCB를 종속 변수로 한 연구들이다. 소속감을 매개로 한 창의성 경로를 독립적으로 검증한 연구 설계가 드물다.' },
+      { title: '다양성 조절 효과의 실증 부재', body: 'Cambridge Core(2024)는 시너지 다양성 기후를 조절 변수로 제안하였으나 실증 수준이 제한적이다. 팀의 인지적 다양성이 높을 때 포용적 리더십의 창의성 증진 효과가 증폭되는지를 직접 검증한 연구가 없다.' },
+      { title: '문화 맥락의 검증 부재', body: '높은 권력 거리와 집단주의 문화가 공존하는 한국 맥락에서 포용적 리더십의 효과 크기가 서구권과 상이할 수 있다. 위계적 기대가 강한 조직에서 리더의 포용적 행동이 구성원에게 어떻게 해석되는지에 대한 실증이 부재하다.' }
+    ],
+    purposes: [
+      '포용적 리더십이 구성원의 창의성에 미치는 영향을 실증 검증',
+      '심리적 소속감(Sense of Belonging)을 매개 변수로 설정하여 심리적 경로 규명',
+      '팀 다양성(인지적 다양성)을 조절 변수로 설정하여 다양한 팀 구성의 강화 효과 검증'
+    ],
+    model: {
+      iv: '포용적 리더십',
+      med: '심리적 소속감',
+      dv: '구성원 창의성',
+      mod: '팀 인지적 다양성'
+    },
+    contribAcademic: [
+      '포용적 리더십-창의성 간의 심리적 소속감 매개 경로를 최초 수준으로 실증',
+      '다양성과 포용성의 상호작용이 창의성에 미치는 조절 효과에 대한 이론적 기여',
+      '권력 거리 문화에서의 포용적 리더십 효과에 대한 비서구권 근거 제공'
+    ],
+    contribPractical: [
+      '창의적 조직 문화 조성을 위한 리더 역량 개발 방향 제시',
+      'DEI 프로그램이 혁신 성과와 연결되는 근거를 제공하여 경영진의 DEI 투자 정당성 강화'
+    ],
+    variables: [
+      { role: '독립변수', var: '포용적 리더십' },
+      { role: '매개변수', var: '심리적 소속감(Sense of Belonging)' },
+      { role: '조절변수', var: '팀 인지적 다양성' },
+      { role: '종속변수', var: '구성원 창의성' },
+      { role: '이론', var: '사회적 정체성 이론, 자기결정성이론(SDT)' }
+    ],
+    references: [
+      { title: 'Ye et al. (2024)', content: '포용적 리더십 메타분석: 105개 표본 종합 (N=39,948)', source: 'Asia Pacific Journal of Management', url: 'https://www.sciencedirect.com/science/article/abs/pii/S1541461223003063' },
+      { title: 'Frontiers (2022)', content: '포용적 리더십 → 심리적 안전감 매개 → 혁신 (다층 분석)', source: 'Frontiers in Psychology', url: 'https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2022.934831/full' },
+      { title: 'Sharma & Mehta (2025)', content: '심리적 안전감 × 팀 다양성 × 공유 리더십 → 창의성', source: 'SAGE Journals', url: 'https://journals.sagepub.com/doi/10.1177/22779752231163356' }
+    ]
+  },
+  {
+    num: '06',
+    title: '흡수 역량이 조직 학습을 통해 혁신 성과에 미치는 영향',
+    field: '지식경영 / 조직학습 / 혁신',
+    color: '#2D8B5C',
+    colorLight: '#E1F5EE',
+    colorBorder: '#9FE1CB',
+    colorText: '#0F6E56',
+    theories: ['동적역량이론 (DCT)', '지식기반이론 (KBV)'],
+    status: '탐색중',
+    background: [
+      '흡수 역량(Absorptive Capacity)은 Cohen & Levinthal(1990)이 제시한 개념으로, 조직이 외부 지식의 가치를 인식(Recognition)하고, 내부로 동화(Assimilation)하며, 상업적으로 활용(Exploitation)하는 능력을 의미한다.',
+      'Zahra & George(2002)는 이를 이론적으로 정교화하여 잠재적 흡수 역량(Potential AC: 지식 획득·동화)과 실현된 흡수 역량(Realized AC: 지식 변환·활용)으로 세분화하는 2단계 모형을 제안하였다.',
+      'Mardani et al.(2022, MDPI)는 306개 스페인 중소기업을 대상으로 흡수 역량이 조직 학습을 통해 혁신으로 이어지는 경로를 실증하였다. 조직 학습이 부분 매개 변수로 기능하여 흡수 역량 분산의 56.8%를 설명하였다.',
+      'Stettler et al.(2025, JPIM)의 메타분석은 흡수 역량의 혁신 성과 효과가 맥락 변수에 따라 유의미하게 달라짐을 확인하였으며, 특히 환경 불확실성이 높을수록 흡수 역량의 혁신 기여가 강화되는 조절 효과를 발견하였다.'
+    ],
+    problems: [
+      { title: '조직 학습의 매개 역할 검증 부족', body: 'Mardani et al.(2022)은 스페인 중소기업이라는 단일 맥락에서 매개 역할을 실증하였으나, 다른 문화권·업종에서 동일한 경로가 재현되는지는 검증되지 않았다. 한국 맥락에서의 복제 연구가 전무하다.' },
+      { title: '잠재적·실현된 역량의 차별적 효과 미규명', body: '대부분의 선행연구는 흡수 역량을 단일 차원으로 통합 측정하며, 잠재적·실현된 역량이 조직 학습의 어느 단계(탐색적 vs. 활용적 학습)와 더 강하게 연결되는지를 분리 검증한 연구는 드물다.' },
+      { title: '리더십의 조절 역할 부재', body: '학습 지향 리더십(Learning-Oriented Leadership)은 구성원의 지식 획득 동기와 조직 학습 참여를 직접 자극할 수 있는 변수임에도 불구하고, 흡수 역량-학습-혁신 경로에서의 조절 효과를 검증한 연구가 부재하다.' },
+      { title: '중소기업(SME) 맥락 부족', body: 'Stettler et al.(2025) 메타분석 포함 연구의 대다수가 대기업 또는 R&D 집약 기업을 표본으로 한다. 자원·인력·R&D 투자가 제한된 한국 중소 제조·기술 기업에 특화된 실증 연구가 시급히 필요하다.' }
+    ],
+    purposes: [
+      '흡수 역량(잠재적·실현된)이 혁신 성과에 미치는 영향에서 조직 학습의 매개 효과 실증 검증',
+      '학습 지향 리더십(Learning-Oriented Leadership)을 조절 변수로 설정하여 리더의 학습 촉진 행동이 흡수 역량 효과를 강화하는지 검증',
+      '한국 중소 제조·기술 기업을 대상으로 실증하여 실용적 함의 제공'
+    ],
+    model: {
+      iv: '흡수 역량\n(잠재적·실현된)',
+      med: '조직 학습',
+      dv: '혁신 성과\n(제품·공정·서비스)',
+      mod: '학습 지향 리더십'
+    },
+    contribAcademic: [
+      '흡수 역량과 혁신 성과 사이의 조직 학습 매개 기제를 실증적으로 규명',
+      '잠재적·실현된 흡수 역량의 차별적 효과를 분리 분석하여 이론적 정밀도 향상',
+      '학습 지향 리더십이라는 신흥 조절 변수를 도입하여 리더십-지식경영 문헌의 교차점 개척'
+    ],
+    contribPractical: [
+      '중소기업이 제한된 자원으로 혁신 역량을 강화하기 위한 지식 내재화 프로세스 설계 근거 제공',
+      '리더가 조직 학습 문화를 구축하여 흡수 역량을 극대화하는 방법에 대한 실천 지침 제시'
+    ],
+    variables: [
+      { role: '독립변수', var: '흡수 역량 (잠재적 / 실현된)' },
+      { role: '매개변수', var: '조직 학습' },
+      { role: '조절변수', var: '학습 지향 리더십' },
+      { role: '종속변수', var: '혁신 성과 (제품·공정 혁신)' },
+      { role: '이론', var: '동적역량이론, 지식기반이론(KBV)' }
+    ],
+    references: [
+      { title: 'Mardani et al. (2022)', content: '조직 학습과 혁신: 흡수 역량의 매개 (스페인 SME 306개)', source: 'MDPI / IJERPH', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC11152712/' },
+      { title: 'Álvarez-García et al. (2024)', content: '프로젝트 성과와 혁신: 흡수 역량과 학습 문화의 역할 (자동차 기업 128개)', source: 'International Journal of PM', url: 'https://www.sciencedirect.com/science/article/abs/pii/S092347482400002X' },
+      { title: 'Stettler et al. (2025)', content: '흡수 역량 메타분석: 맥락적 조절 효과 종합', source: 'Journal of Product Innovation Mgmt', url: 'https://onlinelibrary.wiley.com/doi/10.1111/jpim.12758' }
+    ]
+  }
+];
+
+// Render sidebar
+function renderNav() {
+  const nav = document.getElementById('topic-nav');
+  nav.innerHTML = topics.map((t, i) => {
+    const hasMemo = !!localStorage.getItem(`hr-memo-${t.num}`);
+    return `
+    <div class="topic-nav-item" id="nav-${i}"
+      style="--active-color: ${t.color}"
+      onclick="showTopic(${i})">
+      <span class="topic-num">${t.num}</span>
+      <div style="flex:1;min-width:0">
+        <div class="topic-nav-title">${t.title}</div>
+        <div class="topic-nav-field">${t.field}</div>
+      </div>
+      <span class="memo-dot" id="dot-${i}"
+        style="--dot-color:${hasMemo ? t.color : 'transparent'};
+               border: 1px solid ${hasMemo ? t.color : 'var(--border-strong)'}">
+      </span>
+    </div>`;
+  }).join('');
+}
+
+// Render topic detail
+function showTopic(idx) {
+  // Update nav active state
+  document.querySelectorAll('.topic-nav-item').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+
+  const t = topics[idx];
+  document.title = `주제 후보 ${t.num} — HR Study`;
+
+  const roleChipStyle = (role) => {
+    const map = {
+      '독립변수': `background:#E6F1FB;color:#185FA5;border-color:#B5D4F4`,
+      '매개변수': `background:#E1F5EE;color:#0F6E56;border-color:#9FE1CB`,
+      '조절변수': `background:#FAEEDA;color:#854F0B;border-color:#FAC775`,
+      '종속변수': `background:#EEEDFE;color:#534AB7;border-color:#CECBF6`,
+      '이론': `background:#f0eeea;color:#5c5c56;border-color:#ccc`
+    };
+    return map[role] || '';
+  };
+
+  document.getElementById('content').innerHTML = `
+    <div class="topic-header">
+      <div class="topic-meta">
+        <span class="topic-badge" style="background:${t.colorLight};color:${t.colorText};border-color:${t.colorBorder}">
+          주제 ${t.num}
+        </span>
+        <span class="field-badge">${t.field}</span>
+        <span class="status-badge">${t.status}</span>
+      </div>
+      <div class="topic-title">${t.title}</div>
+      <div class="theory-tags">
+        ${t.theories.map(th => `<span class="theory-tag">${th}</span>`).join('')}
+      </div>
+    </div>
+
+    <div class="model-section">
+      <div class="model-label">예시 연구 모형</div>
+      <div class="model-visual">
+        <div class="model-box">
+          <div class="model-box-label">IV · 독립변수</div>
+          <div class="model-box-var">${t.model.iv}</div>
+        </div>
+        <div class="model-arrow">→</div>
+        <div class="model-box">
+          <div class="model-box-label">Mediator · 매개변수</div>
+          <div class="model-box-var">${t.model.med}</div>
+        </div>
+        <div class="model-arrow">→</div>
+        <div class="model-mod-wrap">
+          <div class="model-mod-box">
+            <div class="mod-label">Moderator · 조절변수</div>
+            ${t.model.mod}
+          </div>
+          <div class="model-mod-arrow">↓</div>
+          <div class="model-box">
+            <div class="model-box-label">DV · 종속변수</div>
+            <div class="model-box-var">${t.model.dv}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-heading">배경 Background</div>
+      ${t.background.map(p => `<p>${p}</p>`).join('')}
+    </div>
+
+    <div class="section" style="--topic-color: ${t.color}">
+      <div class="section-heading">문제 Problems</div>
+      <ul class="problem-list">
+        ${t.problems.map((p, i) => `
+          <li class="problem-item">
+            <div class="problem-num">문제 ${i + 1}</div>
+            <div class="problem-title">${p.title}</div>
+            <div class="problem-body">${p.body}</div>
+          </li>
+        `).join('')}
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-heading">목적 Purposes</div>
+      <ul class="purpose-list">
+        ${t.purposes.map(p => `<li class="purpose-item">${p}</li>`).join('')}
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-heading">공헌 Contributions</div>
+      <div class="contrib-grid">
+        <div class="contrib-card">
+          <div class="contrib-card-title">학문적 공헌</div>
+          <ul>${t.contribAcademic.map(c => `<li>${c}</li>`).join('')}</ul>
+        </div>
+        <div class="contrib-card">
+          <div class="contrib-card-title">실무적 공헌</div>
+          <ul>${t.contribPractical.map(c => `<li>${c}</li>`).join('')}</ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-heading">변수 구성 요약</div>
+      <table class="var-table">
+        <thead><tr><th>역할</th><th>변수</th></tr></thead>
+        <tbody>
+          ${t.variables.map(v => `
+            <tr>
+              <td><span class="var-role-chip" style="${roleChipStyle(v.role)}">${v.role}</span></td>
+              <td>${v.var}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-heading">핵심 선행연구</div>
+      <div class="ref-list">
+        ${t.references.map(r => `
+          <div class="ref-item">
+            <div class="ref-title">${r.title}</div>
+            <div class="ref-content">${r.content}</div>
+            <div class="ref-source">${r.source}</div>
+            <a class="ref-link" href="${r.url}" target="_blank" rel="noopener noreferrer">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              원문 링크
+            </a>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="memo-section">
+      <div class="memo-header">
+        <div class="memo-label">스터디 메모</div>
+        <span class="memo-saved-indicator" id="memo-saved">저장됨 ✓</span>
+      </div>
+      <textarea
+        class="memo-textarea"
+        id="memo-textarea"
+        style="--memo-color: ${t.color}"
+        placeholder="이 주제를 공부하면서 드는 생각, 아이디어, 의문점을 자유롭게 적어두세요..."
+      >${localStorage.getItem(`hr-memo-${t.num}`) || ''}</textarea>
+      <div class="memo-footer">
+        <span class="memo-hint">Ctrl+S 또는 저장 버튼으로 저장 · 브라우저에 보관됩니다</span>
+        <button class="memo-btn" onclick="saveMemo('${t.num}', ${idx})">저장</button>
+      </div>
+    </div>
+  `;
+
+  // Scroll content to top on mobile
+  if (window.innerWidth <= 768) {
+    document.getElementById('content').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// ── 페이지 로드 시 memos.json 자동 로드 ──
+async function loadMemosFromFile() {
+  try {
+    const res = await fetch('memos.json');
+    if (!res.ok) return;
+    const data = await res.json();
+    topics.forEach(t => {
+      const key = `hr-memo-${t.num}`;
+      // localStorage에 내용이 없을 때만 파일에서 불러옴
+      if (!localStorage.getItem(key) && data[t.num]) {
+        localStorage.setItem(key, data[t.num]);
+      }
+    });
+    // 사이드바 dot 갱신
+    document.querySelectorAll('.topic-nav-item').forEach((el, i) => {
+      const dot = document.getElementById(`dot-${i}`);
+      const hasMemo = !!localStorage.getItem(`hr-memo-${topics[i].num}`);
+      if (dot) {
+        dot.style.setProperty('--dot-color', hasMemo ? topics[i].color : 'transparent');
+        dot.style.border = `1px solid ${hasMemo ? topics[i].color : 'var(--border-strong)'}`;
+      }
+    });
+  } catch (e) {
+    // memos.json 없으면 무시
+  }
+}
+
+// ── 내보내기: memos.json 다운로드 ──
+function exportMemos() {
+  const data = { _exported: new Date().toISOString() };
+  topics.forEach(t => {
+    const memo = localStorage.getItem(`hr-memo-${t.num}`);
+    data[t.num] = memo || '';
+  });
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'memos.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── 가져오기: memos.json 업로드 ──
+function importMemos(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      topics.forEach(t => {
+        if (data[t.num] !== undefined) {
+          localStorage.setItem(`hr-memo-${t.num}`, data[t.num]);
+        }
+      });
+      // 현재 열린 주제 갱신
+      const activeNav = document.querySelector('.topic-nav-item.active');
+      if (activeNav) {
+        const idx = [...document.querySelectorAll('.topic-nav-item')].indexOf(activeNav);
+        if (idx >= 0) showTopic(idx);
+      }
+      renderNav();
+      alert('메모를 성공적으로 가져왔습니다.');
+    } catch (err) {
+      alert('올바른 memos.json 파일이 아닙니다.');
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+function saveMemo(topicNum, idx) {
+  const textarea = document.getElementById('memo-textarea');
+  if (!textarea) return;
+  const value = textarea.value;
+  localStorage.setItem(`hr-memo-${topicNum}`, value);
+
+  // Show saved indicator
+  const indicator = document.getElementById('memo-saved');
+  if (indicator) {
+    indicator.classList.add('show');
+    setTimeout(() => indicator.classList.remove('show'), 2000);
+  }
+
+  // Update sidebar dot
+  const dot = document.getElementById(`dot-${idx}`);
+  const color = topics[idx].color;
+  if (dot) {
+    dot.style.setProperty('--dot-color', value ? color : 'transparent');
+    dot.style.border = `1px solid ${value ? color : 'var(--border-strong)'}`;
+  }
+}
+
+// Ctrl+S to save
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    const textarea = document.getElementById('memo-textarea');
+    if (textarea) {
+      e.preventDefault();
+      // Find current topic index from active nav item
+      const activeNav = document.querySelector('.topic-nav-item.active');
+      if (activeNav) {
+        const idx = [...document.querySelectorAll('.topic-nav-item')].indexOf(activeNav);
+        if (idx >= 0) saveMemo(topics[idx].num, idx);
+      }
+    }
+  }
+});
+
+loadMemosFromFile().then(() => renderNav());
+</script>
+</body>
+</html>

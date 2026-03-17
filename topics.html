@@ -1172,7 +1172,11 @@ document.addEventListener('keydown', function(e) {
   }
 })();
 
-loadMemosFromFile().then(() => renderNav());
+if (getToken()) {
+  loadFromGitHub();
+} else {
+  loadMemosFromFile().then(() => renderNav());
+}
 </script>
 </body>
 </html>

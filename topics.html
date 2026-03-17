@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>주제 후보 — HR Study</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
 :root {
   --bg: #f7f5f0;
@@ -501,6 +502,26 @@ body {
 }
 .chat-send-btn:hover { background: #4A31BB; }
 .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Markdown in AI messages */
+.chat-msg.ai p { margin-bottom: 8px; }
+.chat-msg.ai p:last-child { margin-bottom: 0; }
+.chat-msg.ai strong { font-weight: 700; }
+.chat-msg.ai em { font-style: italic; }
+.chat-msg.ai ul, .chat-msg.ai ol { padding-left: 18px; margin: 6px 0; }
+.chat-msg.ai li { margin-bottom: 4px; }
+.chat-msg.ai h1, .chat-msg.ai h2, .chat-msg.ai h3 {
+  font-weight: 700; margin: 10px 0 6px;
+  font-size: 13px; color: #3B1FA8;
+}
+.chat-msg.ai code {
+  background: rgba(91,63,217,0.1); border-radius: 3px;
+  padding: 1px 5px; font-size: 12px; font-family: monospace;
+}
+.chat-msg.ai blockquote {
+  border-left: 3px solid #C4B5FD; padding-left: 10px;
+  color: #6B5CA5; margin: 6px 0;
+}
 </style>
 </head>
 <body>
@@ -1371,7 +1392,11 @@ function appendChatMsg(role, content) {
   const container = document.getElementById('chat-messages');
   const div = document.createElement('div');
   div.className = `chat-msg ${role}`;
-  div.textContent = content;
+  if (role === 'ai') {
+    div.innerHTML = marked.parse(content);
+  } else {
+    div.textContent = content;
+  }
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
   return div;
@@ -1448,7 +1473,7 @@ async function sendToApi(userText, idx) {
     const reply = data.content[0].text;
     chatHistory.push({ role: 'assistant', content: reply });
 
-    thinkingDiv.textContent = reply;
+    thinkingDiv.innerHTML = marked.parse(reply);
     thinkingDiv.classList.remove('thinking');
   } catch(e) {
     thinkingDiv.textContent = '오류: ' + e.message;

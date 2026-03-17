@@ -552,7 +552,10 @@ body {
         <div class="chat-panel-title">✦ AI 연구 어시스턴트</div>
         <div class="chat-panel-subtitle" id="chat-topic-subtitle">메모 피드백 · HR 학위논문</div>
       </div>
-      <button class="chat-close-btn" onclick="closeChat()">×</button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="chat-api-save" style="font-size:10px;padding:4px 8px;" onclick="resetApiKey()">키 변경</button>
+        <button class="chat-close-btn" onclick="closeChat()">×</button>
+      </div>
     </div>
     <div class="chat-api-setup" id="chat-api-setup">
       <div class="chat-api-label">Anthropic API Key</div>
@@ -1301,6 +1304,16 @@ function saveApiKey() {
 
 function getApiKey() {
   return localStorage.getItem('anthropic-api-key') || '';
+}
+
+function resetApiKey() {
+  localStorage.removeItem('anthropic-api-key');
+  const setup = document.getElementById('chat-api-setup');
+  setup.style.display = 'block';
+  const input = document.getElementById('chat-api-input');
+  input.value = '';
+  input.placeholder = '새 API Key를 입력하세요';
+  input.focus();
 }
 
 function openChat(idx) {

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>핵심 이론 학습카드</title>
+
+<style>
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --border: rgba(0,0,0,0.09);
+  --border-strong: rgba(0,0,0,0.18);
+  --text-primary: #1a1a18;
+  --text-secondary: #5c5c56;
+  --text-tertiary: #9c9a90;
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding: 48px 24px 80px;
+}
+
+header {
+  max-width: 860px;
+  margin: 0 auto 48px;
+  border-bottom: 1px solid var(--border-strong);
+  padding-bottom: 28px;
+}
+
+.header-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 10px;
+}
+
+header h1 {
+  font-family: Georgia, 'Apple SD Gothic Neo', serif;
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 600;
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
+
+header p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 560px;
+}
+
+.meta-row {
+  display: flex;
+  gap: 20px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.meta-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--text-tertiary);
+  display: inline-block;
+}
+
+/* Grid */
+.grid {
+  max-width: 860px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* Card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 20px 18px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+}
+
+.card:hover::before { opacity: 1; }
+
+/* Color accents per badge */
+.card[data-badge="SET"]::before, .card[data-badge="TLT"]::before { background: #1D9E75; }
+.card[data-badge="SDT"]::before, .card[data-badge="KBV"]::before { background: #378ADD; }
+.card[data-badge="CAT"]::before, .card[data-badge="PCT"]::before { background: #D85A30; }
+.card[data-badge="SIT"]::before, .card[data-badge="COR"]::before { background: #7F77DD; }
+.card[data-badge="DCT"]::before, .card[data-badge="AMO"]::before { background: #BA7517; }
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.rank-num {
+  font-family: Georgia, 'Apple SD Gothic Neo', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  line-height: 1;
+  min-width: 40px;
+}
+
+.rank-num.top { color: var(--text-primary); }
+
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+}
+
+.badge-teal   { background: #E1F5EE; color: #0F6E56; border-color: #9FE1CB; }
+.badge-blue   { background: #E6F1FB; color: #185FA5; border-color: #B5D4F4; }
+.badge-coral  { background: #FAECE7; color: #993C1D; border-color: #F5C4B3; }
+.badge-purple { background: #EEEDFE; color: #534AB7; border-color: #CECBF6; }
+.badge-amber  { background: #FAEEDA; color: #854F0B; border-color: #FAC775; }
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 3px;
+  color: var(--text-primary);
+}
+
+.card-author {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-bottom: 10px;
+}
+
+.card-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+
+.influence-wrap { margin-bottom: 12px; }
+
+.influence-bar {
+  height: 3px;
+  background: #edecea;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.influence-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: #ccc;
+  transition: width 0.6s ease;
+}
+
+.card[data-badge="SET"] .influence-fill { background: #1D9E75; }
+.card[data-badge="TLT"] .influence-fill { background: #1D9E75; }
+.card[data-badge="SDT"] .influence-fill { background: #378ADD; }
+.card[data-badge="KBV"] .influence-fill { background: #378ADD; }
+.card[data-badge="CAT"] .influence-fill { background: #D85A30; }
+.card[data-badge="PCT"] .influence-fill { background: #D85A30; }
+.card[data-badge="SIT"] .influence-fill { background: #7F77DD; }
+.card[data-badge="COR"] .influence-fill { background: #7F77DD; }
+.card[data-badge="DCT"] .influence-fill { background: #BA7517; }
+.card[data-badge="AMO"] .influence-fill { background: #BA7517; }
+
+.tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.tag {
+  font-size: 11px;
+  background: #f0eeea;
+  color: var(--text-secondary);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.card-arrow {
+  position: absolute;
+  bottom: 18px; right: 18px;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  transition: transform 0.2s, color 0.2s;
+}
+
+.card:hover .card-arrow { transform: translate(2px, -2px); color: var(--text-primary); }
+
+/* Modal */
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(20,20,18,0.55);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.overlay.open { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 32px;
+  max-width: 580px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  background: #f0eeea; border: none;
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.modal-close:hover { background: #e5e3de; }
+
+.modal-header { margin-bottom: 20px; padding-right: 60px; }
+
+.modal-rank {
+  font-family: Georgia, 'Apple SD Gothic Neo', serif;
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-title {
+  font-family: Georgia, 'Apple SD Gothic Neo', serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.modal-en {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-bottom: 4px;
+}
+
+.modal-author {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.influence-note {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  background: #f7f5f0;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.section { margin-bottom: 20px; }
+
+.section-title {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.quote-block {
+  border-left: 3px solid #e5e3de;
+  padding: 10px 16px;
+  font-family: Georgia, 'Apple SD Gothic Neo', serif;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  font-style: italic;
+}
+
+.concept-list { list-style: none; }
+
+.concept-list li {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 5px 0 5px 14px;
+  position: relative;
+  line-height: 1.6;
+  border-bottom: 1px solid #f0eeea;
+}
+
+.concept-list li:last-child { border-bottom: none; }
+
+.concept-list li::before {
+  content: '';
+  position: absolute; left: 0; top: 13px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #ccc;
+}
+
+.flow-block {
+  background: #f7f5f0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+
+.critique-list { list-style: none; }
+
+.critique-list li {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 5px 0 5px 18px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.critique-list li::before {
+  content: '!';
+  position: absolute; left: 0;
+  font-size: 11px;
+  color: #D85A30;
+  font-weight: 700;
+  top: 6px;
+}
+
+.source-link-wrap {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.source-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: #f0eeea;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.source-link:hover {
+  background: #e5e3de;
+  color: var(--text-primary);
+}
+
+footer {
+  max-width: 860px;
+  margin: 48px auto 0;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  text-align: center;
+  line-height: 1.7;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">학위논문 핵심 이론 학습자료</div>
+  <h1>핵심 이론 10선</h1>
+  <p>조직행동론·전략경영 분야 학위논문 주제 후보에서 활용되는 overarching theory를 학계 파급력 순으로 정리했습니다.</p>
+  <div class="meta-row">
+    <span class="meta-item"><span class="meta-dot"></span> 총 10개 이론</span>
+    <span class="meta-item"><span class="meta-dot"></span> 피인용 수·학계 영향력 기준 정렬</span>
+    <span class="meta-item"><span class="meta-dot"></span> 카드 클릭 시 상세 내용 확인</span>
+  </div>
+</header>
+
+<div class="grid" id="grid"></div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="close-btn">닫기 ✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<footer>
+  각 이론의 원전 논문을 직접 읽는 것을 권장합니다.<br>
+  특히 Edmondson (1999), Rousseau (1989), Deci &amp; Ryan (1985)은 조직행동론 필독 고전입니다.
+</footer>
+
+<script>
+const theories = [
+  {
+    rank: 1, badge: 'SET', badgeClass: 'badge-teal',
+    title: '사회교환이론', en: 'Social Exchange Theory',
+    author: 'Blau (1964)',
+    influence: 100,
+    influenceNote: 'Google Scholar 피인용 ~50만+ 회 · 조직행동론에서 가장 광범위하게 인용되는 이론',
+    desc: '호혜성 규범에 따라 조직 지원이 구성원 기여 행동으로 이어지는 교환 관계',
+    tags: ['호혜성', '사회적 교환', 'OCB'],
+    quote: '"사회적 관계는 상호 교환을 통해 형성되며, 한쪽이 호의를 베풀면 다른 쪽은 이를 갚아야 한다는 호혜성 규범이 관계를 유지시킨다."',
+    concepts: ['경제적 교환 — 명시적·단기적·계약 기반', '사회적 교환 — 암묵적·장기적·신뢰 기반', '호혜성(Reciprocity) — 호의를 받으면 갚으려는 심리적 의무감', '조직 지원 → 구성원 OCB·직무 몰입·혁신 행동 증가', '부당한 대우 → 기여 감소, 이직 의도·반생산적 행동 증가'],
+    flow: '심리적 안전감이 높은 팀 환경 (조직의 호의)\n→ 구성원의 심리적 의무감 형성\n→ 지식 공유·발언 행동 증가 (호혜적 반응)\n→ 팀 혁신 성과 향상',
+    critique: ['호혜성 발동 시점·메커니즘이 불분명하다는 지적', '이론만으로는 교환의 내용을 특정하기 어려워 다른 이론과 병행 필요', '부정적 교환(착취, 불공정) 상황을 충분히 설명하지 못함'],
+    url: 'https://scholar.google.com/scholar?q=Blau+1964+Exchange+Power+Social+Life'
+  },
+  {
+    rank: 2, badge: 'SDT', badgeClass: 'badge-blue',
+    title: '자기결정성이론', en: 'Self-Determination Theory',
+    author: 'Deci & Ryan (1985)',
+    influence: 95,
+    influenceNote: 'Google Scholar 피인용 ~40만+ 회 · 교육·조직·임상 전 분야에서 동기 이론의 표준',
+    desc: '자율성·역량감·관계성 충족이 내재적 동기를 활성화해 창의성과 웰빙을 높임',
+    tags: ['자율성', '역량감', '관계성', '내재적 동기'],
+    quote: '"인간의 동기는 세 가지 기본 심리 욕구(자율성·역량감·관계성)의 충족 여부에 따라 분화되며, 내재적 동기가 높을수록 창의성·지속성·웰빙이 높아진다."',
+    concepts: ['자율성(Autonomy) — 스스로 결정하는 느낌 (업무 방식 선택권 등)', '역량감(Competence) — 효과적으로 수행할 수 있다는 느낌', '관계성(Relatedness) — 타인과 연결되고 소속된 느낌', '동기 연속체: 무동기 → 외재적 → 내사 → 동일시 → 통합 → 내재적', '외적 보상이 내재적 동기를 저하시킬 수 있음 (Over-justification Effect)'],
+    flow: '포용적 리더십 (IV)\n→ 관계성 + 자율성 욕구 충족 (Mediator)\n→ 내재적 동기 활성화\n→ 창의성 증가 (DV)',
+    critique: ['집단주의 문화에서는 관계성이 자율성보다 더 중요할 수 있음', '세 욕구 간 위계·상호작용을 명확히 하지 않음', '욕구 충족의 주관적 지각을 측정하는 척도의 타당도 논란'],
+    url: 'https://scholar.google.com/scholar?q=Deci+Ryan+1985+Intrinsic+Motivation+Self+Determination'
+  },
+  {
+    rank: 3, badge: 'CAT', badgeClass: 'badge-coral',
+    title: '인지적 평가이론', en: 'Cognitive Appraisal Theory',
+    author: 'Lazarus & Folkman (1984)',
+    influence: 88,
+    influenceNote: 'Google Scholar 피인용 ~10만+ 회 · 심리학·조직행동론 스트레스 연구의 표준 준거틀',
+    desc: '동일 사건도 개인의 평가 방식에 따라 위협 또는 도전으로 달리 인식됨',
+    tags: ['1차 평가', '2차 평가', '위협/도전 평가'],
+    quote: '"스트레스 반응은 외부 사건이 아닌, 개인이 그 자극을 어떻게 평가하느냐에 달려 있다."',
+    concepts: ['1차 평가(Primary Appraisal) — "이 사건이 나에게 중요한가?" (무관련/양성/스트레스)', '2차 평가(Secondary Appraisal) — "내가 대처할 자원이 있는가?"', '위협 평가 → 손실·실패에 초점 → 회피·저항·불안', '도전 평가 → 성장·이득에 초점 → 접근·혁신·자신감', '동일한 독립변수가 상반된 결과를 낳는 이유를 설명'],
+    flow: '디지털 전환 자극\n→ 1차 평가: 내 직무에 영향이 있는가?\n→ 2차 평가: 내가 대처할 역량이 있는가?\n  NO → 저항·회피 행동\n  YES → 혁신·학습 행동\n     ↑ 변혁적 리더십이 2차 평가를 도전 방향으로 조절',
+    critique: ['평가 과정이 순차적이지 않고 동시에 이루어질 수 있다는 지적', "'평가'를 측정하는 표준화된 척도 부족", '개인 수준 설명에 집중 → 집단·조직 수준 분석 직접 적용 제한'],
+    url: 'https://scholar.google.com/scholar?q=Lazarus+Folkman+1984+Stress+Appraisal+Coping'
+  },
+  {
+    rank: 4, badge: 'SIT', badgeClass: 'badge-purple',
+    title: '사회적 정체성 이론', en: 'Social Identity Theory',
+    author: 'Tajfel & Turner (1979)',
+    influence: 85,
+    influenceNote: 'Google Scholar 피인용 ~10만+ 회 · 사회심리학·조직심리학 필수 이론',
+    desc: '집단 소속감이 강할수록 집단 목표에 부합하는 창의적 기여 행동이 증가함',
+    tags: ['범주화', '동일시', '내집단', '조직 동일시'],
+    quote: '"개인은 자신이 속한 집단을 긍정적으로 평가하려는 동기를 가지며, 이 집단 정체성이 강할수록 집단의 목표와 규범에 맞는 행동을 더 많이 한다."',
+    concepts: ['사회적 범주화 — 어느 집단에 속하는가?', '사회적 정체성 — 집단 구성원으로서의 자아 인식', '사회적 비교 — 내집단 > 외집단이기를 바라는 동기', '긍정적 자아 개념 유지 → 내집단 기여 행동 증가', '포용적 리더십 → 조직 동일시 강화 → 창의적 기여'],
+    flow: '포용적 리더십 (IV)\n→ "나는 이 집단의 가치 있는 일원"이라는 사회적 정체성 형성\n→ 심리적 소속감 (Mediator)\n→ 창의성·혁신 행동 (DV)\n   ↑ 팀 다양성 (Moderator)',
+    critique: ['다중 집단 소속 시 정체성 충돌 설명 부족', '집단 정체성 강화가 지나칠 경우 편향·배타성으로 이어질 수 있음', '원래 집단 간 갈등 설명 이론 → 조직 내 개인 행동 설명에는 수정 필요'],
+    url: 'https://scholar.google.com/scholar?q=Tajfel+Turner+1979+Social+Identity+Theory+intergroup+conflict'
+  },
+  {
+    rank: 5, badge: 'COR', badgeClass: 'badge-purple',
+    title: '자원보존이론', en: 'Conservation of Resources Theory',
+    author: 'Hobfoll (1989)',
+    influence: 80,
+    influenceNote: 'Google Scholar 피인용 ~3만+ 회 · 조직 스트레스·번아웃 연구의 지배적 이론',
+    desc: '자원 손실 위협이 스트레스와 저항 행동을 유발하는 메커니즘',
+    tags: ['손실 우선성', '자원 나선', '번아웃'],
+    quote: '"사람들은 자신이 가진 자원을 보호하고 늘리려는 동기를 가지며, 자원이 손실되거나 손실 위협에 처할 때 스트레스가 발생한다."',
+    concepts: ['물질 자원(Object) — 집, 자동차, 돈 등 유형 재화', '상황 자원(Condition) — 고용 안정, 결혼, 연공서열', '개인 자원(Personal) — 자기효능감, 낙관성, 회복탄력성', '에너지 자원(Energy) — 시간, 지식, 돈', '손실 우선성 원칙 — 잃는 것이 얻는 것보다 심리적 충격이 훨씬 큼', '자원 손실 나선 — 손실이 추가 손실을 유발하는 악순환'],
+    flow: '디지털 전환 도입\n→ 구성원이 직무 안정성·역량·자율성을 자원 손실로 인식\n→ 스트레스 및 저항 행동 발생 (자원 보호 반응)\n→ 심리적 안전감 저하 (에너지 자원 고갈)',
+    critique: ['자원 범주가 지나치게 광범위하여 측정이 어렵다는 지적', '자원 획득 동기를 과소평가하고 손실 회피에 지나치게 초점', '문화권에 따라 자원 인식 차이 → 보편성 의문'],
+    url: 'https://scholar.google.com/scholar?q=Hobfoll+1989+Conservation+of+Resources+Theory+stress'
+  },
+  {
+    rank: 6, badge: 'PCT', badgeClass: 'badge-coral',
+    title: '심리적 계약 이론', en: 'Psychological Contract Theory',
+    author: 'Rousseau (1989)',
+    influence: 74,
+    influenceNote: 'Google Scholar 피인용 ~2만+ 회 · HRM·고용관계 연구의 핵심 분석 틀',
+    desc: '개인이 인식하는 암묵적 의무·기대의 집합; 위반 시 이직 의도 급증',
+    tags: ['거래적 계약', '관계적 계약', 'Breach', 'Violation'],
+    quote: '"심리적 계약이란 개인이 고용 관계에서 상호 의무에 대해 갖는 주관적 믿음의 집합이다."',
+    concepts: ['거래적 계약 — 경제적 조건 중심, 단기적, 유연성 낮음', '관계적 계약 — 충성·헌신 중심, 장기적, 유연성 높음', 'Breach(계약 불이행) — 인지적 판단 (객관적 사실)', 'Violation(위반감) — 배신감·분노의 정서적 반응', '알고리즘 관리 → 알고리즘 자체와의 심리적 계약 형성 가능'],
+    flow: '심리적 계약 이행 (IV)\n→ 직무 만족 (Mediator)\n→ 이직 의도 감소 (DV)\n   ↑ 알고리즘 관리 강도 (Moderator): 계약 이행 인식을 약화',
+    critique: ['계약 내용이 개인마다 달라 표준화 측정 어려움', '위반 결과 연구에 편중, 형성 과정 연구 부족', '전통 고용 관계 전제 → 긱·플랫폼 노동 적용에 이론 확장 필요'],
+    url: 'https://scholar.google.com/scholar?q=Rousseau+1989+Psychological+Contract+Organizations'
+  },
+  {
+    rank: 7, badge: 'TLT', badgeClass: 'badge-teal',
+    title: '팀 학습 이론', en: 'Team Learning Theory',
+    author: 'Edmondson (1999)',
+    influence: 68,
+    influenceNote: 'Google Scholar 피인용 ~1만+ 회 · Google Project Aristotle(2016)로 실무 파급력 폭발적 확대',
+    desc: '심리적 안전감이 팀 학습 행동을 활성화해 혁신 성과로 이어짐',
+    tags: ['심리적 안전감', '오류 공유', '발언', '팀 학습'],
+    quote: '"팀은 개인의 합이 아닌 집합적 학습 단위이며, 심리적 안전감이 보장될 때 오류 공유·실험·피드백이 활성화되고 이것이 혁신으로 이어진다."',
+    concepts: ['발언(Speaking up) — 문제·우려·아이디어를 자유롭게 표현', '실험(Experimenting) — 새로운 방법을 시도하고 결과를 관찰', '성찰(Reflecting) — 과거 행동과 결과를 되돌아보는 논의', '경계 확장(Boundary spanning) — 팀 외부 정보·자원 탐색', '오류 토론(Error discussion) — 실수를 숨기지 않고 공유하며 학습'],
+    flow: '팀 심리적 안전감 (IV)\n→ 지식 공유 행동 (Mediator)\n→ 팀 혁신 성과 (DV)\n   ↑ 팀 다양성 (Moderator)',
+    critique: ['과잉 적용 시 방종으로 이어질 수 있음', '팀 학습과 성과 간 Time Lag를 횡단 연구로 측정 어려움', '팀 수준 심리적 안전감을 개인 응답 평균으로 집계하는 방법론적 한계'],
+    url: 'https://scholar.google.com/scholar?q=Edmondson+1999+Psychological+Safety+Learning+Behavior+Work+Teams'
+  },
+  {
+    rank: 8, badge: 'DCT', badgeClass: 'badge-amber',
+    title: '동적역량이론', en: 'Dynamic Capability Theory',
+    author: 'Teece et al. (1997)',
+    influence: 62,
+    influenceNote: 'Google Scholar 피인용 ~3만+ 회 · 전략경영 분야 핵심; 조직행동론 적용은 비교적 제한적',
+    desc: '외부 환경 변화에 맞춰 내부 역량을 감지·포착·재구성하는 조직 능력',
+    tags: ['감지', '포착', '재구성', 'VRIN'],
+    quote: '"동적역량이란 빠르게 변화하는 환경에 대응하여 내·외부 역량을 통합·구축·재구성하는 기업의 능력이다."',
+    concepts: ['감지(Sensing) — 외부 기회·위협 탐지', '포착(Seizing) — 기회를 잡기 위한 자원 배분', '재구성(Reconfiguring) — 기존 자산·역량의 변환', 'VRIN 자원과 달리, 역량 자체의 변화 능력에 초점', '조직양면성(Ambidexterity)과 연계: 탐색과 활용의 균형'],
+    flow: '흡수역량 (IV)\n→ 외부 지식 감지·포착\n→ 내부 역량 재구성 (Mediator)\n→ 혁신 성과 (DV)\n   ↑ 학습 지향 리더십 (Moderator)',
+    critique: ['동적역량의 정의가 지나치게 추상적', '실증 연구에서 측정·조작화가 어려움', '중소기업이나 안정적 산업에서는 적용 한계'],
+    url: 'https://scholar.google.com/scholar?q=Teece+Pisano+Shuen+1997+Dynamic+Capabilities+Strategic+Management'
+  },
+  {
+    rank: 9, badge: 'AMO', badgeClass: 'badge-amber',
+    title: 'AMO 이론', en: 'Ability-Motivation-Opportunity Theory',
+    author: 'Appelbaum et al. (2000)',
+    influence: 55,
+    influenceNote: 'Google Scholar 피인용 ~5천+ 회 · 전략적 HRM 연구의 표준 분석 틀',
+    desc: '역량·동기·참여 기회가 동시에 갖춰질 때 구성원 성과가 극대화됨',
+    tags: ['Ability', 'Motivation', 'Opportunity', 'HPWS'],
+    quote: '"구성원의 성과는 역량(Ability)·동기(Motivation)·참여 기회(Opportunity) 세 요소가 동시에 갖추어질 때 극대화된다."',
+    concepts: ['Ability(역량) — 교육훈련, 선발, 직무설계를 통한 역량 개발', 'Motivation(동기) — 성과급, 인정, 자율성 부여', 'Opportunity(기회) — 참여 기회, 발언권, 정보 접근', '세 요소의 상호보완성 — 하나라도 결여 시 성과 저하', '고성과 작업 시스템(HPWS)의 효과를 설명하는 이론적 틀'],
+    flow: 'HR 시스템 설계\n→ A(역량 개발) + M(동기 부여) + O(참여 기회) 동시 제공\n→ 구성원 성과 행동 극대화\n→ 조직양면성(탐색+활용) 달성',
+    critique: ['세 요소의 상호작용 방식(덧셈? 곱셈?)에 대한 논의 부족', '개인 차이(성격, 자기효능감)가 AMO 효과에 미치는 영향 간과', '시간에 따른 변화나 조직 수준 동학을 설명하지 못함'],
+    url: 'https://scholar.google.com/scholar?q=Appelbaum+2000+Manufacturing+Advantage+AMO+Theory'
+  },
+  {
+    rank: 10, badge: 'KBV', badgeClass: 'badge-blue',
+    title: '지식기반이론', en: 'Knowledge-Based View',
+    author: 'Grant (1996)',
+    influence: 48,
+    influenceNote: 'Google Scholar 피인용 ~1만+ 회 · 전략경영 영역 주류; 조직행동론 내 흡수역량 연구에 집중',
+    desc: '조직의 지속 가능한 경쟁 우위는 지식 자산의 축적·통합 역량에서 비롯됨',
+    tags: ['명시적 지식', '암묵적 지식', '지식 통합', 'VRIN'],
+    quote: '"기업의 지속 가능한 경쟁 우위는 조직이 축적하고 통합하는 지식 자산에 달려 있으며, 조직 학습은 외부 지식을 내부 역량으로 전환하는 핵심 메커니즘이다."',
+    concepts: ['명시적 지식(Explicit) — 언어·문서화 가능, 전이 용이', '암묵적 지식(Tacit) — 경험 기반, 모방 어려워 경쟁 우위 원천', '규칙과 지침 — 표준화된 절차로 암묵지를 명시화', '순서화·루틴 — 반복적 패턴으로 지식 조율', '집단 문제 해결 — 복잡한 문제에서 직접 상호작용으로 지식 통합'],
+    flow: '흡수 역량 (IV)\n→ 외부 지식을 내부로 전환하는 지식 통합 역량 강화\n→ 조직 학습 (Mediator): 지식 저장·변환·활용\n→ 혁신 성과 (DV)\n   ↑ 학습 지향 리더십 (Moderator)',
+    critique: ['어떤 지식이 경쟁 우위를 만드는지 사후에만 알 수 있음', '개인 수준 지식과 조직 수준 역량 연결 경로 불분명', '암묵지 측정의 실증적 한계'],
+    url: 'https://scholar.google.com/scholar?q=Grant+1996+Knowledge+Based+Theory+Firm+Strategic+Management'
+  }
+];
+
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = theories.map((t, i) => `
+    <div class="card" data-badge="${t.badge}" onclick="openModal(${i})">
+      <div class="card-top">
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <span class="rank-num${t.rank <= 3 ? ' top' : ''}">${String(t.rank).padStart(2, '0')}</span>
+          <div>
+            <div class="card-title">${t.title}</div>
+            <div class="card-author">${t.author}</div>
+          </div>
+        </div>
+        <span class="badge ${t.badgeClass}">${t.badge}</span>
+      </div>
+      <div class="card-desc">${t.desc}</div>
+      <div class="influence-wrap">
+        <div class="influence-bar">
+          <div class="influence-fill" style="width:${t.influence}%"></div>
+        </div>
+      </div>
+      <div class="tag-row">${t.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+      <span class="card-arrow">↗</span>
+    </div>
+  `).join('');
+}
+
+function openModal(idx) {
+  const t = theories[idx];
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-header">
+      <div class="modal-rank">
+        <span>${t.rank}위</span>
+        <span class="badge ${t.badgeClass}">${t.badge}</span>
+      </div>
+      <div class="modal-title">${t.title}</div>
+      <div class="modal-en">${t.en}</div>
+      <div class="modal-author">${t.author}</div>
+    </div>
+    <div class="influence-note">${t.influenceNote}</div>
+    <div class="section">
+      <div class="section-title">핵심 명제</div>
+      <div class="quote-block">${t.quote}</div>
+    </div>
+    <div class="section">
+      <div class="section-title">핵심 개념</div>
+      <ul class="concept-list">${t.concepts.map(c => `<li>${c}</li>`).join('')}</ul>
+    </div>
+    <div class="section">
+      <div class="section-title">논문 적용 흐름</div>
+      <div class="flow-block">${t.flow}</div>
+    </div>
+    <div class="section">
+      <div class="section-title">비판점</div>
+      <ul class="critique-list">${t.critique.map(c => `<li>${c}</li>`).join('')}</ul>
+    </div>
+    <div class="source-link-wrap">
+      <a class="source-link" href="${t.url}" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        원문 검색 (Google Scholar)
+      </a>
+    </div>
+  `;
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('modal').scrollTop = 0;
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+}
+
+document.getElementById('overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.getElementById('close-btn').addEventListener('click', closeModal);
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+renderGrid();
+</script>
+</body>
+</html>

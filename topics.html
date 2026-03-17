@@ -393,6 +393,114 @@ body {
 .sidebar::-webkit-scrollbar { width: 4px; }
 .sidebar::-webkit-scrollbar-track { background: transparent; }
 .sidebar::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+
+/* ── AI Chat ── */
+.ai-feedback-btn {
+  font-size: 12px; font-weight: 600;
+  background: #F3F0FF; color: #5B3FD9;
+  border: 1px solid #C4B5FD; border-radius: var(--radius-sm);
+  padding: 6px 16px; cursor: pointer;
+  font-family: inherit; transition: background 0.15s;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.ai-feedback-btn:hover { background: #E9E4FF; }
+
+.chat-overlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.3); backdrop-filter: blur(2px);
+}
+.chat-overlay.open { display: flex; justify-content: flex-end; }
+
+.chat-panel {
+  width: 420px; max-width: 95vw;
+  background: var(--surface);
+  display: flex; flex-direction: column;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+  animation: slideIn 0.22s ease;
+}
+@keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+.chat-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--border-strong);
+  background: #F3F0FF; flex-shrink: 0;
+}
+.chat-panel-title { font-size: 14px; font-weight: 700; color: #3B1FA8; }
+.chat-panel-subtitle { font-size: 11px; color: #7C5AC9; margin-top: 2px; }
+.chat-close-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 20px; color: #7C5AC9; line-height: 1; padding: 4px;
+}
+
+.chat-api-setup {
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  background: #FAFAFA; flex-shrink: 0;
+}
+.chat-api-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); font-weight: 700; margin-bottom: 6px; }
+.chat-api-row { display: flex; gap: 6px; }
+.chat-api-input {
+  flex: 1; font-size: 11px; padding: 6px 10px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  font-family: inherit; outline: none;
+}
+.chat-api-input:focus { border-color: #8B6EEA; }
+.chat-api-save {
+  font-size: 11px; font-weight: 600; padding: 6px 10px;
+  border: 1px solid #C4B5FD; border-radius: var(--radius-sm);
+  background: #F3F0FF; color: #5B3FD9;
+  cursor: pointer; font-family: inherit; white-space: nowrap;
+}
+.chat-api-save:hover { background: #E9E4FF; }
+
+.chat-context-bar {
+  padding: 10px 20px; background: #F7F5F0;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px; color: var(--text-tertiary); flex-shrink: 0;
+  display: flex; align-items: flex-start; gap: 6px;
+}
+.chat-context-bar strong { color: var(--text-secondary); }
+
+.chat-messages {
+  flex: 1; overflow-y: auto;
+  padding: 16px 20px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.chat-msg {
+  max-width: 88%; line-height: 1.7; font-size: 13px;
+  padding: 10px 14px; border-radius: 12px; white-space: pre-wrap; word-break: break-word;
+}
+.chat-msg.user {
+  align-self: flex-end;
+  background: #5B3FD9; color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.chat-msg.ai {
+  align-self: flex-start;
+  background: #F3F0FF; color: var(--text-primary);
+  border-bottom-left-radius: 4px;
+}
+.chat-msg.ai.thinking { color: var(--text-tertiary); font-style: italic; }
+
+.chat-input-area {
+  padding: 12px 20px; border-top: 1px solid var(--border-strong);
+  display: flex; gap: 8px; flex-shrink: 0;
+}
+.chat-input {
+  flex: 1; font-size: 13px; padding: 9px 14px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  font-family: inherit; outline: none; resize: none;
+  max-height: 100px; line-height: 1.6;
+}
+.chat-input:focus { border-color: #8B6EEA; }
+.chat-send-btn {
+  font-size: 13px; font-weight: 700;
+  background: #5B3FD9; color: #fff;
+  border: none; border-radius: var(--radius-sm);
+  padding: 9px 16px; cursor: pointer; font-family: inherit;
+  transition: background 0.15s; align-self: flex-end;
+}
+.chat-send-btn:hover { background: #4A31BB; }
+.chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 </style>
 </head>
 <body>
@@ -434,6 +542,34 @@ body {
       <div class="empty-state-text">좌측에서 주제를 선택하세요</div>
     </div>
   </main>
+</div>
+
+<!-- AI Chat Modal -->
+<div class="chat-overlay" id="chat-overlay" onclick="closeChatOnOverlay(event)">
+  <div class="chat-panel">
+    <div class="chat-panel-header">
+      <div>
+        <div class="chat-panel-title">✦ AI 연구 어시스턴트</div>
+        <div class="chat-panel-subtitle" id="chat-topic-subtitle">메모 피드백 · HR 학위논문</div>
+      </div>
+      <button class="chat-close-btn" onclick="closeChat()">×</button>
+    </div>
+    <div class="chat-api-setup" id="chat-api-setup">
+      <div class="chat-api-label">Anthropic API Key</div>
+      <div class="chat-api-row">
+        <input type="password" class="chat-api-input" id="chat-api-input" placeholder="sk-ant-..." autocomplete="off">
+        <button class="chat-api-save" onclick="saveApiKey()">저장</button>
+      </div>
+    </div>
+    <div class="chat-context-bar" id="chat-context-bar"></div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chat-input" rows="1"
+        placeholder="질문을 입력하세요... (Enter 전송, Shift+Enter 줄바꿈)"
+        oninput="autoResizeChatInput(this)"></textarea>
+      <button class="chat-send-btn" id="chat-send-btn" onclick="sendChatMessage()">전송</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -935,7 +1071,10 @@ function showTopic(idx) {
       >${localStorage.getItem(`hr-memo-${t.num}`) || ''}</textarea>
       <div class="memo-footer">
         <span class="memo-hint">Ctrl+S 또는 저장 버튼으로 저장 · 브라우저에 보관됩니다</span>
-        <button class="memo-btn" onclick="saveMemo('${t.num}', ${idx})">저장</button>
+        <div style="display:flex;gap:8px;">
+          <button class="memo-btn" onclick="saveMemo('${t.num}', ${idx})">저장</button>
+          <button class="ai-feedback-btn" onclick="openChat(${idx})">✦ AI 피드백</button>
+        </div>
       </div>
     </div>
   `;
@@ -1146,6 +1285,174 @@ function saveMemo(topicNum, idx) {
     dot.style.border = `1px solid ${value ? color : 'var(--border-strong)'}`;
   }
 }
+
+// ── AI Chat ──
+let chatHistory = [];
+let chatTopicIdx = 0;
+
+function saveApiKey() {
+  const input = document.getElementById('chat-api-input');
+  if (!input.value.trim()) return;
+  localStorage.setItem('anthropic-api-key', input.value.trim());
+  input.value = '';
+  document.getElementById('chat-api-setup').style.display = 'none';
+  appendChatMsg('ai', 'API Key 저장됐습니다. 무엇이든 물어보세요!');
+}
+
+function getApiKey() {
+  return localStorage.getItem('anthropic-api-key') || '';
+}
+
+function openChat(idx) {
+  chatTopicIdx = idx;
+  chatHistory = [];
+  const t = topics[idx];
+  const memo = localStorage.getItem(`hr-memo-${t.num}`) || '';
+
+  // 모달 열기
+  document.getElementById('chat-overlay').classList.add('open');
+  document.getElementById('chat-topic-subtitle').textContent = `${t.num}. ${t.title}`;
+  document.getElementById('chat-messages').innerHTML = '';
+
+  // API key 설정 영역
+  const setup = document.getElementById('chat-api-setup');
+  if (getApiKey()) {
+    setup.style.display = 'none';
+  } else {
+    setup.style.display = 'block';
+    const input = document.getElementById('chat-api-input');
+    input.placeholder = 'sk-ant-... (한 번만 입력하면 저장됩니다)';
+  }
+
+  // 컨텍스트 바
+  const contextBar = document.getElementById('chat-context-bar');
+  if (memo.trim()) {
+    const preview = memo.length > 60 ? memo.slice(0, 60) + '…' : memo;
+    contextBar.innerHTML = `<span>📝</span><span><strong>메모 기반 피드백 모드</strong> — "${preview}"</span>`;
+    contextBar.style.display = 'flex';
+  } else {
+    contextBar.innerHTML = `<span>💡</span><span>메모가 없습니다. 자유롭게 질문하세요.</span>`;
+    contextBar.style.display = 'flex';
+  }
+
+  // 첫 메시지 (메모 있을 때 자동 요청)
+  if (memo.trim() && getApiKey()) {
+    const firstMsg = `아래는 제가 이 주제를 공부하면서 적은 메모입니다. 내용을 검토하고 연구 방향이나 논리 구성에 대한 피드백을 주세요.\n\n---\n${memo}\n---`;
+    sendToApi(firstMsg, idx);
+  } else if (getApiKey()) {
+    appendChatMsg('ai', `안녕하세요! **${t.title}** 주제에 대해 무엇이든 질문해 주세요.\n연구 방향, 이론 적용, 변수 설계 등 도움이 필요한 부분을 알려주세요.`);
+  }
+
+  document.getElementById('chat-input').focus();
+}
+
+function closeChat() {
+  document.getElementById('chat-overlay').classList.remove('open');
+}
+
+function closeChatOnOverlay(e) {
+  if (e.target === document.getElementById('chat-overlay')) closeChat();
+}
+
+function appendChatMsg(role, content) {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  div.textContent = content;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return div;
+}
+
+function autoResizeChatInput(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+}
+
+async function sendChatMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  if (!getApiKey()) {
+    document.getElementById('chat-api-setup').style.display = 'block';
+    document.getElementById('chat-api-input').focus();
+    return;
+  }
+  input.value = '';
+  input.style.height = 'auto';
+  await sendToApi(text, chatTopicIdx);
+}
+
+async function sendToApi(userText, idx) {
+  const t = topics[idx];
+  const memo = localStorage.getItem(`hr-memo-${t.num}`) || '';
+
+  // 시스템 프롬프트
+  const systemPrompt = `당신은 HR 분야 학위논문 연구를 돕는 전문 연구 어시스턴트입니다.
+현재 사용자가 검토 중인 연구 주제는 다음과 같습니다:
+
+제목: ${t.title}
+분야: ${t.field}
+이론적 배경: ${t.theories.join(', ')}
+독립변수: ${t.model.iv.replace('\n', ', ')}
+매개변수: ${t.model.med}
+조절변수: ${t.model.mod}
+종속변수: ${t.model.dv.replace('\n', ', ')}
+
+연구자의 메모: ${memo || '(없음)'}
+
+학문적이고 건설적인 피드백을 한국어로 제공하세요. 논리적 흐름, 이론 정합성, 변수 설계, 선행연구 연결 등에 집중하여 구체적으로 답변하세요.`;
+
+  appendChatMsg('user', userText);
+  chatHistory.push({ role: 'user', content: userText });
+
+  const thinkingDiv = appendChatMsg('ai thinking', '생각 중…');
+  document.getElementById('chat-send-btn').disabled = true;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': getApiKey(),
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: chatHistory
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error?.message || `HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    const reply = data.content[0].text;
+    chatHistory.push({ role: 'assistant', content: reply });
+
+    thinkingDiv.textContent = reply;
+    thinkingDiv.classList.remove('thinking');
+  } catch(e) {
+    thinkingDiv.textContent = '오류: ' + e.message;
+    thinkingDiv.classList.remove('thinking');
+    chatHistory.pop(); // 실패한 user 메시지 제거
+  } finally {
+    document.getElementById('chat-send-btn').disabled = false;
+  }
+}
+
+// Enter 전송
+document.addEventListener('keydown', function(e) {
+  if (e.target.id === 'chat-input' && e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+});
 
 // Ctrl+S to save
 document.addEventListener('keydown', function(e) {

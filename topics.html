@@ -1157,7 +1157,7 @@ async function loadFromGitHub() {
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
-    const data = JSON.parse(atob(json.content.replace(/\n/g,'')));
+    const data = JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g,'')))));
     topics.forEach(t => {
       if (data[t.num] !== undefined) localStorage.setItem(`hr-memo-${t.num}`, data[t.num]);
     });

@@ -558,7 +558,7 @@ body {
 
 <div class="page-wrapper">
   <aside class="sidebar">
-    <div class="sidebar-header">학위논문 주제 후보 6선</div>
+    <div class="sidebar-header">학위논문 주제 후보 8선</div>
     <div id="topic-nav"></div>
     <div class="sidebar-footer">
       <div class="sidebar-footer-label">GitHub 메모 동기화</div>
@@ -1000,6 +1000,65 @@ const topics = [
       { title: 'Oreg (2003)', content: '변화 저항 성향(RTC) 척도 개발 및 타당화', source: 'Journal of Applied Psychology', url: 'https://psycnet.apa.org/doi/10.1037/0021-9010.88.4.680' },
       { title: 'Oreg et al. (2008)', content: 'RTC 17개국 비교 연구: 문화 초월적 안정성 확인', source: 'Journal of Cross-Cultural Psychology', url: 'https://journals.sagepub.com/doi/10.1177/0022022108318621' },
       { title: 'Fugate et al. (2012)', content: '조직 변화 스트레스 → 웰빙 직접 경로 실증', source: 'Journal of Vocational Behavior', url: 'https://www.sciencedirect.com/science/article/abs/pii/S0001879112000085' }
+    ]
+  },
+  {
+    num: '08',
+    title: 'AI 자동화 저항 기질이 직무 몰입에 미치는 영향',
+    field: '변화관리 / 조직행동론',
+    color: '#0369A1',
+    colorLight: '#E0F2FE',
+    colorBorder: '#7DD3FC',
+    colorText: '#075985',
+    theories: ['자원보존이론 (COR)', '변화 저항 성향 이론 (RTC)', '기술수용모델 (TAM)'],
+    status: '검토중',
+    background: [
+      'Yoon et al.(2025)은 제6차 KWCS(2020) 데이터(n=17,087)를 분석하여 AI 자동화에 대한 걱정(Worry)이 직무 몰입(Job Engagement)을 유의하게 저하시키며(B = −.126, p < .001), 이 부정적 관계가 직무 자율성·복잡성 유형과 무관하게 모든 집단에서 보편적으로 나타남을 실증하였다. 이는 직무 특성이라는 외적 자원이 기술 불안을 완충하지 못함을 시사한다.',
+      '그러나 Yoon et al.은 논문 한계(4.2절)에서 "2020년 데이터를 사용했기 때문에 ChatGPT 등장(2022년 11월) 이후 생성형 AI 시대를 반영하지 못한다. post-2022 데이터 분석이 필요하다"고 직접 명시하였다. 현재 제7차 KWCS(2023년 조사)가 공개되어 이 요구를 충족할 수 있는 조건이 갖춰졌다.',
+      '기존 연구는 AI 불안을 일시적·상황적 감정 상태(Worry)로 측정하였으나, 동일 자극에 개인 간 반응 강도가 다른 이유를 설명하지 못한다. Oreg(2003)의 변화 저항 성향(RTC)은 변화 저항이 상황 반응이 아닌 개인의 안정적 기질(trait)임을 실증한 이론으로, 일상 고수·정서적 반응·단기 집중·인지적 경직의 4요인으로 구성된다.',
+      'AI 자동화(Ax)는 기존 디지털 전환(DX)과 달리 인간의 판단 영역·전문성·역할 정체성을 직접 대체하는 존재론적 위협을 가한다. Yoon et al.이 확인한 직무 특성의 완충 실패는 이 위협이 개인의 내적 기질 차이에 더 민감하게 반응함을 시사하며, 자원보존이론(COR)으로 그 경로를 설명할 수 있다.'
+    ],
+    problems: [
+      { title: 'Yoon et al.(2025) Gap: 개인 기질 변수 부재', body: 'Yoon et al.은 "왜 어떤 사람은 더 강하게 반응하는가"를 설명하지 못했다. 일시적 감정(걱정) 측정만으로는 개인 간 반응 차이를 설명할 수 없으며, 기질적 변화 저항성(RTC)이라는 안정적 성향 변수가 그 간극을 채울 수 있다.' },
+      { title: 'Yoon et al.(2025) Gap: 2020년 데이터 한계', body: '논문 저자 스스로 한계로 명시한 사항: 2020년 데이터는 ChatGPT 이전 시대를 반영하며, 생성형 AI 확산 이후의 근로자 인식 변화를 포착하지 못한다. 제7차 KWCS(2023)는 생성형 AI 상용화 이후 최초의 전국 단위 근로환경 데이터로 이를 직접 보완한다.' },
+      { title: '심리적 자원 고갈 경로의 미규명', body: 'COR 이론의 핵심은 어떤 자원이 어떤 경로로 손실되는지다. AI 자동화가 역할 정체성·전문성·통제감 등 구체적으로 어떤 심리적 자원을 고갈시키고, 그것이 몰입 저하로 이어지는지를 입증한 연구가 없다.' },
+      { title: '조직 개입 지점의 부재', body: 'Yoon et al.의 결론이 "조직 전체 차원 지원 필요"라는 거대 담론에 머문다면, 본 연구는 RTC 기질이 높은 집단에 대한 맞춤형 교육·보상 전략의 완충 효과를 실증함으로써 구체적 HR 처방을 도출할 수 있다.' }
+    ],
+    purposes: [
+      'AI 자동화 노출 강도가 심리적 자원 고갈(역할 정체성 위협, 전문성 손실 인식, 통제감 상실)을 매개로 직무 몰입에 미치는 부정적 영향을 COR 이론으로 실증',
+      '변화 저항 성향(RTC)이 AI 자동화 → 심리적 자원 고갈 경로를 조절하는지 검증하여 고위험 기질 집단 식별',
+      '조직의 교육 지원·보상 체계가 자원 고갈 → 몰입 저하 경로를 완충하는지 확인하여 HR 개입 근거 제시',
+      '제7차 KWCS(2023) 데이터를 활용하여 Yoon et al.(2025)의 2020 데이터 한계를 보완하고 생성형 AI 시대의 근로자 반응 실증'
+    ],
+    model: {
+      iv: 'AI 자동화\n노출 강도',
+      med: '심리적 자원 고갈\n(역할·전문성·통제감)',
+      dv: '직무 몰입\n(UWES-3)',
+      mod: 'RTC 기질 + 조직 지원'
+    },
+    contribAcademic: [
+      'Yoon et al.(2025)이 확인한 보편적 현상의 심층 인과 메커니즘을 기질 변수(RTC)와 COR로 규명 — 직접 후속 연구',
+      'Oreg(2003) RTC 척도를 AI 자동화 맥락에 최초 적용하여 이론 범위 확장',
+      '7차 KWCS(2023) 활용으로 생성형 AI 시대 첫 번째 실증 데이터 제공 (저자 요청 사항 충족)',
+      '개인 수준(RTC) + 조직 수준(교육·보상) 이중 조절의 조절된 매개(Moderated Mediation) 모형 제시'
+    ],
+    contribPractical: [
+      'RTC 수준이 높은 고위험 구성원 사전 식별 → AI 도입 전 선별적 개입 설계',
+      '교육 지원·보상 체계의 완충 효과 실증 → 구체적 HR 정책 근거',
+      '2020 vs 2023 데이터 비교 가능성 → AI 도입 전후 근로자 인식 변화 추적'
+    ],
+    variables: [
+      { role: '독립변수', var: 'AI 자동화 노출 강도 (Perceived Ax Intensity)' },
+      { role: '매개변수', var: '심리적 자원 고갈 (역할 정체성 위협·전문성 손실·통제감 상실)' },
+      { role: '조절변수', var: '변화 저항 성향 (RTC, Oreg 2003) + 조직 지원 (교육·보상)' },
+      { role: '종속변수', var: '직무 몰입 (UWES-3, Yoon et al.과 동일 척도)' },
+      { role: '이론', var: '자원보존이론(COR) + 변화 저항 성향 이론(RTC)' }
+    ],
+    references: [
+      { title: 'Yoon et al. (2025)', content: 'AI 자동화 걱정 → 직무 몰입 저하: 직무 특성 유형별 차이 (KWCS 6차, n=17,087). 본 연구의 직접 선행연구.', source: 'Technology in Society, Vol.85', url: 'https://doi.org/10.1016/j.techsoc.2025.103163' },
+      { title: 'Oreg (2003)', content: '변화 저항 성향(RTC) 4요인 척도 개발 및 타당화: 일상 고수·정서적 반응·단기 집중·인지적 경직', source: 'Journal of Applied Psychology', url: 'https://psycnet.apa.org/doi/10.1037/0021-9010.88.4.680' },
+      { title: 'KWCS 7차 (2023)', content: '제7차 한국근로환경조사: 생성형 AI 상용화 이후 최초 전국 단위 근로환경 데이터. 공공데이터포털 공개.', source: '한국산업안전보건연구원 (OSHRI)', url: 'https://www.data.go.kr/data/15119761/fileData.do' },
+      { title: 'Hobfoll (1989)', content: '자원보존이론(COR): 자원 손실 위협이 심리적 부담의 핵심 기제', source: 'American Psychologist', url: 'https://psycnet.apa.org/doi/10.1037/0003-066X.44.3.513' }
     ]
   }
 ];

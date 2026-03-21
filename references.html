@@ -207,6 +207,9 @@ body {
 .role-chip[data-role="척도"]        { border-color: #9FE1CB; color: #0F6E56; background: #E1F5EE; }
 .role-chip[data-role="이론 근거"]   { border-color: #CECBF6; color: #534AB7; background: #EEEDFE; }
 .role-chip[data-role="선행연구"]    { border-color: #F5C4B3; color: #993C1D; background: #FAECE7; }
+.role-chip[data-role="직접 참조"]   { border-color: #6EE7B7; color: #065F46; background: #D1FAE5; font-weight: 700; }
+.role-chip[data-role="읽음"]        { border-color: #A5B4FC; color: #3730A3; background: #EEF2FF; }
+.role-chip[data-role="인용 예정"]   { border-color: #FCD34D; color: #92400E; background: #FEF3C7; }
 
 .theory-tag {
   font-size: 11px; background: #f0eeea; color: var(--text-secondary);
@@ -370,6 +373,11 @@ body {
     <button class="filter-chip" data-ft="role" data-val="DV 근거">DV 근거</button>
     <button class="filter-chip" data-ft="role" data-val="척도">척도</button>
     <button class="filter-chip" data-ft="role" data-val="데이터">데이터</button>
+    <div class="filter-sep"></div>
+    <span class="filter-label">독서</span>
+    <button class="filter-chip" data-ft="role" data-val="직접 참조">직접 참조</button>
+    <button class="filter-chip" data-ft="role" data-val="읽음">읽음</button>
+    <button class="filter-chip" data-ft="role" data-val="인용 예정">인용 예정</button>
   </div>
 
   <!-- GitHub Sync Panel -->
@@ -449,6 +457,9 @@ body {
           <label class="chk-chip"><input type="checkbox" value="DV 근거">DV 근거</label>
           <label class="chk-chip"><input type="checkbox" value="척도">척도</label>
           <label class="chk-chip"><input type="checkbox" value="데이터">데이터</label>
+          <label class="chk-chip"><input type="checkbox" value="직접 참조">직접 참조</label>
+          <label class="chk-chip"><input type="checkbox" value="읽음">읽음</label>
+          <label class="chk-chip"><input type="checkbox" value="인용 예정">인용 예정</label>
         </div>
       </div>
       <div class="form-group full">

@@ -732,6 +732,7 @@ function commitMemo(id, ta) {
   if (!r) return;
   r.memo = ta.value;
   saveLocal();
+  if (getToken()) saveToGitHub();
   const btn = document.getElementById(`memo-btn-${id}`);
   if (btn) { const has = r.memo.trim().length > 0; btn.textContent = has ? '📝 메모 있음' : '메모 추가'; btn.classList.toggle('has-memo', has); }
   const ind = document.getElementById(`memo-saved-${id}`);
@@ -802,11 +803,13 @@ function saveRef() {
     data.id = 'ref_' + Date.now(); refs.push(data);
   }
   saveLocal(); closeModal(); render();
+  if (getToken()) saveToGitHub();
 }
 function deleteRef(id) {
   if (!confirm('이 자료를 삭제하시겠습니까?')) return;
   refs = refs.filter(r => r.id !== id);
   saveLocal(); render();
+  if (getToken()) saveToGitHub();
 }
 
 // ── GitHub ────────────────────────────────────────

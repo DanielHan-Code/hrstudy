@@ -562,9 +562,14 @@ function render() {
   });
 }
 
+const READING_TAGS = ['직접 참조', '읽음', '인용 예정'];
+
 function cardHTML(r) {
-  const roleChips = (r.roles || []).map(role =>
-    `<span class="role-chip" data-role="${esc(role)}">${esc(role)}</span>`).join('');
+  const roles = r.roles || [];
+  const readingChips = roles.filter(role => READING_TAGS.includes(role))
+    .map(role => `<span class="role-chip" data-role="${esc(role)}">${esc(role)}</span>`).join('');
+  const roleChips = roles.filter(role => !READING_TAGS.includes(role))
+    .map(role => `<span class="role-chip" data-role="${esc(role)}">${esc(role)}</span>`).join('');
   const theoryTags = (r.theories || []).map(t =>
     `<span class="theory-tag">${esc(t)}</span>`).join('');
   const hasMemo = (r.memo || '').trim().length > 0;
@@ -574,6 +579,7 @@ function cardHTML(r) {
         <div class="card-meta-badges">
           <span class="year-num">${r.year || '–'}</span>
           <span class="type-badge type-${esc(r.type || '기타')}">${esc(r.type || '기타')}</span>
+          ${readingChips}
         </div>
         <div class="card-actions">
           <button class="btn btn-secondary btn-sm" onclick="openEditModal('${r.id}')">편집</button>

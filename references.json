@@ -1,0 +1,60 @@
+{
+  "references": [
+    {
+      "id": "yoon2025",
+      "authors": "Yoon et al.",
+      "year": 2025,
+      "title": "AI 자동화 걱정과 직무 몰입 저하: 직무 특성 유형별 차이",
+      "source": "Technology in Society, Vol.85",
+      "type": "논문",
+      "roles": ["DV 근거", "선행연구"],
+      "theories": ["COR"],
+      "tags": ["AI 자동화", "직무 몰입", "KWCS"],
+      "summary": "AI 자동화 걱정 → 직무 몰입 저하: 직무 특성 유형별 차이 (KWCS 6차, n=17,087). 본 연구의 직접 선행연구.",
+      "url": "https://doi.org/10.1016/j.techsoc.2025.103163",
+      "memo": ""
+    },
+    {
+      "id": "oreg2003",
+      "authors": "Oreg, S.",
+      "year": 2003,
+      "title": "Resistance to Change: Developing an Individual Differences Measure",
+      "source": "Journal of Applied Psychology, 88(4), 680–693",
+      "type": "논문",
+      "roles": ["조절변수 근거", "척도"],
+      "theories": ["RTC"],
+      "tags": ["변화 저항", "RTC", "척도개발"],
+      "summary": "변화 저항 성향(RTC) 4요인 척도 개발 및 타당화: 일상 고수·정서적 반응·단기 집중·인지적 경직",
+      "url": "https://psycnet.apa.org/doi/10.1037/0021-9010.88.4.680",
+      "memo": ""
+    },
+    {
+      "id": "kwcs2023",
+      "authors": "한국산업안전보건연구원 (OSHRI)",
+      "year": 2023,
+      "title": "제7차 한국근로환경조사 (KWCS 7차)",
+      "source": "한국산업안전보건연구원 (OSHRI)",
+      "type": "통계",
+      "roles": ["데이터"],
+      "theories": [],
+      "tags": ["KWCS", "근로환경", "생성형 AI"],
+      "summary": "생성형 AI 상용화 이후 최초 전국 단위 근로환경 데이터. 공공데이터포털 공개.",
+      "url": "https://www.data.go.kr/data/15119761/fileData.do",
+      "memo": ""
+    },
+    {
+      "id": "hobfoll1989",
+      "authors": "Hobfoll, S. E.",
+      "year": 1989,
+      "title": "Conservation of Resources: A New Attempt at Conceptualizing Stress",
+      "source": "American Psychologist, 44(3), 513–524",
+      "type": "논문",
+      "roles": ["이론 근거"],
+      "theories": ["COR"],
+      "tags": ["자원보존이론", "스트레스", "자원 손실"],
+      "summary": "자원보존이론(COR): 자원 손실 위협이 심리적 부담의 핵심 기제. 매개변수 이론적 근거.",
+      "url": "https://psycnet.apa.org/doi/10.1037/0003-066X.44.3.513",
+      "memo": ""
+    }
+  ]
+}

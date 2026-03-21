@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>참고자료 — HR Study</title>
+<style>
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --border: rgba(0,0,0,0.09);
+  --border-strong: rgba(0,0,0,0.18);
+  --text-primary: #1a1a18;
+  --text-secondary: #5c5c56;
+  --text-tertiary: #9c9a90;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --nav-h: 52px;
+  --accent: #1D9E75;
+  --accent-bg: #E1F5EE;
+  --accent-border: #9FE1CB;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* ── Nav ── */
+.site-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-strong);
+  padding: 0 24px; height: var(--nav-h);
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; height: 100%;
+}
+.nav-brand {
+  font-family: Georgia, serif; font-size: 15px; font-weight: 600;
+  color: var(--text-primary);
+}
+.nav-links { display: flex; gap: 4px; }
+.nav-link {
+  font-size: 13px; color: var(--text-secondary); text-decoration: none;
+  padding: 6px 14px; border-radius: var(--radius-sm);
+  transition: background 0.15s, color 0.15s;
+}
+.nav-link:hover { background: #f0eeea; color: var(--text-primary); }
+.nav-link.active { background: #f0eeea; color: var(--text-primary); font-weight: 600; }
+
+/* ── Page ── */
+.page-wrap { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* ── Header ── */
+.page-header-row {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap; margin-bottom: 20px;
+}
+.page-header-row h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(22px, 3vw, 28px); font-weight: 600; line-height: 1.3; margin-bottom: 5px;
+}
+.page-header-row p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+
+.search-wrap { position: relative; width: 280px; flex-shrink: 0; }
+.search-input {
+  width: 100%; font-size: 13px; padding: 9px 14px 9px 36px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--text-primary);
+  font-family: inherit; outline: none; transition: border-color 0.15s;
+}
+.search-input:focus { border-color: var(--accent); }
+.search-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  color: var(--text-tertiary); pointer-events: none; font-size: 15px;
+}
+
+/* ── Filters ── */
+.filter-bar {
+  display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+  padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+.filter-label {
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-tertiary); font-weight: 700; margin-right: 2px; white-space: nowrap;
+}
+.filter-sep { width: 1px; height: 14px; background: var(--border-strong); margin: 0 6px; }
+.filter-chip {
+  font-size: 12px; padding: 4px 12px; border-radius: 20px;
+  border: 1px solid var(--border-strong); background: var(--surface);
+  color: var(--text-secondary); cursor: pointer; font-family: inherit;
+  transition: all 0.15s; white-space: nowrap;
+}
+.filter-chip:hover { background: #f0eeea; color: var(--text-primary); }
+.filter-chip.active {
+  background: var(--accent-bg); color: #0F6E56;
+  border-color: var(--accent-border); font-weight: 600;
+}
+
+/* ── Toolbar ── */
+.toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px; gap: 10px; flex-wrap: wrap;
+}
+.ref-count { font-size: 12px; color: var(--text-tertiary); }
+.ref-count strong { color: var(--text-primary); }
+.toolbar-right { display: flex; gap: 8px; }
+
+/* ── Buttons ── */
+.btn {
+  font-size: 12px; font-weight: 600; font-family: inherit;
+  padding: 7px 14px; border-radius: var(--radius-sm); cursor: pointer;
+  transition: all 0.15s; display: inline-flex; align-items: center; gap: 5px;
+  border: 1px solid transparent; white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: #198a65; }
+.btn-secondary { background: var(--surface); color: var(--text-secondary); border-color: var(--border-strong); }
+.btn-secondary:hover { background: #f0eeea; color: var(--text-primary); }
+.btn-blue { background: #E6F1FB; color: #185FA5; border-color: #B5D4F4; }
+.btn-blue:hover { background: #cce3f7; }
+.btn-blue:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-danger { background: #FAECE7; color: #993C1D; border-color: #F5C4B3; }
+.btn-danger:hover { background: #f5d8d0; }
+.btn-sm { padding: 4px 10px; font-size: 11px; }
+
+/* ── GitHub Panel ── */
+.gh-panel {
+  background: var(--surface); border: 1px solid var(--border-strong);
+  border-radius: var(--radius); padding: 16px 20px; margin-bottom: 18px; display: none;
+}
+.gh-panel.open { display: block; }
+.gh-panel-title {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-tertiary); font-weight: 700; margin-bottom: 12px;
+}
+.gh-token-row { display: flex; gap: 6px; margin-bottom: 10px; }
+.gh-token-input {
+  flex: 1; font-size: 12px; padding: 7px 10px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  font-family: inherit; outline: none; color: var(--text-primary); background: var(--bg);
+}
+.gh-token-input:focus { border-color: #378ADD; }
+.gh-actions { display: flex; gap: 8px; }
+.gh-status { font-size: 11px; color: var(--text-tertiary); margin-top: 8px; }
+.gh-status.ok  { color: #0F6E56; }
+.gh-status.err { color: #D85A30; }
+
+/* ── Cards Grid ── */
+.cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (max-width: 700px) { .cards-grid { grid-template-columns: 1fr; } }
+
+/* ── Reference Card ── */
+.ref-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.ref-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.07); border-color: var(--border-strong); }
+
+.card-top {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
+}
+.card-meta-badges { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.year-num {
+  font-size: 12px; font-weight: 700; font-family: Georgia, serif; color: var(--text-tertiary);
+}
+.type-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 2px 8px; border-radius: 20px; border: 1px solid transparent;
+}
+.type-논문   { background: #E6F1FB; color: #185FA5; border-color: #B5D4F4; }
+.type-보고서 { background: #EEEDFE; color: #534AB7; border-color: #CECBF6; }
+.type-통계   { background: #FAEEDA; color: #854F0B; border-color: #FAC775; }
+.type-척도   { background: #E1F5EE; color: #0F6E56; border-color: #9FE1CB; }
+.type-기타   { background: #f0eeea; color: var(--text-secondary); border-color: var(--border-strong); }
+
+.card-actions { display: flex; gap: 4px; opacity: 0; transition: opacity 0.15s; }
+.ref-card:hover .card-actions { opacity: 1; }
+
+.card-title { font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.4; }
+.card-authors { font-size: 12px; color: var(--text-tertiary); margin-top: 1px; }
+.card-source  { font-size: 11px; color: var(--text-tertiary); font-style: italic; }
+
+.card-summary {
+  font-size: 13px; color: var(--text-secondary); line-height: 1.7;
+  padding: 9px 12px; background: var(--bg); border-radius: var(--radius-sm);
+}
+
+.card-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+.role-chip {
+  font-size: 11px; padding: 2px 8px; border-radius: 4px;
+  border: 1px solid var(--border-strong); color: var(--text-secondary); background: var(--bg);
+}
+.role-chip[data-role="DV 근거"]     { border-color: #9FE1CB; color: #0F6E56; background: #E1F5EE; }
+.role-chip[data-role="IV 근거"]     { border-color: #B5D4F4; color: #185FA5; background: #E6F1FB; }
+.role-chip[data-role="매개변수 근거"]{ border-color: #CECBF6; color: #534AB7; background: #EEEDFE; }
+.role-chip[data-role="조절변수 근거"]{ border-color: #FAC775; color: #854F0B; background: #FAEEDA; }
+.role-chip[data-role="척도"]        { border-color: #9FE1CB; color: #0F6E56; background: #E1F5EE; }
+.role-chip[data-role="이론 근거"]   { border-color: #CECBF6; color: #534AB7; background: #EEEDFE; }
+.role-chip[data-role="선행연구"]    { border-color: #F5C4B3; color: #993C1D; background: #FAECE7; }
+
+.theory-tag {
+  font-size: 11px; background: #f0eeea; color: var(--text-secondary);
+  padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border-strong);
+}
+
+.card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 8px; border-top: 1px solid var(--border);
+}
+.ref-link {
+  font-size: 12px; color: #185FA5; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 4px; font-weight: 600;
+}
+.ref-link:hover { text-decoration: underline; }
+
+/* ── Memo ── */
+.memo-toggle {
+  font-size: 11px; color: var(--text-tertiary); cursor: pointer;
+  background: none; border: none; font-family: inherit; padding: 0;
+  display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s;
+}
+.memo-toggle:hover { color: var(--text-secondary); }
+.memo-toggle.has-memo { color: var(--accent); }
+
+.memo-area { display: none; }
+.memo-area.open { display: flex; flex-direction: column; gap: 6px; }
+.memo-textarea {
+  width: 100%; min-height: 70px; background: var(--bg);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 9px 12px; font-family: inherit; font-size: 12px;
+  color: var(--text-primary); line-height: 1.7; resize: vertical; outline: none;
+  transition: border-color 0.15s;
+}
+.memo-textarea:focus { border-color: var(--accent); }
+.memo-footer { display: flex; align-items: center; justify-content: space-between; }
+.memo-hint   { font-size: 10px; color: var(--text-tertiary); }
+.memo-saved  { font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.4s; }
+.memo-saved.show { opacity: 1; }
+
+/* ── Empty ── */
+.empty-state {
+  grid-column: 1/-1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 80px 20px; color: var(--text-tertiary); text-align: center; gap: 10px;
+}
+.empty-icon { font-size: 36px; opacity: 0.3; }
+
+/* ── Modal ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(20,20,18,0.5); backdrop-filter: blur(3px);
+  align-items: center; justify-content: center; padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface); border-radius: var(--radius);
+  border: 1px solid var(--border); padding: 26px;
+  max-width: 520px; width: 100%; max-height: 88vh; overflow-y: auto;
+  animation: slideUp 0.2s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;
+}
+.modal-title { font-size: 15px; font-weight: 700; }
+.modal-close {
+  background: #f0eeea; border: none; border-radius: var(--radius-sm);
+  padding: 4px 12px; font-size: 13px; color: var(--text-secondary);
+  cursor: pointer; font-family: inherit; transition: background 0.15s;
+}
+.modal-close:hover { background: #e5e3de; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+.form-group.full { grid-column: 1/-1; }
+.form-label {
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-tertiary); font-weight: 700;
+}
+.form-input, .form-select, .form-textarea {
+  font-size: 13px; padding: 8px 10px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--text-primary);
+  font-family: inherit; outline: none; transition: border-color 0.15s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+.form-textarea { min-height: 76px; resize: vertical; line-height: 1.6; }
+.form-hint { font-size: 11px; color: var(--text-tertiary); }
+
+.checkbox-group { display: flex; gap: 6px; flex-wrap: wrap; }
+.chk-chip {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; padding: 4px 10px; border-radius: 20px;
+  border: 1px solid var(--border-strong); background: var(--surface);
+  color: var(--text-secondary); cursor: pointer; user-select: none; transition: all 0.15s;
+}
+.chk-chip input { display: none; }
+.chk-chip.checked { background: var(--accent-bg); color: #0F6E56; border-color: var(--accent-border); font-weight: 600; }
+
+.modal-footer {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 8px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border);
+}
+
+.modal::-webkit-scrollbar { width: 4px; }
+.modal::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+
+@media (max-width: 560px) {
+  .search-wrap { width: 100%; }
+  .page-header-row { flex-direction: column; }
+  .form-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <span class="nav-brand">HR Study</span>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">핵심 이론 10선</a>
+      <a href="leadership.html" class="nav-link">리더십 유형</a>
+      <a href="topics.html" class="nav-link">주제 후보</a>
+      <a href="references.html" class="nav-link active">참고자료</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- Header -->
+  <div class="page-header-row">
+    <div>
+      <h1>참고자료</h1>
+      <p>Topic 08 · AI 자동화 저항 기질이 직무 몰입에 미치는 영향</p>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search-input" id="searchInput" type="text" placeholder="저자, 제목, 키워드 검색…">
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-bar">
+    <span class="filter-label">유형</span>
+    <button class="filter-chip active" data-ft="type" data-val="전체">전체</button>
+    <button class="filter-chip" data-ft="type" data-val="논문">논문</button>
+    <button class="filter-chip" data-ft="type" data-val="통계">통계</button>
+    <button class="filter-chip" data-ft="type" data-val="척도">척도</button>
+    <button class="filter-chip" data-ft="type" data-val="보고서">보고서</button>
+    <div class="filter-sep"></div>
+    <span class="filter-label">역할</span>
+    <button class="filter-chip active" data-ft="role" data-val="전체">전체</button>
+    <button class="filter-chip" data-ft="role" data-val="이론 근거">이론 근거</button>
+    <button class="filter-chip" data-ft="role" data-val="선행연구">선행연구</button>
+    <button class="filter-chip" data-ft="role" data-val="조절변수 근거">조절변수 근거</button>
+    <button class="filter-chip" data-ft="role" data-val="DV 근거">DV 근거</button>
+    <button class="filter-chip" data-ft="role" data-val="척도">척도</button>
+    <button class="filter-chip" data-ft="role" data-val="데이터">데이터</button>
+  </div>
+
+  <!-- GitHub Sync Panel -->
+  <div class="gh-panel" id="ghPanel">
+    <div class="gh-panel-title">GitHub 동기화</div>
+    <div class="gh-token-row">
+      <input class="gh-token-input" id="ghToken" type="password" placeholder="GitHub Personal Access Token (repo 권한)">
+      <button class="btn btn-secondary btn-sm" onclick="saveToken()">저장</button>
+    </div>
+    <div class="gh-actions">
+      <button class="btn btn-blue btn-sm" id="btnLoad" onclick="loadFromGitHub()">↓ 불러오기</button>
+      <button class="btn btn-blue btn-sm" id="btnSave" onclick="saveToGitHub()">↑ GitHub 저장</button>
+    </div>
+    <div class="gh-status" id="ghStatus"></div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <span class="ref-count" id="refCount"><strong>0</strong>개 자료</span>
+    <div class="toolbar-right">
+      <button class="btn btn-secondary btn-sm" onclick="toggleGhPanel()">⇄ GitHub 동기화</button>
+      <button class="btn btn-primary btn-sm" onclick="openAddModal()">+ 자료 추가</button>
+    </div>
+  </div>
+
+  <!-- Cards -->
+  <div class="cards-grid" id="cardsGrid"></div>
+
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">자료 추가</div>
+      <button class="modal-close" onclick="closeModal()">닫기 ✕</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">저자</label>
+        <input class="form-input" id="fAuthors" placeholder="Hobfoll, S. E.">
+      </div>
+      <div class="form-group">
+        <label class="form-label">연도</label>
+        <input class="form-input" id="fYear" type="number" placeholder="2024">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">제목</label>
+        <input class="form-input" id="fTitle" placeholder="논문 또는 자료 제목">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">출처</label>
+        <input class="form-input" id="fSource" placeholder="Journal of Applied Psychology, 88(4)">
+      </div>
+      <div class="form-group">
+        <label class="form-label">유형</label>
+        <select class="form-select" id="fType">
+          <option value="논문">논문</option>
+          <option value="보고서">보고서</option>
+          <option value="통계">통계</option>
+          <option value="척도">척도</option>
+          <option value="기타">기타</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">URL</label>
+        <input class="form-input" id="fUrl" placeholder="https://doi.org/…">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">역할</label>
+        <div class="checkbox-group" id="rolesGroup">
+          <label class="chk-chip"><input type="checkbox" value="이론 근거">이론 근거</label>
+          <label class="chk-chip"><input type="checkbox" value="선행연구">선행연구</label>
+          <label class="chk-chip"><input type="checkbox" value="IV 근거">IV 근거</label>
+          <label class="chk-chip"><input type="checkbox" value="매개변수 근거">매개변수 근거</label>
+          <label class="chk-chip"><input type="checkbox" value="조절변수 근거">조절변수 근거</label>
+          <label class="chk-chip"><input type="checkbox" value="DV 근거">DV 근거</label>
+          <label class="chk-chip"><input type="checkbox" value="척도">척도</label>
+          <label class="chk-chip"><input type="checkbox" value="데이터">데이터</label>
+        </div>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">이론 태그</label>
+        <input class="form-input" id="fTheories" placeholder="COR, RTC, TAM">
+        <span class="form-hint">쉼표로 구분</span>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">요약</label>
+        <textarea class="form-textarea" id="fSummary" placeholder="핵심 내용을 간략히 정리해주세요"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">취소</button>
+      <button class="btn btn-primary" onclick="saveRef()">저장</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const GH_REPO   = 'DanielHan-Code/hrstudy';
+const GH_FILE   = 'references.json';
+const GH_BRANCH = 'main';
+
+let refs        = [];
+let editingId   = null;
+let filterType  = '전체';
+let filterRole  = '전체';
+let searchQuery = '';
+let memoTimers  = {};
+
+// ── Init ──────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  loadLocal();
+  render();
+
+  const t = localStorage.getItem('gh_token');
+  if (t) document.getElementById('ghToken').value = t;
+
+  document.getElementById('searchInput').addEventListener('input', e => {
+    searchQuery = e.target.value.toLowerCase();
+    render();
+  });
+
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const ft  = chip.dataset.ft;
+      const val = chip.dataset.val;
+      if (ft === 'type') filterType = val;
+      if (ft === 'role') filterRole = val;
+      document.querySelectorAll(`.filter-chip[data-ft="${ft}"]`).forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      render();
+    });
+  });
+
+  document.getElementById('modalOverlay').addEventListener('click', e => {
+    if (e.target.id === 'modalOverlay') closeModal();
+  });
+
+  document.querySelectorAll('.chk-chip').forEach(label => {
+    label.querySelector('input').addEventListener('change', function() {
+      label.classList.toggle('checked', this.checked);
+    });
+  });
+});
+
+// ── Storage ───────────────────────────────────────
+function loadLocal() {
+  const s = localStorage.getItem('hrstudy_refs');
+  if (s) { try { refs = JSON.parse(s).references || []; } catch(e) { refs = []; } }
+}
+function saveLocal() {
+  localStorage.setItem('hrstudy_refs', JSON.stringify({ references: refs }));
+}
+
+// ── Render ────────────────────────────────────────
+function render() {
+  const grid     = document.getElementById('cardsGrid');
+  const filtered = getFiltered();
+  const total    = filtered.length;
+
+  document.getElementById('refCount').innerHTML =
+    `<strong>${total}</strong>개 자료${refs.length !== total ? ` (전체 ${refs.length}개 중)` : ''}`;
+
+  if (total === 0) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">📚</div>
+      <div style="font-size:14px;">${refs.length === 0
+        ? 'GitHub에서 불러오거나 자료를 직접 추가하세요.'
+        : '검색/필터 결과가 없습니다.'}</div>
+    </div>`;
+    return;
+  }
+
+  const sorted = [...filtered].sort((a, b) => (b.year || 0) - (a.year || 0));
+  grid.innerHTML = sorted.map(r => cardHTML(r)).join('');
+
+  sorted.forEach(r => {
+    const ta = document.getElementById(`memo-ta-${r.id}`);
+    if (!ta) return;
+    ta.addEventListener('input',   () => schedMemo(r.id, ta));
+    ta.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); commitMemo(r.id, ta); }
+    });
+  });
+}
+
+function cardHTML(r) {
+  const roleChips = (r.roles || []).map(role =>
+    `<span class="role-chip" data-role="${esc(role)}">${esc(role)}</span>`).join('');
+  const theoryTags = (r.theories || []).map(t =>
+    `<span class="theory-tag">${esc(t)}</span>`).join('');
+  const hasMemo = (r.memo || '').trim().length > 0;
+  return `
+    <div class="ref-card">
+      <div class="card-top">
+        <div class="card-meta-badges">
+          <span class="year-num">${r.year || '–'}</span>
+          <span class="type-badge type-${esc(r.type || '기타')}">${esc(r.type || '기타')}</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-secondary btn-sm" onclick="openEditModal('${r.id}')">편집</button>
+          <button class="btn btn-danger btn-sm"    onclick="deleteRef('${r.id}')">삭제</button>
+        </div>
+      </div>
+      <div>
+        <div class="card-title">${esc(r.title || '제목 없음')}</div>
+        <div class="card-authors">${esc(r.authors || '')}</div>
+        ${r.source ? `<div class="card-source">${esc(r.source)}</div>` : ''}
+      </div>
+      ${r.summary ? `<div class="card-summary">${esc(r.summary)}</div>` : ''}
+      <div class="card-chips">
+        ${roleChips}${theoryTags}
+      </div>
+      <div class="card-footer">
+        ${r.url
+          ? `<a class="ref-link" href="${r.url}" target="_blank" rel="noopener noreferrer">원문 링크 ↗</a>`
+          : `<span></span>`}
+        <button class="memo-toggle ${hasMemo ? 'has-memo' : ''}"
+          id="memo-btn-${r.id}" onclick="toggleMemo('${r.id}')">
+          ${hasMemo ? '📝 메모 있음' : '메모 추가'}
+        </button>
+      </div>
+      <div class="memo-area ${hasMemo ? 'open' : ''}" id="memo-area-${r.id}">
+        <textarea class="memo-textarea" id="memo-ta-${r.id}"
+          placeholder="이 자료에 대한 메모… (Ctrl+S 저장)">${esc(r.memo || '')}</textarea>
+        <div class="memo-footer">
+          <span class="memo-hint">Ctrl+S 저장</span>
+          <span class="memo-saved" id="memo-saved-${r.id}">저장됨 ✓</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function getFiltered() {
+  return refs.filter(r => {
+    if (filterType !== '전체' && r.type !== filterType) return false;
+    if (filterRole !== '전체' && !(r.roles || []).includes(filterRole)) return false;
+    if (searchQuery) {
+      const hay = [r.title, r.authors, r.source, r.summary, ...(r.tags||[]), ...(r.theories||[])].join(' ').toLowerCase();
+      if (!hay.includes(searchQuery)) return false;
+    }
+    return true;
+  });
+}
+
+// ── Memo ──────────────────────────────────────────
+function toggleMemo(id) {
+  document.getElementById(`memo-area-${id}`).classList.toggle('open');
+}
+function schedMemo(id, ta) {
+  clearTimeout(memoTimers[id]);
+  memoTimers[id] = setTimeout(() => commitMemo(id, ta), 1200);
+}
+function commitMemo(id, ta) {
+  const r = refs.find(x => x.id === id);
+  if (!r) return;
+  r.memo = ta.value;
+  saveLocal();
+  const btn = document.getElementById(`memo-btn-${id}`);
+  if (btn) { const has = r.memo.trim().length > 0; btn.textContent = has ? '📝 메모 있음' : '메모 추가'; btn.classList.toggle('has-memo', has); }
+  const ind = document.getElementById(`memo-saved-${id}`);
+  if (ind) { ind.classList.add('show'); setTimeout(() => ind.classList.remove('show'), 1800); }
+}
+
+// ── CRUD ──────────────────────────────────────────
+function openAddModal() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = '자료 추가';
+  clearForm();
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function openEditModal(id) {
+  const r = refs.find(x => x.id === id);
+  if (!r) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = '자료 편집';
+  fillForm(r);
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  editingId = null;
+}
+function clearForm() {
+  ['fAuthors','fYear','fTitle','fSource','fUrl','fTheories','fSummary'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('fType').value = '논문';
+  document.querySelectorAll('#rolesGroup .chk-chip').forEach(l => { l.querySelector('input').checked = false; l.classList.remove('checked'); });
+}
+function fillForm(r) {
+  document.getElementById('fAuthors').value  = r.authors  || '';
+  document.getElementById('fYear').value     = r.year     || '';
+  document.getElementById('fTitle').value    = r.title    || '';
+  document.getElementById('fSource').value   = r.source   || '';
+  document.getElementById('fType').value     = r.type     || '논문';
+  document.getElementById('fUrl').value      = r.url      || '';
+  document.getElementById('fTheories').value = (r.theories||[]).join(', ');
+  document.getElementById('fSummary').value  = r.summary  || '';
+  document.querySelectorAll('#rolesGroup .chk-chip').forEach(l => {
+    const inp = l.querySelector('input');
+    const chk = (r.roles||[]).includes(inp.value);
+    inp.checked = chk; l.classList.toggle('checked', chk);
+  });
+}
+function getFormData() {
+  const roles = [];
+  document.querySelectorAll('#rolesGroup .chk-chip input:checked').forEach(i => roles.push(i.value));
+  return {
+    authors:  document.getElementById('fAuthors').value.trim(),
+    year:     parseInt(document.getElementById('fYear').value) || null,
+    title:    document.getElementById('fTitle').value.trim(),
+    source:   document.getElementById('fSource').value.trim(),
+    type:     document.getElementById('fType').value,
+    url:      document.getElementById('fUrl').value.trim(),
+    theories: document.getElementById('fTheories').value.split(',').map(s=>s.trim()).filter(Boolean),
+    summary:  document.getElementById('fSummary').value.trim(),
+    roles, tags: [], memo: ''
+  };
+}
+function saveRef() {
+  const data = getFormData();
+  if (!data.title) { alert('제목을 입력해주세요.'); return; }
+  if (editingId) {
+    const idx = refs.findIndex(r => r.id === editingId);
+    if (idx !== -1) { data.id = editingId; data.memo = refs[idx].memo || ''; refs[idx] = data; }
+  } else {
+    data.id = 'ref_' + Date.now(); refs.push(data);
+  }
+  saveLocal(); closeModal(); render();
+}
+function deleteRef(id) {
+  if (!confirm('이 자료를 삭제하시겠습니까?')) return;
+  refs = refs.filter(r => r.id !== id);
+  saveLocal(); render();
+}
+
+// ── GitHub ────────────────────────────────────────
+function toggleGhPanel() { document.getElementById('ghPanel').classList.toggle('open'); }
+function saveToken() {
+  const t = document.getElementById('ghToken').value.trim();
+  if (t) localStorage.setItem('gh_token', t);
+  setStatus('토큰 저장 완료', 'ok');
+}
+function setStatus(msg, cls='') {
+  const el = document.getElementById('ghStatus');
+  el.textContent = msg; el.className = 'gh-status' + (cls ? ' ' + cls : '');
+}
+function getToken() { return localStorage.getItem('gh_token') || document.getElementById('ghToken').value.trim(); }
+
+async function loadFromGitHub() {
+  const token = getToken();
+  if (!token) { setStatus('토큰을 먼저 입력해주세요.', 'err'); return; }
+  const btn = document.getElementById('btnLoad');
+  btn.disabled = true; setStatus('불러오는 중…');
+  try {
+    const res = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json    = await res.json();
+    const content = JSON.parse(atob(json.content.replace(/\n/g, '')));
+    refs = content.references || [];
+    saveLocal(); render();
+    setStatus(`불러오기 완료 — ${refs.length}개 자료`, 'ok');
+  } catch(e) { setStatus('불러오기 실패: ' + e.message, 'err'); }
+  finally    { btn.disabled = false; }
+}
+
+async function saveToGitHub() {
+  const token = getToken();
+  if (!token) { setStatus('토큰을 먼저 입력해주세요.', 'err'); return; }
+  const btn = document.getElementById('btnSave');
+  btn.disabled = true; setStatus('저장 중…');
+  try {
+    const getRes = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    let sha = null;
+    if (getRes.ok) { const j = await getRes.json(); sha = j.sha; }
+
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify({ references: refs }, null, 2))));
+    const body = { message: `Update references.json (${refs.length}개 자료)`, content, branch: GH_BRANCH };
+    if (sha) body.sha = sha;
+
+    const putRes = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
+      method: 'PUT',
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!putRes.ok) { const e = await putRes.json(); throw new Error(e.message || `HTTP ${putRes.status}`); }
+    setStatus(`GitHub 저장 완료 — ${refs.length}개 자료`, 'ok');
+  } catch(e) { setStatus('저장 실패: ' + e.message, 'err'); }
+  finally    { btn.disabled = false; }
+}
+
+// ── Util ──────────────────────────────────────────
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

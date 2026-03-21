@@ -1017,15 +1017,17 @@ type은 반드시 논문/보고서/통계/척도/기타 중 하나.`;
   }
 
   try {
+    const reqHeaders = {
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json',
+      'anthropic-dangerous-allow-browser': 'true'
+    };
+    if (currentTab === 'pdf') reqHeaders['anthropic-beta'] = 'pdfs-2024-09-25';
+
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: {
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-beta': 'pdfs-2024-09-25',
-        'content-type': 'application/json',
-        'anthropic-dangerous-allow-browser': 'true'
-      },
+      headers: reqHeaders,
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1024,

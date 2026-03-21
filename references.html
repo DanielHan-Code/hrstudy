@@ -484,6 +484,8 @@ let memoTimers  = {};
 document.addEventListener('DOMContentLoaded', () => {
   loadLocal();
   render();
+  // 로컬에 데이터 없으면 공개 저장소에서 자동 로드
+  if (refs.length === 0) autoLoadPublic();
 
   const t = localStorage.getItem('gh_token');
   if (t) document.getElementById('ghToken').value = t;
@@ -763,6 +765,20 @@ async function saveToGitHub() {
     setStatus(`GitHub 저장 완료 — ${refs.length}개 자료`, 'ok');
   } catch(e) { setStatus('저장 실패: ' + e.message, 'err'); }
   finally    { btn.disabled = false; }
+}
+
+// ── Auto Load (public repo, no token needed) ──────
+async function autoLoadPublic() {
+  try {
+    const res = await fetch(
+      `https://raw.githubusercontent.com/${GH_REPO}/${GH_BRANCH}/${GH_FILE}?t=${Date.now()}`
+    );
+    if (!res.ok) return;
+    const json = await res.json();
+    refs = json.references || [];
+    saveLocal();
+    render();
+  } catch(e) { /* 조용히 실패 */ }
 }
 
 // ── Util ──────────────────────────────────────────

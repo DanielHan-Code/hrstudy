@@ -1021,11 +1021,10 @@ type은 반드시 논문/보고서/통계/척도/기타 중 하나.`;
       'x-api-key': apiKey,
       'anthropic-version': '2023-06-01',
       'content-type': 'application/json',
-      'anthropic-dangerous-allow-browser': 'true'
     };
     if (currentTab === 'pdf') reqHeaders['anthropic-beta'] = 'pdfs-2024-09-25';
 
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://gentle-fire-ac82.hsj0461.workers.dev', {
       method: 'POST',
       headers: reqHeaders,
       body: JSON.stringify({

@@ -453,10 +453,10 @@ body {
       <button class="modal-close" onclick="closeSmartModal()">닫기 ✕</button>
     </div>
 
-    <div style="margin-bottom:4px;"><label class="form-label">Claude API Key</label></div>
+    <div style="margin-bottom:4px;"><label class="form-label">비밀번호</label></div>
     <div class="smart-key-row">
-      <input class="smart-key-input" id="smartApiKey" type="password" placeholder="sk-ant-…">
-      <button class="btn btn-secondary btn-sm" onclick="saveApiKey()">저장</button>
+      <input class="smart-key-input" id="smartPassword" type="password" placeholder="설정한 비밀번호 입력…"
+        onkeydown="if(event.key==='Enter') document.getElementById('analyzeArea').querySelector('button').click()">
     </div>
 
     <div class="input-tabs">
@@ -868,14 +868,54 @@ async function saveToGitHub() {
   finally    { btn.disabled = false; }
 }
 
+// ── Crypto ────────────────────────────────────────
+// 암호화된 API 키 (비밀번호로 복호화)
+const ENCRYPTED_API_KEY = '';  // 아래 안내 참고
+
+async function _deriveKey(password, salt) {
+  const km = await crypto.subtle.importKey(
+    'raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']
+  );
+  return crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+    km, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']
+  );
+}
+
+// 브라우저 콘솔에서 호출해 암호화된 키 생성: generateEncryptedKey('sk-ant-...', '비밀번호')
+async function generateEncryptedKey(apiKey, password) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv   = crypto.getRandomValues(new Uint8Array(12));
+  const key  = await _deriveKey(password, salt);
+  const ct   = await crypto.subtle.encrypt(
+    { name: 'AES-GCM', iv }, key, new TextEncoder().encode(apiKey)
+  );
+  const buf = new Uint8Array(16 + 12 + ct.byteLength);
+  buf.set(salt, 0); buf.set(iv, 16); buf.set(new Uint8Array(ct), 28);
+  const result = btoa(String.fromCharCode(...buf));
+  console.log('%c✓ 아래 문자열을 ENCRYPTED_API_KEY에 붙여넣으세요:', 'color:green;font-weight:bold');
+  console.log(result);
+  return result;
+}
+
+async function _decryptApiKey(password) {
+  if (!ENCRYPTED_API_KEY) throw new Error('ENCRYPTED_API_KEY가 설정되지 않았습니다.');
+  const buf  = Uint8Array.from(atob(ENCRYPTED_API_KEY), c => c.charCodeAt(0));
+  const key  = await _deriveKey(password, buf.slice(0, 16));
+  const plain = await crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv: buf.slice(16, 28) }, key, buf.slice(28)
+  );
+  return new TextDecoder().decode(plain);
+}
+
 // ── Smart Add ─────────────────────────────────────
-let currentTab = 'pdf';
-let pdfBase64  = null;
+let currentTab    = 'pdf';
+let pdfBase64     = null;
+let _cachedApiKey = null;  // 세션 중 캐시
 
 function openSmartModal() {
   document.getElementById('smartOverlay').classList.add('open');
-  const k = localStorage.getItem('claude_api_key');
-  if (k) document.getElementById('smartApiKey').value = k;
+  document.getElementById('smartPassword').focus();
   // drag & drop
   const drop = document.getElementById('fileDrop');
   drop.addEventListener('dragover',  e => { e.preventDefault(); drop.classList.add('drag'); });
@@ -883,7 +923,10 @@ function openSmartModal() {
   drop.addEventListener('drop', e => {
     e.preventDefault(); drop.classList.remove('drag');
     const f = e.dataTransfer.files[0];
-    if (f && f.type === 'application/pdf') { document.getElementById('fileInput').files = e.dataTransfer.files; handleFile(document.getElementById('fileInput')); }
+    if (f && f.type === 'application/pdf') {
+      document.getElementById('fileInput').files = e.dataTransfer.files;
+      handleFile(document.getElementById('fileInput'));
+    }
   });
 }
 
@@ -892,17 +935,13 @@ function closeSmartModal() {
   pdfBase64 = null;
   document.getElementById('fileDropText').textContent = '클릭하거나 PDF를 여기에 드래그하세요';
   document.getElementById('fileDrop').classList.remove('has-file');
+  document.getElementById('smartPassword').value = '';
   resetAnalyzeBtn();
 }
 
 function resetAnalyzeBtn() {
   document.getElementById('analyzeArea').innerHTML =
     '<button class="btn btn-primary analyze-btn" onclick="analyze()">분석하기</button>';
-}
-
-function saveApiKey() {
-  const k = document.getElementById('smartApiKey').value.trim();
-  if (k) localStorage.setItem('claude_api_key', k);
 }
 
 function switchTab(tab) {
@@ -927,12 +966,22 @@ function handleFile(input) {
 }
 
 async function analyze() {
-  const apiKey = localStorage.getItem('claude_api_key') || document.getElementById('smartApiKey').value.trim();
-  if (!apiKey) { alert('Claude API Key를 입력해주세요.'); return; }
-  localStorage.setItem('claude_api_key', apiKey);
-
   document.getElementById('analyzeArea').innerHTML =
     '<div class="analyzing-state"><div class="spinner"></div>분석 중…</div>';
+
+  let apiKey = _cachedApiKey;
+  if (!apiKey) {
+    const pw = document.getElementById('smartPassword').value.trim();
+    if (!pw) { resetAnalyzeBtn(); alert('비밀번호를 입력해주세요.'); return; }
+    try {
+      apiKey = await _decryptApiKey(pw);
+      _cachedApiKey = apiKey;
+    } catch(e) {
+      resetAnalyzeBtn();
+      alert('비밀번호가 올바르지 않습니다.');
+      return;
+    }
+  }
 
   const PROMPT = `다음 자료에서 서지 정보를 추출해서 아래 JSON 형식으로만 응답하세요. JSON 외 다른 텍스트는 절대 출력하지 마세요.
 
@@ -985,8 +1034,8 @@ type은 반드시 논문/보고서/통계/척도/기타 중 하나.`;
     });
 
     if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
-    const data   = await res.json();
-    const raw    = data.content[0].text.trim();
+    const data    = await res.json();
+    const raw     = data.content[0].text.trim();
     const jsonStr = raw.match(/\{[\s\S]*\}/)?.[0];
     if (!jsonStr) throw new Error('응답에서 JSON을 찾을 수 없습니다.');
     const ex = JSON.parse(jsonStr);
@@ -1013,6 +1062,7 @@ type은 반드시 논문/보고서/통계/척도/기타 중 하나.`;
     document.getElementById('modalOverlay').classList.add('open');
 
   } catch(e) {
+    _cachedApiKey = null;  // 실패 시 캐시 초기화
     document.getElementById('analyzeArea').innerHTML =
       `<div class="smart-error">오류: ${e.message}</div>
        <button class="btn btn-primary analyze-btn" onclick="analyze()">다시 시도</button>`;

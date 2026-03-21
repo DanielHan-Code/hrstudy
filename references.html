@@ -870,7 +870,7 @@ async function saveToGitHub() {
 
 // ── Crypto ────────────────────────────────────────
 // 암호화된 API 키 (비밀번호로 복호화)
-const ENCRYPTED_API_KEY = '';  // 아래 안내 참고
+const ENCRYPTED_API_KEY = 'q/wLtR3OxzRdzu1p40bEaVvnI+rFXVMrizJNYBuaP1Cek24PcyYovVjAOnVWxuxi85lVAM+2PjyK6HEh1Se5ZlzPmDxvtDDz5JTi+XOrHyXTZdKu9yMEG8+X+2eSjxBouGfOUQndFjYk1ElY8kodA9u6o8HrWFWqMf5CThmLUXVo5KvH0P/JvgiHsdjUtFaagNfBRyvUGE0=';
 
 async function _deriveKey(password, salt) {
   const km = await crypto.subtle.importKey(

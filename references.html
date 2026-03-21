@@ -321,6 +321,50 @@ body {
 .modal::-webkit-scrollbar { width: 4px; }
 .modal::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
 
+/* ── Smart Add ── */
+.smart-modal { max-width: 460px; }
+.input-tabs {
+  display: flex; border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 14px;
+}
+.input-tab {
+  flex: 1; padding: 8px 0; font-size: 12px; font-weight: 600;
+  text-align: center; cursor: pointer; background: var(--bg);
+  color: var(--text-secondary); border: none; font-family: inherit;
+  transition: all 0.15s;
+}
+.input-tab.active { background: var(--surface); color: var(--text-primary); }
+.input-tab + .input-tab { border-left: 1px solid var(--border-strong); }
+.input-panel { display: none; }
+.input-panel.active { display: block; }
+.file-drop {
+  border: 2px dashed var(--border-strong); border-radius: var(--radius-sm);
+  padding: 28px 20px; text-align: center; cursor: pointer; transition: all 0.15s;
+}
+.file-drop:hover, .file-drop.drag { border-color: var(--accent); background: var(--accent-bg); }
+.file-drop.has-file { border-color: var(--accent); background: var(--accent-bg); }
+.file-drop-text { font-size: 13px; color: var(--text-secondary); }
+.file-drop-sub  { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+.smart-key-row  { display: flex; gap: 6px; margin-bottom: 14px; }
+.smart-key-input {
+  flex: 1; font-size: 11px; padding: 7px 10px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  font-family: inherit; outline: none; background: var(--bg); color: var(--text-primary);
+}
+.smart-key-input:focus { border-color: var(--accent); }
+.analyzing-state {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 16px; color: var(--text-tertiary); font-size: 13px;
+}
+.spinner {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid var(--border-strong); border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite; flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.analyze-btn { width: 100%; margin-top: 14px; padding: 10px; font-size: 13px; font-weight: 700; }
+.smart-error { color: #D85A30; font-size: 12px; margin-bottom: 8px; }
+
 @media (max-width: 560px) {
   .search-wrap { width: 100%; }
   .page-header-row { flex-direction: column; }
@@ -391,13 +435,58 @@ body {
     <span class="ref-count" id="refCount"><strong>0</strong>개 자료</span>
     <div class="toolbar-right">
       <button class="btn btn-secondary btn-sm" onclick="toggleGhPanel()">⇄ GitHub 동기화</button>
-      <button class="btn btn-primary btn-sm" onclick="openAddModal()">+ 자료 추가</button>
+      <button class="btn btn-secondary btn-sm" onclick="openAddModal()">+ 직접 입력</button>
+      <button class="btn btn-primary btn-sm" onclick="openSmartModal()">✦ 스마트 추가</button>
     </div>
   </div>
 
   <!-- Cards -->
   <div class="cards-grid" id="cardsGrid"></div>
 
+</div>
+
+<!-- Smart Add Modal -->
+<div class="modal-overlay" id="smartOverlay">
+  <div class="modal smart-modal">
+    <div class="modal-header">
+      <div class="modal-title">✦ 스마트 추가</div>
+      <button class="modal-close" onclick="closeSmartModal()">닫기 ✕</button>
+    </div>
+
+    <div style="margin-bottom:4px;"><label class="form-label">Claude API Key</label></div>
+    <div class="smart-key-row">
+      <input class="smart-key-input" id="smartApiKey" type="password" placeholder="sk-ant-…">
+      <button class="btn btn-secondary btn-sm" onclick="saveApiKey()">저장</button>
+    </div>
+
+    <div class="input-tabs">
+      <button class="input-tab active" onclick="switchTab('pdf')">PDF 파일</button>
+      <button class="input-tab"        onclick="switchTab('url')">URL / DOI</button>
+      <button class="input-tab"        onclick="switchTab('text')">텍스트</button>
+    </div>
+
+    <div class="input-panel active" id="panel-pdf">
+      <div class="file-drop" id="fileDrop" onclick="document.getElementById('fileInput').click()">
+        <div class="file-drop-text" id="fileDropText">클릭하거나 PDF를 여기에 드래그하세요</div>
+        <div class="file-drop-sub">PDF 파일만 지원</div>
+      </div>
+      <input type="file" id="fileInput" accept=".pdf" style="display:none" onchange="handleFile(this)">
+    </div>
+
+    <div class="input-panel" id="panel-url">
+      <input class="form-input" id="smartUrl" placeholder="https://doi.org/… 또는 논문 URL">
+      <div class="form-hint" style="margin-top:6px;">DOI나 URL을 입력하면 Claude가 알고 있는 정보로 채워줍니다.</div>
+    </div>
+
+    <div class="input-panel" id="panel-text">
+      <textarea class="form-textarea" id="smartText" style="min-height:120px;"
+        placeholder="논문 제목, 저자, 초록 등 텍스트를 붙여넣으세요…"></textarea>
+    </div>
+
+    <div id="analyzeArea">
+      <button class="btn btn-primary analyze-btn" onclick="analyze()">분석하기</button>
+    </div>
+  </div>
 </div>
 
 <!-- Add/Edit Modal -->
@@ -512,6 +601,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('modalOverlay').addEventListener('click', e => {
     if (e.target.id === 'modalOverlay') closeModal();
+  });
+  document.getElementById('smartOverlay').addEventListener('click', e => {
+    if (e.target.id === 'smartOverlay') closeSmartModal();
   });
 
   document.querySelectorAll('.chk-chip').forEach(label => {
@@ -774,6 +866,157 @@ async function saveToGitHub() {
     setStatus(`GitHub 저장 완료 — ${refs.length}개 자료`, 'ok');
   } catch(e) { setStatus('저장 실패: ' + e.message, 'err'); }
   finally    { btn.disabled = false; }
+}
+
+// ── Smart Add ─────────────────────────────────────
+let currentTab = 'pdf';
+let pdfBase64  = null;
+
+function openSmartModal() {
+  document.getElementById('smartOverlay').classList.add('open');
+  const k = localStorage.getItem('claude_api_key');
+  if (k) document.getElementById('smartApiKey').value = k;
+  // drag & drop
+  const drop = document.getElementById('fileDrop');
+  drop.addEventListener('dragover',  e => { e.preventDefault(); drop.classList.add('drag'); });
+  drop.addEventListener('dragleave', ()  => drop.classList.remove('drag'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('drag');
+    const f = e.dataTransfer.files[0];
+    if (f && f.type === 'application/pdf') { document.getElementById('fileInput').files = e.dataTransfer.files; handleFile(document.getElementById('fileInput')); }
+  });
+}
+
+function closeSmartModal() {
+  document.getElementById('smartOverlay').classList.remove('open');
+  pdfBase64 = null;
+  document.getElementById('fileDropText').textContent = '클릭하거나 PDF를 여기에 드래그하세요';
+  document.getElementById('fileDrop').classList.remove('has-file');
+  resetAnalyzeBtn();
+}
+
+function resetAnalyzeBtn() {
+  document.getElementById('analyzeArea').innerHTML =
+    '<button class="btn btn-primary analyze-btn" onclick="analyze()">분석하기</button>';
+}
+
+function saveApiKey() {
+  const k = document.getElementById('smartApiKey').value.trim();
+  if (k) localStorage.setItem('claude_api_key', k);
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.input-tab').forEach((t, i) => {
+    t.classList.toggle('active', ['pdf','url','text'][i] === tab);
+  });
+  document.querySelectorAll('.input-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`panel-${tab}`).classList.add('active');
+}
+
+function handleFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    pdfBase64 = e.target.result.split(',')[1];
+    document.getElementById('fileDropText').textContent = `✓ ${file.name}`;
+    document.getElementById('fileDrop').classList.add('has-file');
+  };
+  reader.readAsDataURL(file);
+}
+
+async function analyze() {
+  const apiKey = localStorage.getItem('claude_api_key') || document.getElementById('smartApiKey').value.trim();
+  if (!apiKey) { alert('Claude API Key를 입력해주세요.'); return; }
+  localStorage.setItem('claude_api_key', apiKey);
+
+  document.getElementById('analyzeArea').innerHTML =
+    '<div class="analyzing-state"><div class="spinner"></div>분석 중…</div>';
+
+  const PROMPT = `다음 자료에서 서지 정보를 추출해서 아래 JSON 형식으로만 응답하세요. JSON 외 다른 텍스트는 절대 출력하지 마세요.
+
+{
+  "authors": "저자명 (Last, F. M. 형식)",
+  "year": 2024,
+  "title": "제목",
+  "source": "학술지명, 권(호), 페이지",
+  "type": "논문",
+  "theories": ["이론 약어 배열, 예: COR, JD-R, SDT, TAM, RTC, JCT, SET"],
+  "summary": "핵심 내용 2~3문장 한국어 요약",
+  "roles": ["이론 근거 / 선행연구 / IV 근거 / 매개변수 근거 / 조절변수 근거 / DV 근거 / 척도 / 데이터 중 해당하는 것"],
+  "url": "DOI 또는 URL"
+}
+
+type은 반드시 논문/보고서/통계/척도/기타 중 하나.`;
+
+  let content = [];
+  if (currentTab === 'pdf') {
+    if (!pdfBase64) { resetAnalyzeBtn(); alert('PDF 파일을 선택해주세요.'); return; }
+    content = [
+      { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: pdfBase64 } },
+      { type: 'text', text: PROMPT }
+    ];
+  } else if (currentTab === 'url') {
+    const url = document.getElementById('smartUrl').value.trim();
+    if (!url) { resetAnalyzeBtn(); alert('URL을 입력해주세요.'); return; }
+    content = [{ type: 'text', text: `다음 URL/DOI의 논문 정보를 채워주세요: ${url}\n\n${PROMPT}` }];
+  } else {
+    const text = document.getElementById('smartText').value.trim();
+    if (!text) { resetAnalyzeBtn(); alert('텍스트를 입력해주세요.'); return; }
+    content = [{ type: 'text', text: `${text}\n\n${PROMPT}` }];
+  }
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-beta': 'pdfs-2024-09-25',
+        'content-type': 'application/json',
+        'anthropic-dangerous-allow-browser': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1024,
+        messages: [{ role: 'user', content }]
+      })
+    });
+
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `HTTP ${res.status}`); }
+    const data   = await res.json();
+    const raw    = data.content[0].text.trim();
+    const jsonStr = raw.match(/\{[\s\S]*\}/)?.[0];
+    if (!jsonStr) throw new Error('응답에서 JSON을 찾을 수 없습니다.');
+    const ex = JSON.parse(jsonStr);
+
+    closeSmartModal();
+    clearForm();
+    if (ex.authors)   document.getElementById('fAuthors').value   = ex.authors;
+    if (ex.year)      document.getElementById('fYear').value      = ex.year;
+    if (ex.title)     document.getElementById('fTitle').value     = ex.title;
+    if (ex.source)    document.getElementById('fSource').value    = ex.source;
+    if (ex.type)      document.getElementById('fType').value      = ex.type;
+    if (ex.url)       document.getElementById('fUrl').value       = ex.url;
+    if (ex.theories)  document.getElementById('fTheories').value  = ex.theories.join(', ');
+    if (ex.summary)   document.getElementById('fSummary').value   = ex.summary;
+    if (ex.roles) {
+      document.querySelectorAll('#rolesGroup .chk-chip').forEach(label => {
+        const inp = label.querySelector('input');
+        const chk = ex.roles.includes(inp.value);
+        inp.checked = chk; label.classList.toggle('checked', chk);
+      });
+    }
+    editingId = null;
+    document.getElementById('modalTitle').textContent = '자료 추가 — 자동 추출 결과 확인';
+    document.getElementById('modalOverlay').classList.add('open');
+
+  } catch(e) {
+    document.getElementById('analyzeArea').innerHTML =
+      `<div class="smart-error">오류: ${e.message}</div>
+       <button class="btn btn-primary analyze-btn" onclick="analyze()">다시 시도</button>`;
+  }
 }
 
 // ── Auto Load (public repo, no token needed) ──────

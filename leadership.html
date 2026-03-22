@@ -68,10 +68,9 @@ body {
 .nav-dropdown { position: relative; }
 .nav-dropdown-btn {
   font-size: 13px; color: var(--text-secondary);
-  background: none; border: none; cursor: pointer;
+  background: none; text-decoration: none;
   padding: 6px 14px; border-radius: var(--radius-sm);
   transition: background 0.15s, color 0.15s;
-  font-family: inherit;
 }
 .nav-dropdown-btn:hover,
 .nav-dropdown:hover .nav-dropdown-btn { background: #f0eeea; color: var(--text-primary); }
@@ -496,7 +495,7 @@ footer {
     <span class="nav-brand">HR Study</span>
     <div class="nav-links">
       <div class="nav-dropdown">
-        <button class="nav-dropdown-btn active">이론 학습 ▾</button>
+        <a href="index.html" class="nav-dropdown-btn active">이론 학습 ▾</a>
         <div class="dropdown-menu">
           <a href="index.html" class="dropdown-item">핵심 이론 10선</a>
           <a href="leadership.html" class="dropdown-item active">리더십 유형</a>

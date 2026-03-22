@@ -1,1 +1,4 @@
 encrypt-key.mjs
+src/
+node_modules/
+*.pptx

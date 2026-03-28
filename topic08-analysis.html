@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>선행연구 분석 — 주제 08 | HR Study</title>
+<style>
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --border: rgba(0,0,0,0.09);
+  --border-strong: rgba(0,0,0,0.18);
+  --text-primary: #1a1a18;
+  --text-secondary: #5c5c56;
+  --text-tertiary: #9c9a90;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --nav-h: 52px;
+  --accent: #0369A1;
+  --accent-light: #e0f0fa;
+  --accent-hover: #025d8e;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.7;
+}
+
+/* ── Nav ── */
+.site-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-strong);
+  padding: 0 24px;
+  height: var(--nav-h);
+}
+.nav-inner {
+  max-width: 1140px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 100%;
+}
+.nav-brand {
+  font-family: Georgia, serif; font-size: 15px; font-weight: 600;
+  color: var(--text-primary); text-decoration: none;
+}
+.nav-links { display: flex; gap: 4px; }
+.nav-link {
+  font-size: 13px; color: var(--text-secondary); text-decoration: none;
+  padding: 6px 14px; border-radius: var(--radius-sm);
+  transition: background 0.15s, color 0.15s;
+}
+.nav-link:hover { background: #f0eeea; color: var(--text-primary); }
+.nav-link.active { background: #f0eeea; color: var(--text-primary); font-weight: 600; }
+
+/* ── Main Layout ── */
+.page-wrapper {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+  margin-bottom: 28px;
+}
+.breadcrumb a {
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s;
+}
+.breadcrumb a:hover { color: var(--accent-hover); }
+
+/* ── Page Header ── */
+.page-header {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 36px 40px;
+  margin-bottom: 32px;
+}
+.badge-row {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 18px;
+}
+.badge {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 4px 12px; border-radius: 20px;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.badge-topic {
+  background: var(--accent); color: #fff;
+}
+.badge-field {
+  background: var(--accent-light); color: var(--accent);
+  border: 1px solid rgba(3,105,161,0.2);
+}
+.badge-status {
+  background: #f0fdf4; color: #15803d;
+  border: 1px solid rgba(21,128,61,0.2);
+}
+.page-header h1 {
+  font-family: Georgia, serif;
+  font-size: 26px; font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.page-header .subtitle {
+  font-size: 15px; color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+.page-header .desc {
+  font-size: 13.5px; color: var(--text-secondary);
+  background: var(--accent-light);
+  border-left: 3px solid var(--accent);
+  padding: 12px 16px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  line-height: 1.6;
+}
+
+/* ── Section ── */
+.section {
+  margin-bottom: 40px;
+}
+.section-title {
+  font-family: Georgia, serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--accent);
+  display: flex; align-items: center; gap: 10px;
+}
+.section-title .num {
+  background: var(--accent); color: #fff;
+  font-size: 12px; font-weight: 700;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Paper Card ── */
+.paper-card {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+.paper-card-header {
+  background: var(--accent);
+  padding: 18px 28px;
+  color: #fff;
+}
+.paper-card-header .paper-num {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; opacity: 0.8;
+  margin-bottom: 4px;
+}
+.paper-card-header h2 {
+  font-size: 16px; font-weight: 700;
+  line-height: 1.4;
+}
+.paper-card-header .paper-meta {
+  font-size: 12px; opacity: 0.75; margin-top: 4px;
+}
+.paper-card-body {
+  padding: 28px;
+}
+
+/* ── Analysis Grid ── */
+.analysis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 0;
+}
+@media (max-width: 700px) {
+  .analysis-grid { grid-template-columns: 1fr; }
+}
+.analysis-block {
+  background: #fafaf9;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+}
+.analysis-block.full-width {
+  grid-column: 1 / -1;
+}
+.analysis-block-title {
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 6px;
+}
+.analysis-block-title .icon {
+  font-size: 14px;
+}
+.analysis-block ul {
+  list-style: none; padding: 0;
+}
+.analysis-block ul li {
+  font-size: 13.5px; color: var(--text-secondary);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.6;
+}
+.analysis-block ul li:last-child { border-bottom: none; }
+.analysis-block ul li .cite {
+  font-size: 11.5px; color: var(--accent);
+  font-style: italic;
+  margin-left: 4px;
+}
+.analysis-block ol {
+  padding-left: 20px;
+}
+.analysis-block ol li {
+  font-size: 13.5px; color: var(--text-secondary);
+  padding: 5px 0;
+  line-height: 1.6;
+}
+.problem-item {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  background: #fff8f0;
+  border-left: 3px solid #f59e0b;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.problem-item .problem-title {
+  font-size: 12.5px; font-weight: 700;
+  color: #92400e;
+  margin-bottom: 4px;
+}
+.problem-item .problem-desc {
+  font-size: 13px; color: var(--text-secondary);
+  line-height: 1.6;
+}
+.contrib-block {
+  margin-bottom: 10px;
+}
+.contrib-tag {
+  font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+  margin-bottom: 6px; display: inline-block;
+}
+.contrib-tag.theory { background: #ede9fe; color: #5b21b6; }
+.contrib-tag.practice { background: #dcfce7; color: #15803d; }
+.contrib-desc {
+  font-size: 13px; color: var(--text-secondary);
+  line-height: 1.6;
+  padding-left: 4px;
+}
+
+/* ── Table ── */
+.table-wrap {
+  overflow-x: auto;
+  margin: 0;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table th {
+  background: #f3f8fd;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 12px;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 2px solid var(--accent);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  line-height: 1.55;
+  vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: #f9f9f8; }
+.var-badge {
+  font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+  white-space: nowrap;
+}
+.var-iv { background: #dbeafe; color: #1d4ed8; }
+.var-med { background: #fef9c3; color: #a16207; }
+.var-dv { background: #dcfce7; color: #15803d; }
+.var-ctrl { background: #f1f5f9; color: #475569; }
+.var-mod { background: #fce7f3; color: #9d174d; }
+
+/* ── Research Model Viz ── */
+.model-viz {
+  background: #f0f7fd;
+  border: 1px solid rgba(3,105,161,0.2);
+  border-radius: var(--radius-sm);
+  padding: 28px 24px;
+  margin-top: 20px;
+  text-align: center;
+}
+.model-viz-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text-tertiary); text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.model-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.model-box {
+  background: var(--surface);
+  border: 1.5px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  min-width: 130px;
+  text-align: center;
+}
+.model-box .box-label {
+  font-size: 10px; color: var(--text-tertiary); font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.model-box .box-name {
+  font-size: 13px; font-weight: 700;
+  color: var(--accent);
+}
+.model-arrow {
+  font-size: 20px; color: var(--accent);
+  display: flex; align-items: center;
+}
+
+/* ── Yoon Model ── */
+.yoon-model {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0; padding: 8px 0;
+}
+.yoon-indicators {
+  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 0;
+}
+.yoon-ind-box {
+  background: #fff; border: 1.5px solid #555; border-radius: 4px;
+  padding: 6px 10px; font-size: 11px; text-align: center; line-height: 1.3;
+  min-width: 72px;
+}
+.yoon-middle-row {
+  font-size: 18px; letter-spacing: 6px; color: #555; line-height: 1;
+  margin: 2px 0 0;
+}
+.yoon-center-circle {
+  width: 100px; height: 100px; border-radius: 50%;
+  border: 2px solid #1a1a18; background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  margin: 4px 0;
+}
+.yoon-main-row {
+  display: flex; align-items: center; gap: 0;
+  width: 100%; justify-content: center; margin: 8px 0 0;
+}
+.yoon-rect {
+  border: 2px solid #1a1a18; background: #fff;
+  padding: 12px 18px; text-align: center; min-width: 140px; border-radius: 4px;
+}
+.yoon-iv  { border-color: #0369A1; background: #E0F2FE; }
+.yoon-dv  { border-color: #1a1a18; background: #f9f9f7; }
+.yoon-main-arrow { display: flex; align-items: center; }
+.yoon-ctrl-row {
+  margin-top: 16px;
+}
+.yoon-ctrl-box {
+  border: 1.5px solid #888; border-radius: 4px;
+  padding: 8px 16px; background: #fff; text-align: center;
+}
+
+/* ── Triangle Model ── */
+.model-triangle {
+  position: relative;
+  width: 500px;
+  height: 260px;
+  margin: 0 auto;
+}
+.triangle-svg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+.triangle-top {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+}
+.triangle-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.model-oval {
+  border-radius: 50%;
+  padding: 14px 22px;
+  text-align: center;
+  width: 148px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.model-oval-iv  { background: #f0e8ff; border: 2px solid #c084fc; }
+.model-oval-med { background: #f0e8ff; border: 2px solid #c084fc; }
+.model-oval-dv  { background: #f0e8ff; border: 2px solid #c084fc; }
+.model-oval .box-label {
+  font-size: 9px; color: #7c3aed; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.model-oval .box-name {
+  font-size: 13px; font-weight: 800; color: #1a1a18; line-height: 1.2;
+}
+.model-oval .box-sub {
+  font-size: 9px; color: #7c3aed; font-style: italic; margin-top: 2px;
+}
+.model-sub {
+  display: flex; align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 12px;
+}
+.model-sub-label {
+  font-size: 11px; color: var(--text-tertiary);
+  margin-bottom: 4px;
+}
+
+/* ── Hypothesis Table ── */
+.hypo-table th:nth-child(1) { width: 90px; }
+.hypo-table th:nth-child(3) { width: 110px; }
+.result-badge {
+  font-size: 11.5px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+  white-space: nowrap;
+}
+.result-adopt { background: #dcfce7; color: #15803d; }
+.result-reject { background: #fee2e2; color: #b91c1c; }
+.result-inconclusive { background: #e0f0fa; color: #0369A1; }
+
+/* ── Compare Table ── */
+.compare-table th:nth-child(1) { width: 150px; background: #f3f8fd; }
+.compare-table td:nth-child(1) { font-weight: 600; color: var(--text-primary); background: #f9fafb; }
+
+/* ── Divider ── */
+.paper-divider {
+  height: 1px; background: var(--border-strong);
+  margin: 28px 0;
+}
+
+/* ── Footer ── */
+.page-footer {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-strong);
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .page-wrapper { padding: 24px 16px 60px; }
+  .page-header { padding: 24px 20px; }
+  .paper-card-body { padding: 20px; }
+  .page-header h1 { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">HR Study</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">홈</a>
+      <a href="leadership.html" class="nav-link">리더십</a>
+      <a href="topics.html" class="nav-link active">주제 후보</a>
+      <a href="references.html" class="nav-link">참고문헌</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Main -->
+<div class="page-wrapper">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="topics.html">← 주제 후보로 돌아가기</a>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="badge-row">
+      <span class="badge badge-topic">주제 08</span>
+      <span class="badge badge-field">직무몰입 · AI 저항 기질</span>
+      <span class="badge badge-status">✓ 선행연구 분석 완료</span>
+    </div>
+    <h1>선행연구 분석 — 주제 08</h1>
+    <p class="subtitle">AI 자동화 저항 기질이 직무 몰입에 미치는 영향</p>
+    <p class="desc">이 페이지는 주제 08의 핵심 선행연구 2편을 배·문·목·공 프레임으로 분석한 자료입니다.</p>
+  </div>
+
+  <!-- ═══ 섹션 2: 배·문·목·공 분석 ═══ -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">2</span> 각 논문별 배·문·목·공 분석</h2>
+
+    <!-- 논문 1 -->
+    <div class="paper-card">
+      <div class="paper-card-header">
+        <div class="paper-num">논문 01</div>
+        <h2>진정성 리더십과 조직신뢰, 직무몰입의 관계에 대한 연구</h2>
+        <div class="paper-meta">김진혁 (2021) · 고려대학교 기술경영전문대학원 석사학위논문 · AMOS 구조방정식</div>
+      </div>
+      <div class="paper-card-body">
+        <div class="analysis-grid">
+
+          <!-- 배경 -->
+          <div class="analysis-block">
+            <div class="analysis-block-title"><span class="icon">📚</span>배경 (Background)</div>
+            <ul>
+              <li>2012년 타워스왓슨(Towers Watson) '글로벌 인적자원 설문조사'는 조직구성원 직무몰입이 조직 지속 성장의 필수 요소임을 밝혔다. <span class="cite">(Towers Watson, 2012)</span></li>
+              <li>직무몰입에 영향을 미치는 요인으로 리더의 역할이 핵심으로 제시되어 있다. 리더의 태도·행동이 구성원의 직무만족 및 성과에 절대적 영향을 미친다. <span class="cite">(김정식·이동우, 2011; Bass, 1985; Kirkman & Rosen, 1999)</span></li>
+              <li>2001년 엔론(Enron) 회계 부정 사건 이후, 윤리성과 신뢰를 갖춘 새로운 리더십 패러다임이 요구되었으며, 이 맥락에서 진정성 리더십이 주목받았다. <span class="cite">(Gardner, Avolio, Luthans, May & Walumbwa, 2005)</span></li>
+              <li>진정성 리더십은 Luthans와 Avolio(2003)가 제시한 자아인식·관계적 투명성·균형잡힌 정보처리·내재화된 도덕적 관점의 4요소로 정의된다. <span class="cite">(Walumbwa et al., 2008)</span></li>
+              <li>조직신뢰는 구성원이 조직 목표 달성이 궁극적으로 자신에게 이익이 될 것이라는 신념으로서, 직무몰입의 주요 예측변수이다. <span class="cite">(Spence, Finegan & Shamian, 2001; Tan & Tan, 2000)</span></li>
+              <li>사회교환이론(Social Exchange Theory)에 따르면 진정성 리더십을 가진 리더는 구성원과 상호 신뢰를 형성해 긍정적 행동을 유도한다. <span class="cite">(Blau, 1964)</span></li>
+              <li>진정성 리더십은 직무몰입을 강화하고, 조직신뢰를 높이며, 조직신뢰는 다시 직무몰입에 정적 영향을 미친다는 선행연구들이 존재한다. <span class="cite">(Rogers, 1961; 권태윤·박성규, 2010; 서철현, 1998)</span></li>
+            </ul>
+          </div>
+
+          <!-- 문제점 -->
+          <div class="analysis-block">
+            <div class="analysis-block-title"><span class="icon">⚠️</span>문제점 (Problems)</div>
+            <div class="problem-item">
+              <div class="problem-title">단편적 인과관계 분석의 한계</div>
+              <div class="problem-desc">기존 선행연구들이 진정성 리더십, 조직신뢰, 직무몰입 간 개별적·단편적 인과관계 분석에 집중하여, 세 변인 간의 구조적·상호보완적 관계 파악이 제한적이었다. <span class="cite">(송승열, 2014; 송진구, 2014; 유재익·정동섭, 2015; 이신예 외, 2018)</span></div>
+            </div>
+            <div class="problem-item">
+              <div class="problem-title">진정성 리더십 하위요소별 실증분석 부족</div>
+              <div class="problem-desc">진정성 리더십의 4가지 하위요소(자아인식, 관계적 투명성, 균형잡힌 정보처리, 내재화된 도덕적 관점)가 각각 조직신뢰와 직무몰입에 미치는 영향을 유형별로 분석한 연구가 부족하다.</div>
+            </div>
+            <div class="problem-item">
+              <div class="problem-title">조직신뢰의 매개역할 검증 미흡</div>
+              <div class="problem-desc">진정성 리더십과 직무몰입의 관계에서 조직신뢰가 어떤 매개역할을 수행하는지 구조방정식 수준의 통합 검증을 수행한 연구가 드물다.</div>
+            </div>
+            <div class="problem-item">
+              <div class="problem-title">특정 세대·집단 비교 연구 부재</div>
+              <div class="problem-desc">밀레니얼 세대 등 특정 세대가 가지는 직업관·자아실현 형태가 직무몰입에 미치는 영향에 대한 비교 연구가 이루어지지 않았다.</div>
+            </div>
+          </div>
+
+          <!-- 목적 -->
+          <div class="analysis-block">
+            <div class="analysis-block-title"><span class="icon">🎯</span>목적 (Purposes)</div>
+            <ol>
+              <li>불확실한 경영환경에서 리더의 진정성 리더십이 조직구성원의 직무몰입에 미치는 영향 분석</li>
+              <li>진정성 리더십이 조직신뢰에 미치는 영향 규명</li>
+              <li>조직신뢰가 직무몰입에 미치는 영향 파악</li>
+              <li>진정성 리더십과 직무몰입의 관계에서 조직신뢰의 매개 역할 검증</li>
+            </ol>
+          </div>
+
+          <!-- 공헌 -->
+          <div class="analysis-block">
+            <div class="analysis-block-title"><span class="icon">💡</span>공헌 (Contributions)</div>
+            <div class="contrib-block">
+              <span class="contrib-tag theory">이론적 공헌</span>
+              <p class="contrib-desc">진정성 리더십, 조직신뢰, 직무몰입 세 변인을 단편적 인과관계가 아닌 상호보완적·구조적 관계로 분석하여 이론적 연구 지평을 확장하였다. 조직신뢰가 진정성 리더십과 직무몰입의 관계에서 유의한 매개변수임을 구조방정식으로 실증하였다.</p>
+            </div>
+            <div class="contrib-block">
+              <span class="contrib-tag practice">실무적 공헌</span>
+              <p class="contrib-desc">진정성 리더십 함양을 위한 리더십 교육 프로그램(최고경영자·중간관리자 포함)의 필요성을 제안하였다. 일과 삶의 균형을 중시하는 밀레니얼 세대가 조직의 주축으로 성장하는 시점에서, 신뢰 기반의 조직문화 구축 전략과 공정한 성과 평가 체계 수립에 현실적 방향성을 제시하였다.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 논문 2 -->
+    <div class="paper-card">
+      <div class="paper-card-header">
+        <div class="paper-num">논문 02</div>
+        <h2>기술 진보에 대한 걱정과 직무몰입의 관계 — 직무 특성 유형에 따른 차이</h2>
+        <div class="paper-meta">Yoon, Lee, Lim & Hong (2026) · Technology in Society, 85, 103163 · 회귀혼합모형(LCA + 회귀분석)</div>
+      </div>
+      <div class="paper-card-body">
+        <div class="analysis-grid">
+
+          <!-- 배경 -->
+          <div class="analysis-block">
+            <div class="analysis-block-title"><span class="icon">📚</span>배경 (Background)</div>
+            <ul>
+              <li>제4차 산업혁명(Schwab, 2016 다보스 포럼 제시)은 ICT가 인간 인지 능력까지 대체하는 패러다임 전환을 가져왔다. <span class="cite">(Liao et al., 2017)</span></li>
+              <li>Frey와 Osborne(2017)은 컴퓨터화로 인해 20년 내 미국 직업의 47%가 자동화 고위험군에 속한다고 예측하였다. <span class="cite">(Frey & Osborne, 2017)</span></li>
+              <li>과거에는 블루칼라·반복 업무만 자동화 위협을 받았으나, 이제는 화이트칼라·분석적 업무까지 AI가 대체 대상으로 확장되고 있다. <span class="cite">(Busemeyer & Tober, 2023; Fan et al., 2024; Kurer, 2020)</span></li>
+              <li>직무요구-자원(JD-R) 모델에 따르면 자원(자율성, 상사 지원 등)이 요구(업무 부하, 기술 변화 스트레스 등)를 완충할 때 직무몰입이 유지된다. <span class="cite">(Bakker & Demerouti, 2007; Schaufeli et al., 2002)</span></li>
+              <li>테크노스트레스(technostress)는 새로운 기술 관련 높은 직무요구에서 비롯되며, 몰입과 생산성에 부정적 영향을 미친다. <span class="cite">(Atanasoff & Venable, 2017; Tarafdar et al., 2007)</span></li>
+              <li>Hackman & Oldham(1976)의 직무특성이론은 자율성, 기술 다양성, 과제 정체성 등이 내재적 동기와 직무몰입에 기여함을 강조한다.</li>
+              <li>자율성과 직무 복잡성은 자동화로 대체될 확률을 낮추는 구조적 요인임과 동시에, 기술 불안을 완충하는 심리적 자원으로도 기능한다. <span class="cite">(Bakker, Demerouti & Euwema, 2005; Xanthopoulou et al., 2007)</span></li>
+            </ul>
+          </div>
+
+          <!-- 문제점 -->
+          <div class="analysis-block">
+            <div class="analysis-block-title"><span class="icon">⚠️</span>문제점 (Problems)</div>
+            <div class="problem-item">
+              <div class="problem-title">주관적 직무경험 관점의 부재</div>
+              <div class="problem-desc">기존 자동화 연구는 직무의 반복성·숙련수준 등 구조적 속성에 집중하여 종업원이 주관적으로 경험하는 직무 특성이 기술 불안과 직무몰입에 미치는 영향을 충분히 탐구하지 않았다. <span class="cite">(Autor et al., 2003; Goos et al., 2014)</span></div>
+            </div>
+            <div class="problem-item">
+              <div class="problem-title">직무특성 조합(Configuration)의 다양성 미반영</div>
+              <div class="problem-desc">대부분의 선행연구는 변수 중심 접근법으로 직무 속성의 개별 효과만 분석하여, 자율성·복잡성 등이 결합된 형태가 기술 불안과 몰입의 관계에 어떻게 작용하는지 파악하지 못하였다.</div>
+            </div>
+            <div class="problem-item">
+              <div class="problem-title">생성형 AI 이후 데이터 부재</div>
+              <div class="problem-desc">본 연구는 2020년 데이터를 사용하여 횡단면 연구라는 한계를 지닌다. ChatGPT 등 생성형 AI 등장(2022년 이후) 이후의 변화를 추적하지 못하며, 인과관계 확립도 불가능하다.</div>
+            </div>
+            <div class="problem-item">
+              <div class="problem-title">연구 대상 제한</div>
+              <div class="problem-desc">50세 이하 임금노동자로 한정하여, 고령 근로자나 임시직·자영업자 등 비임금노동자의 직무특성 및 기술 불안이 다를 수 있어 일반화에 제약이 있다.</div>
+            </div>
+          </div>
+
+          <!-- 목적 -->
+          <div class="analysis-block">
+            <div class="analysis-block-title"><span class="icon">🎯</span>목적 (Purposes)</div>
+            <ol>
+              <li>근로자의 지각된 직무 특성(자율성, 복잡성)을 기반으로 직무특성 잠재 집단을 유형화한다.</li>
+              <li>기술 진보·자동화에 대한 걱정(worry about technological progress)이 직무몰입에 부정적으로 연관되는지 검증한다.</li>
+              <li>기술 진보 걱정과 직무몰입의 관계가 직무특성 집단 유형에 따라 차이가 있는지 규명한다.</li>
+            </ol>
+          </div>
+
+          <!-- 공헌 -->
+          <div class="analysis-block">
+            <div class="analysis-block-title"><span class="icon">💡</span>공헌 (Contributions)</div>
+            <div class="contrib-block">
+              <span class="contrib-tag theory">이론적 공헌</span>
+              <p class="contrib-desc">기술 진보에 대한 심리적 예상과 두려움도 JD-R 모델의 직무요구로 작용함을 실증하여 이론의 적용 범위를 확장하였다. 인물 중심 접근(LCA)을 통해 직무특성 조합이 기술 불안-몰입 관계에 미치는 차별적 영향을 탐색하는 새로운 분석틀을 제공하였다.</p>
+            </div>
+            <div class="contrib-block">
+              <span class="contrib-tag practice">실무적 공헌</span>
+              <p class="contrib-desc">기업과 정책 당국에 기술 불안이 모든 직무 집단에서 몰입을 저하시키므로 조직 전체 대상의 개입이 필요함을 제안하였다. 직무별 자율성·복잡성 매핑을 통한 맞춤형 재교육·재훈련 설계와, TAM(Technology Acceptance Model)의 지각된 유용성·사용 용이성 제고를 통한 기술 수용 촉진 전략을 제시하였다. <span class="cite">(Davis, 1989; Caselli et al., 2024, 2025)</span></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 섹션 3: 연구 변수 및 모델 ═══ -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">3</span> 연구 변수 및 모델</h2>
+
+    <!-- 논문 1 변수표 -->
+    <div class="paper-card">
+      <div class="paper-card-header">
+        <div class="paper-num">논문 01 — 변수 정의</div>
+        <h2>김진혁 (2021): 진정성 리더십 → 조직신뢰 → 직무몰입</h2>
+      </div>
+      <div class="paper-card-body">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>구분</th>
+                <th>변수명</th>
+                <th>정의 (조작적 정의)</th>
+                <th>측정 방법</th>
+                <th>참고문헌</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="var-badge var-iv">독립변수</span></td>
+                <td><strong>진정성 리더십</strong><br><small>Authentic Leadership</small></td>
+                <td>리더와 구성원의 긍정적 자기계발을 촉진하기 위해 자아인식, 내재화된 도덕적 관점, 균형잡힌 정보처리, 관계적 투명성을 발전시키고 윤리적·도덕적 분위기를 만드는 리더의 행동 유형</td>
+                <td>진정성 리더십 측정 도구(ALQ): 관계적 투명성(5문항), 내재화된 도덕적 관점(4문항), 균형잡힌 정보처리(4문항), 자아인식(3문항) — 총 16문항, 5점 Likert</td>
+                <td>Walumbwa et al. (2008)</td>
+              </tr>
+              <tr>
+                <td><span class="var-badge var-med">매개변수</span></td>
+                <td><strong>조직신뢰</strong><br><small>Organizational Trust</small></td>
+                <td>조직과 구성원 간 공유된 가치·상호 이해를 바탕으로 리더에 대한 긍정적 신념과 조직 자체에 대한 믿음을 가지고, 모든 행동의 결과가 궁극적으로 조직과 구성원 모두에게 도움이 될 것이라는 확신</td>
+                <td>Roberts & O'Reilly(1974) 측정 지표 수정 보완: 송진구(2014), 이신예·주윤황·윤재한(2018) 검증 문항 활용 — 총 5문항, 5점 Likert</td>
+                <td>Tan & Tan (2000); Spence, Finegan & Shamian (2001)</td>
+              </tr>
+              <tr>
+                <td><span class="var-badge var-dv">종속변수</span></td>
+                <td><strong>직무몰입</strong><br><small>Job Engagement</small></td>
+                <td>업무의 의미·중요성이 개인의 가치 안으로 내면화된 정도, 즉 직무에 대한 심리적 일체감·중요도이며, 구성원이 자신의 직무에 애착·자긍심·열정을 가지고 적극적으로 참여하는 정도</td>
+                <td>Kanungo(1982) 측정 도구 기반 수정: 김상석(2012), 안지선(2011), 윤경화(2016) 검증 문항 — 총 10문항, 5점 Likert</td>
+                <td>Lodahl & Kejner (1965); Kanungo (1982)</td>
+              </tr>
+              <tr>
+                <td><span class="var-badge var-ctrl">통제변수</span></td>
+                <td><strong>인구통계학적 특성</strong></td>
+                <td>연구 대상자의 기본 특성</td>
+                <td>성별, 연령, 학력, 업종, 근속년수, 상사 성별, 직종, 소속팀 인원수 — 총 9문항</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 연구 모형 시각화 (삼각형) -->
+        <div class="model-viz">
+          <div class="model-viz-title">연구 모형 (김진혁, 2021) &lt;그림 3-1&gt;</div>
+          <div class="model-triangle">
+            <!-- 상단: 조직신뢰 -->
+            <div class="triangle-top">
+              <div class="model-oval model-oval-med">
+                <div class="box-label">매개변수</div>
+                <div class="box-name">조직신뢰</div>
+                <div class="box-sub">Organizational Trust</div>
+              </div>
+            </div>
+            <!-- 하단 좌우: 진정성 리더십 ↔ 직무몰입 -->
+            <div class="triangle-bottom">
+              <div class="model-oval model-oval-iv">
+                <div class="box-label">독립변수</div>
+                <div class="box-name">진정성 리더십</div>
+                <div class="box-sub">Authentic Leadership</div>
+              </div>
+              <div class="model-oval model-oval-dv">
+                <div class="box-label">종속변수</div>
+                <div class="box-name">직무 몰입</div>
+                <div class="box-sub">Job Engagement</div>
+              </div>
+            </div>
+            <!-- SVG 화살표 -->
+            <svg class="triangle-svg" viewBox="0 0 500 260" xmlns="http://www.w3.org/2000/svg">
+              <!-- 진정성 리더십 → 조직신뢰 (좌하 → 상중) -->
+              <defs>
+                <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#1a1a18"/>
+                </marker>
+              </defs>
+              <line x1="155" y1="195" x2="218" y2="82" stroke="#1a1a18" stroke-width="2" marker-end="url(#arr)"/>
+              <!-- 조직신뢰 → 직무몰입 (상중 → 우하) -->
+              <line x1="282" y1="82" x2="345" y2="195" stroke="#1a1a18" stroke-width="2" marker-end="url(#arr)"/>
+              <!-- 진정성 리더십 → 직무몰입 (좌하 → 우하, 직접 경로) -->
+              <line x1="185" y1="215" x2="315" y2="215" stroke="#1a1a18" stroke-width="2" marker-end="url(#arr)"/>
+            </svg>
+          </div>
+          <div style="margin-top:8px; font-size:12px; color:var(--text-tertiary); text-align:center;">
+            ※ 진정성 리더십 → 직무몰입 직접 경로(β=.826) + 조직신뢰 매개 경로(p=.006) 포함
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 논문 2 변수표 -->
+    <div class="paper-card">
+      <div class="paper-card-header">
+        <div class="paper-num">논문 02 — 변수 정의</div>
+        <h2>Yoon et al. (2026): 기술 진보 걱정 → 직무몰입 (직무특성 유형 조절)</h2>
+      </div>
+      <div class="paper-card-body">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>구분</th>
+                <th>변수명</th>
+                <th>정의 (조작적 정의)</th>
+                <th>측정 방법</th>
+                <th>참고문헌</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="var-badge var-iv">독립변수</span></td>
+                <td><strong>기술 진보 걱정</strong><br><small>Worry about Technological Progress</small></td>
+                <td>기술 진보·자동화로 인해 미래 직무에 영향을 받을 수 있는 상황들(직무 소유감 상실, 기술·능력 활용 불가, 소득 감소, 원치 않는 업무 강요, 근무시간 변경 등)에 대한 걱정 수준</td>
+                <td>7차 EWCS(유럽근로환경조사) 최초 도입 문항 기반: 5가지 상황에 대한 4점 Likert 척도("전혀 걱정 안됨" → "매우 걱정됨") — Cronbach's α = .909</td>
+                <td>Eurofound (2021)</td>
+              </tr>
+              <tr>
+                <td><span class="var-badge var-mod">잠재 집단 조절</span></td>
+                <td><strong>직무특성 유형</strong><br><small>Job Characteristic Types (Latent Classes)</small></td>
+                <td>Hackman & Oldham(1976)의 직무특성이론에 기반하여 자율성(autonomy)과 과제 복잡성(task complexity)의 조합으로 구분된 4가지 잠재 집단: ① 고자율-단순(23.4%), ② 저자율-단순(33.8%), ③ 고자율-복잡(28.8%), ④ 저자율-복잡(14.0%)</td>
+                <td>6개 이분형(yes/no) 문항 — 엄격한 품질기준, 자기 품질 평가, 예상치 못한 문제 해결, 단조로움 여부, 복잡성 여부, 새로운 학습 여부 — LCA를 통해 유형화</td>
+                <td>Hackman & Oldham (1976); Muthén (2004)</td>
+              </tr>
+              <tr>
+                <td><span class="var-badge var-dv">종속변수</span></td>
+                <td><strong>직무몰입</strong><br><small>Job Engagement</small></td>
+                <td>활력(vigor), 헌신(dedication), 몰두(absorption)로 구성된 직무에 대한 긍정적·충족적 심리 상태</td>
+                <td>UWES-3(Utrecht Work Engagement Scale 초단축형 3문항): "일할 때 활력이 넘친다", "직무에 열의가 있다", "일할 때 시간이 빨리 간다" — 5점 Likert (역채점) — Cronbach's α = .788</td>
+                <td>Schaufeli et al. (2017); Choi et al. (2020)</td>
+              </tr>
+              <tr>
+                <td><span class="var-badge var-ctrl">통제변수</span></td>
+                <td><strong>인구통계 및 직업 특성</strong></td>
+                <td>직무몰입에 영향을 미치는 배경 변수</td>
+                <td>성별(남성=1), 연령(평균 37.65세), 공공기관 재직 여부, 학력, 월소득, 근속년수</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 연구 모형 시각화 (Yoon et al. Fig.1) -->
+        <div class="model-viz">
+          <div class="model-viz-title">연구 모형 (Yoon et al., 2026) — Fig. 1</div>
+          <div class="yoon-model">
+            <!-- 상단: 6개 직무특성 지표 박스 -->
+            <div class="yoon-indicators">
+              <div class="yoon-ind-box">Strict quality<br>standards</div>
+              <div class="yoon-ind-box">Self-<br>evaluation</div>
+              <div class="yoon-ind-box">Problem<br>solving</div>
+              <div class="yoon-ind-box">Monotony</div>
+              <div class="yoon-ind-box">Complexity</div>
+              <div class="yoon-ind-box">Learning<br>new thing</div>
+            </div>
+            <!-- 수렴 화살표 + 중앙 원 -->
+            <div class="yoon-middle-row">
+              <div class="yoon-arrows-down">↓↓↓↓↓↓</div>
+            </div>
+            <div class="yoon-center-circle">
+              <div style="font-size:11px;font-weight:700;text-align:center;line-height:1.4;">Job<br>characteristic<br>subtypes</div>
+            </div>
+            <!-- 하단 메인 경로 행 -->
+            <div class="yoon-main-row">
+              <div class="yoon-rect yoon-iv">
+                <div class="box-label" style="font-size:9px;">독립변수</div>
+                <div style="font-weight:700;font-size:12px;line-height:1.4;">Worry about<br>technological<br>progress</div>
+              </div>
+              <div class="yoon-main-arrow">
+                <svg width="80" height="40" viewBox="0 0 80 40">
+                  <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1a1a18"/></marker></defs>
+                  <!-- 수평 화살표 -->
+                  <line x1="0" y1="20" x2="68" y2="20" stroke="#1a1a18" stroke-width="1.5" marker-end="url(#a2)"/>
+                  <!-- 조절 하향 화살표 표시 -->
+                  <line x1="40" y1="0" x2="40" y2="14" stroke="#0369A1" stroke-width="1.5" marker-end="url(#a2)" stroke-dasharray="3,2"/>
+                </svg>
+              </div>
+              <div class="yoon-rect yoon-dv">
+                <div class="box-label" style="font-size:9px;">종속변수</div>
+                <div style="font-weight:700;font-size:13px;">Job<br>engagement</div>
+              </div>
+            </div>
+            <!-- 하단: 통제변수 박스 -->
+            <div class="yoon-ctrl-row">
+              <div class="yoon-ctrl-box">
+                <div style="font-size:10px;color:var(--text-secondary);line-height:1.5;">
+                  <strong>Control variables:</strong><br>
+                  age, gender, education,<br>income, year of service, public sector
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:8px; font-size:11px; color:var(--text-tertiary); text-align:center; line-height:1.6;">
+            ※ 파란 점선: 직무특성 잠재 집단(LCA)이 IV→DV 경로를 조절 (회귀혼합모형)<br>
+            ※ 분석 도구: Mplus 8.3 (회귀혼합모형), SPSS 25
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 섹션 4: 연구 가설 및 결과 ═══ -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">4</span> 연구 가설 및 결과</h2>
+
+    <!-- 논문 1 가설 -->
+    <div class="paper-card">
+      <div class="paper-card-header">
+        <div class="paper-num">논문 01 — 가설 검증 결과</div>
+        <h2>김진혁 (2021): 구조방정식 모형 결과 (N=246)</h2>
+      </div>
+      <div class="paper-card-body">
+        <div class="table-wrap">
+          <table class="data-table hypo-table">
+            <thead>
+              <tr>
+                <th>가설 번호</th>
+                <th>가설 내용</th>
+                <th>검증 결과</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>H1</strong></td>
+                <td>진정성 리더십은 직무몰입에 정(+)의 영향을 미칠 것이다. (β = .826, t = 12.444, p&lt;.001)</td>
+                <td><span class="result-badge result-inconclusive">기각할 수 없음</span></td>
+              </tr>
+              <tr>
+                <td><strong>H2</strong></td>
+                <td>진정성 리더십은 조직신뢰에 정(+)의 영향을 미칠 것이다. (β = .354, t = 3.428, p&lt;.001)</td>
+                <td><span class="result-badge result-inconclusive">기각할 수 없음</span></td>
+              </tr>
+              <tr>
+                <td><strong>H3</strong></td>
+                <td>조직신뢰는 직무몰입에 정(+)의 영향을 미칠 것이다. (β = .464, t = 4.569, p&lt;.001)</td>
+                <td><span class="result-badge result-inconclusive">기각할 수 없음</span></td>
+              </tr>
+              <tr>
+                <td><strong>H4</strong></td>
+                <td>진정성 리더십과 직무몰입의 관계에서 조직신뢰는 매개효과를 가질 것이다. (Bootstrapping 간접효과 유의 p = .006)</td>
+                <td><span class="result-badge result-inconclusive">기각할 수 없음</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:14px; font-size:12px; color:var(--text-tertiary);">
+          ※ 모형적합도: CFI = .957, TLI = .951, SRMR = .038, RMSEA = .068 (기준 충족)<br>
+          ※ "기각할 수 없음"은 가설을 채택한다는 의미이며, 모든 경로가 통계적으로 유의하게 지지되었음을 뜻합니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- 논문 2 가설 -->
+    <div class="paper-card">
+      <div class="paper-card-header">
+        <div class="paper-num">논문 02 — 가설 검증 결과</div>
+        <h2>Yoon et al. (2026): 회귀혼합모형 결과 (N=17,087)</h2>
+      </div>
+      <div class="paper-card-body">
+        <div class="table-wrap">
+          <table class="data-table hypo-table">
+            <thead>
+              <tr>
+                <th>가설 번호</th>
+                <th>가설 내용</th>
+                <th>검증 결과</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>RQ1</strong></td>
+                <td>직무 특성(자율성·복잡성)에 따른 잠재 집단 유형은 어떻게 분류되는가? → 4개 집단 확인: 고자율-단순(23.4%), 저자율-단순(33.8%), 고자율-복잡(28.8%), 저자율-복잡(14.0%)</td>
+                <td><span class="result-badge result-adopt">채택</span></td>
+              </tr>
+              <tr>
+                <td><strong>RQ2</strong></td>
+                <td>기술 진보 걱정은 직무몰입에 부적(-) 영향을 미치는가? → 전체 표본 B = −.126, p&lt;.001로 통계적으로 유의한 부적 연관이 확인됨</td>
+                <td><span class="result-badge result-adopt">채택</span></td>
+              </tr>
+              <tr>
+                <td><strong>RQ3</strong></td>
+                <td>기술 진보 걱정과 직무몰입의 관계가 직무특성 집단에 따라 유의하게 다른가? → 표준화 계수: 고자율-단순 B = −.164, 저자율-단순 B = −.174, 고자율-복잡 B = −.184, 저자율-복잡 B = −.147. 모든 집단에서 유의하나 집단 간 차이는 통계적으로 유의하지 않음 (p = .325~.801)</td>
+                <td><span class="result-badge result-reject">기각</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:14px; font-size:12px; color:var(--text-tertiary);">
+          ※ 데이터 출처: 제6차 한국근로환경조사(KWCS, 2020), 50세 이하 임금근로자<br>
+          ※ 분석 도구: Mplus 8.3 (회귀혼합모형), SPSS 25 (기술통계)<br>
+          ※ RQ3의 "기각"은 집단 간 차이가 존재하지 않는다는 것으로, 기술 진보 걱정의 부정적 영향이 직무 특성에 관계없이 보편적임을 의미합니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 섹션 5: 두 논문 비교 요약표 ═══ -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">5</span> 두 논문 비교 요약</h2>
+
+    <div class="paper-card">
+      <div class="paper-card-body">
+        <div class="table-wrap">
+          <table class="data-table compare-table">
+            <thead>
+              <tr>
+                <th>비교 항목</th>
+                <th>김진혁 (2021)</th>
+                <th>Yoon et al. (2026)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>연구 초점</td>
+                <td>진정성 리더십이 조직신뢰를 통해 직무몰입을 높이는 구조적 경로 규명</td>
+                <td>기술 진보에 대한 걱정(AI 자동화 불안)이 직무몰입을 저하시키는 관계와, 직무특성 유형에 따른 차이 검증</td>
+              </tr>
+              <tr>
+                <td>독립변수</td>
+                <td>진정성 리더십 (자아인식, 관계적 투명성, 균형잡힌 정보처리, 내재화된 도덕적 관점)</td>
+                <td>기술 진보·자동화에 대한 걱정 (5개 항목 4점 Likert)</td>
+              </tr>
+              <tr>
+                <td>매개/조절변수</td>
+                <td>조직신뢰 (매개변수)</td>
+                <td>직무특성 잠재 집단 4유형 (잠재 조절: 고자율-단순, 저자율-단순, 고자율-복잡, 저자율-복잡)</td>
+              </tr>
+              <tr>
+                <td>종속변수</td>
+                <td>직무몰입 (Kanungo 1982 기반 10문항)</td>
+                <td>직무몰입 (UWES-3, 3문항)</td>
+              </tr>
+              <tr>
+                <td>표본</td>
+                <td>국내 기업 종사자 246명 (비확률 표본, Google Forms)</td>
+                <td>제6차 한국근로환경조사(KWCS 2020) 50세 이하 임금근로자 17,087명</td>
+              </tr>
+              <tr>
+                <td>분석 방법</td>
+                <td>구조방정식 모형(SEM) + Bootstrapping (AMOS 21.0, PASW 25)</td>
+                <td>잠재집단분석(LCA) + 회귀혼합모형 (Mplus 8.3, SPSS 25)</td>
+              </tr>
+              <tr>
+                <td>주요 결과</td>
+                <td>① 진정성 리더십 → 직무몰입 정적 영향 (β=.826) ② 진정성 리더십 → 조직신뢰 정적 영향 (β=.354) ③ 조직신뢰 → 직무몰입 정적 영향 (β=.464) ④ 조직신뢰: 완전 매개 역할 확인</td>
+                <td>① 기술 진보 걱정 → 직무몰입 부적 영향 (B=−.126) ② 4개 직무특성 유형 도출 ③ 모든 직무특성 집단에서 부적 영향 유의 ④ 직무특성 집단 간 영향력 차이는 유의하지 않음</td>
+              </tr>
+              <tr>
+                <td>핵심 이론</td>
+                <td>사회교환이론 (Blau, 1964); 긍정심리자본; 진정성 리더십 이론</td>
+                <td>직무요구-자원 모델(JD-R, Bakker & Demerouti, 2007); 직무특성이론(Hackman & Oldham, 1976); 자기결정이론(Deci & Ryan, 2012)</td>
+              </tr>
+              <tr>
+                <td>주제 08과의 연관성</td>
+                <td>직무몰입의 선행 요인으로서 <strong>리더십·조직신뢰</strong>의 역할을 제시 → AI 자동화 저항 기질 연구에서 조직 요인(리더십)이 몰입에 미치는 긍정적 완충 메커니즘 도출 가능</td>
+                <td>직무몰입의 선행 요인으로서 <strong>AI 자동화 걱정(저항 기질)</strong>의 부정적 역할을 직접 검증 → 주제 08의 핵심 연구모형(AI 자동화 저항 기질 → 직무몰입)을 직접 지지하는 핵심 논문</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    HR Study — 주제 08 선행연구 분석 자료 &nbsp;|&nbsp; 2026년 3월 작성
+  </div>
+
+</div><!-- /page-wrapper -->
+</body>
+</html>
